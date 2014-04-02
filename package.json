@@ -1,0 +1,29 @@
+{
+  "name": "cotc-jsclient",
+  "version": "0.0.0",
+  "description": "This package allows easy interaction with ClanOfTheCloud social gaming APIs v2",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec -t 5000 tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "gitlab:clients/jsclient.git"
+  },
+  "author": "roland du clan",
+  "dependencies": {
+    "coffee-script": "~1.7.1",
+    "coffee-script-mapped": "~0.1.5",
+    "request": "*",
+    "async": "~0.6.2"
+  },
+  "engines": {
+    "node": ">= 0.8.18"
+  },
+  "devDependencies": {
+    "randomstring": "*",
+    "should": "*",
+    "mocha": "*"
+  },
+  "readmeFilename": "Readme.md"
+}
