@@ -1,4 +1,6 @@
 #!/usr/bin/env node
 
 require('coffee-script/register');
-require('./apiclient.coffee')
+api = require('./apiclient.coffee')
+
+module.exports = api
