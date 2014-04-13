@@ -53,8 +53,15 @@ class apiClient
 				that.retry_onerror lbaddr, ++attempt, options, cb
 			, that.delayretry[attempt]
 
-	auth: (@user, @pass)->
-		@signedPass = @signPassword @pass,@apisecret
+	auth: (@ident, @pass)->
+		@network = "cotc"
+		@token = @signPassword @pass,@apisecret
+
+	authfb: (@ident, @token)->
+		@network = "facebook"
+
+	authgp: (@ident, @token)->
+		@network = "google"
 
 	call: (url, data, cb)->
 
@@ -72,13 +79,15 @@ class apiClient
 		checkurl = url
 		checkurl += @apikey
 		checkurl += options.headers.nonce
-		checkurl += @user if @user?
+		checkurl += @network if @network?
+		checkurl += @ident if @ident?
 
 		options.headers.apisign = @signUrl checkurl, @apisecret
 		
-		if @user?
-			options.headers.user = @user 
-			options.headers.pass = @signedPass
+		if @network?
+			options.headers.network = @network 
+			options.headers.ident = @ident 
+			options.headers.token = @token
 
 		@retry_onerror @endpoints,  0, options, (err, resp, body)=>
 			body = @decodeBody body, @apisecret if body? and resp?.statusCode==200
@@ -91,7 +100,7 @@ class apiClient
 module.exports.client = apiClient
 
 module.exports.loadbalancers = [
-	"sandbox-lb01.clanofthecloud.com:2000"
-	"sandbox-lb02.clanofthecloud.com:2000"
+	"sandbox-lb01.clanofthecloud.mobi:2000"
+	"sandbox-lb02.clanofthecloud.mobi:2000"
 	]
 
