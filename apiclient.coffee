@@ -53,15 +53,7 @@ class apiClient
 				that.retry_onerror lbaddr, ++attempt, options, cb
 			, that.delayretry[attempt]
 
-	auth: (@ident, @pass)->
-		@network = "cotc"
-		@token = @signPassword @pass,@apisecret
-
-	authfb: (@ident, @token)->
-		@network = "facebook"
-
-	authgp: (@ident, @token)->
-		@network = "google"
+	auth: (@userId, @accessToken)->
 
 	call: (url, data, cb)->
 
@@ -79,15 +71,14 @@ class apiClient
 		checkurl = url
 		checkurl += @apikey
 		checkurl += options.headers.nonce
-		checkurl += @network if @network?
-		checkurl += @ident if @ident?
+		checkurl += @userId if @userId?
+		checkurl += @accessToken if @accessToken?
 
 		options.headers.apisign = @signUrl checkurl, @apisecret
-		
-		if @network?
-			options.headers.network = @network 
-			options.headers.ident = @ident 
-			options.headers.token = @token
+				
+		if @userId?
+			options.headers.authuser = @userId
+			options.headers.authtoken = @accessToken
 
 		@retry_onerror @endpoints,  0, options, (err, resp, body)=>
 			body = @decodeBody body, @apisecret if body? and resp?.statusCode==200
