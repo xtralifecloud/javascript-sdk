@@ -12,9 +12,9 @@ class apiClient
 		hmac.digest 'base64'
 
 	signPassword: (val, secret)->
-		cipher = crypto.createCipher 'aes192', secret
-		coded = cipher.update val, 'utf8', 'hex'
-		coded += cipher.final 'hex'
+		cipher = crypto.createCipher 'aes-256-cbc', secret
+		coded = cipher.update val, 'utf8', 'base64'
+		coded += cipher.final 'base64'
 		coded
 
 	decodeBody: (val, secret)->
