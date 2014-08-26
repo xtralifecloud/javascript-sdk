@@ -4,7 +4,7 @@
   "description": "This package allows easy interaction with ClanOfTheCloud social gaming APIs v2",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec -t 5000 tests.js"
+    "test": "mocha test/*.coffee"
   },
   "repository": {
     "type": "git",
@@ -12,10 +12,11 @@
   },
   "author": "roland du clan",
   "dependencies": {
+    "async": "~0.6.2",
     "coffee-script": "~1.7.1",
     "coffee-script-mapped": "~0.1.5",
     "request": "*",
-    "async": "~0.6.2"
+    "superagent": "^0.18.2"
   },
   "engines": {
     "node": ">= 0.8.18"
