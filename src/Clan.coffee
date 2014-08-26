@@ -42,3 +42,9 @@ module.exports = (apikey, apisecret)->
 					cb null, res.body
 				else
 					cb new ClanError res.status, res.body
+
+	echo: (cb)->
+		agent
+		.get 'https://sandbox-api01.clanofthecloud.mobi/echo/index.html'
+		.end (err, res)->
+			cb(err)

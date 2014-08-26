@@ -50,7 +50,30 @@ describe 'Clan JS client', ->
 			if counter == array.length then done()
 
 		setInterval ->
-			console.log counter
+			console.log "#{counter} / #{array.length}"
+		, 1000
+
+		fn(cb) for each in array
+
+	it 'should echo fast', (done)->
+		this.timeout 100000
+		fn = (cb)->
+			Clan.echo (err)->
+				if err? then return cb(err)
+				Clan.echo (err)->
+					if err? then return cb(err)
+					else cb(null)
+
+		array = [1..200]
+
+		counter = 0
+		cb = (err)->
+			if err? then console.log err
+			counter++
+			if counter == array.length then done()
+
+		setInterval ->
+			console.log "#{counter} / #{array.length}"
 		, 1000
 
 		fn(cb) for each in array
