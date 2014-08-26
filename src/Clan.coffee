@@ -17,7 +17,7 @@ module.exports = (apikey, apisecret)->
 
 	login: (network, id, secret, cb)->
 		agent
-		.post 'http://188.226.214.39:2000/v1/gamer/login'
+		.post 'https://sandbox-api01.clanofthecloud.mobi/v1/gamer/login'
 		.send {network, id, secret}
 		.set 'x-apikey', apikey
 		.set 'x-apisecret', apisecret
@@ -31,7 +31,7 @@ module.exports = (apikey, apisecret)->
 
 	logout: (gamerCred, cb)->
 		agent
-		.post 'http://188.226.214.39:2000/v1/gamer/logout'
+		.post 'https://sandbox-api01.clanofthecloud.mobi/v1/gamer/logout'
 		.set 'x-apikey', apikey
 		.set 'x-apisecret', apisecret
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
