@@ -2,7 +2,6 @@ should = require 'should'
 
 Clan = require('../src/Clan.coffee')('cloudbuilder-key', 'azerty')
 
-appCred = null
 gamerCred = null
 
 describe 'Clan JS client', ->
@@ -41,7 +40,7 @@ describe 'Clan JS client', ->
 
 	it 'should accept Facebook credentials', (done)->
 
-		Clan.login 'facebook', 'any will do', 'CAAIhTFZBxVNoBABalp9wy8hYkNYCOZB9iZCX1hgYVCkKtwoKs3uN1aBRHCkbY6LzI8oIBJhNjZAfm8w53jIGYNqZAljm0SXLIfZCEyCjZCEn3iq00NL0ArsMKUFPE3rfCIpEn87Q8dsf5hqi06hiMx4UfwGkp7D1FfiZBatntyZCHfP2M7zJ06Mg99P2OKBpyMZAgZBHGGxyZACIpwPFEpP1bJuvWRzrhNHAnxQZD', (err, gamer)->
+		Clan.login 'facebook', 'any will do', 'CAAIhTFZBxVNoBAK5477zCagnbO6ixr7Aj9rabZAMDfNvuqfKSaQpOHNRsfmjEdPrl7YhUwNvJEuaPp8O0zAGZAJZAlbvXL3XCGYB4BdDW5j5xV2gIn9go1AZBlIf1i0NRaM30q7hNhT1bpY8jFrtgpEWF1rtF1dVosfZCIiZCNdJjiVHBIjQc50yqyud8RIcn2mZC4zz9F1sZBhKnQ8sOyVX0KEmtXZAjMKKUZD', (err, gamer)->
 			gamer.should.have.property 'gamer_id'
 			gamer.should.have.property 'gamer_secret'
 			done()
