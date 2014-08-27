@@ -40,7 +40,7 @@ describe 'Clan JS client', ->
 
 	it 'should accept Facebook credentials', (done)->
 
-		Clan.login 'facebook', 'any will do', 'CAAIhTFZBxVNoBAK5477zCagnbO6ixr7Aj9rabZAMDfNvuqfKSaQpOHNRsfmjEdPrl7YhUwNvJEuaPp8O0zAGZAJZAlbvXL3XCGYB4BdDW5j5xV2gIn9go1AZBlIf1i0NRaM30q7hNhT1bpY8jFrtgpEWF1rtF1dVosfZCIiZCNdJjiVHBIjQc50yqyud8RIcn2mZC4zz9F1sZBhKnQ8sOyVX0KEmtXZAjMKKUZD', (err, gamer)->
+		Clan.login 'facebook', 'any will do', 'CAAIhTFZBxVNoBAI6qKZAegnPu2cCw8vxXBXHgLJrKKssdw20muzAd66dSuaXzvoHhjGDAW4UNFhvP6ReBZBJ3fh09LgQUXNl3nPXxFNwRaH6AY8ziF5DBIKxgxhpZAQuRJshC611wAtHUtuXIJeQZConTpU3lwLd2EGgtZBbHUj5NgCRdCSQIuwZCXeMuuuTtZAZA1KAHW6Sc7FzQb9NrU3sEUWJ1og9Cy2QZD', (err, gamer)->
 			gamer.should.have.property 'gamer_id'
 			gamer.should.have.property 'gamer_secret'
 			done()
