@@ -29,7 +29,25 @@ describe 'Clan JS client', ->
 			err.message.should.eql('Invalid user credentials')
 			done()
 
-	it 'should log in/out fast', (done)->
+	it 'should not allow log in with wrong credentials', (done)->
+
+		Clan.login 'facebook', 'any will do', 'wrong FB token', (err, gamer)->
+			should(gamer).be.undefined
+
+			err.should.have.property('status')
+			err.status.should.eql(401)
+			err.message.should.eql('The received login token is invalid')
+			done()
+
+	it 'should accept Facebook credentials', (done)->
+
+		Clan.login 'facebook', 'any will do', 'CAAIhTFZBxVNoBABalp9wy8hYkNYCOZB9iZCX1hgYVCkKtwoKs3uN1aBRHCkbY6LzI8oIBJhNjZAfm8w53jIGYNqZAljm0SXLIfZCEyCjZCEn3iq00NL0ArsMKUFPE3rfCIpEn87Q8dsf5hqi06hiMx4UfwGkp7D1FfiZBatntyZCHfP2M7zJ06Mg99P2OKBpyMZAgZBHGGxyZACIpwPFEpP1bJuvWRzrhNHAnxQZD', (err, gamer)->
+			gamer.should.have.property 'gamer_id'
+			gamer.should.have.property 'gamer_secret'
+			done()
+
+
+	it.skip 'should log in/out fast', (done)->
 		this.timeout 100000
 		fn = (cb)->
 			Clan.login 'anonymous', '536cf67b2a4d430000a6b9bf', 'a1b399f71c868faf0848c959ac6b290b6169750d', (err, gamer)->
@@ -55,7 +73,7 @@ describe 'Clan JS client', ->
 
 		fn(cb) for each in array
 
-	it 'should echo fast', (done)->
+	it.skip 'should echo fast', (done)->
 		this.timeout 100000
 		fn = (cb)->
 			Clan.echo (err)->
