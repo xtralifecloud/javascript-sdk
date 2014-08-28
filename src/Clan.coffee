@@ -3,13 +3,8 @@ agent.Request.prototype.use = (fn)->
 	fn(@)
 	@
 
-prefixer = (request)->
-	request.url = 'https://sandbox-api01.clanofthecloud.mobi'+request.url
-
-class ClanError extends Error
-	constructor: (@status, @response)->
-		@message = @response.message
-		@type = @response.type
+prefixer = require './prefixer.coffee'
+ClanError = require './ClanError.coffee'
 
 module.exports = (apikey, apisecret)->
 
@@ -51,9 +46,9 @@ module.exports = (apikey, apisecret)->
 	echo: (cb)->
 		agent
 		.get '/echo/index.html'
-		.use prefixer()
+		.use prefixer
 		.end (err, res)->
 			cb(err)
 
 
-	transactions: require('./transactions.coffee')(appCredentials, agent, prefixer, ClanError)
+	transactions: require('./transactions.coffee')(appCredentials)

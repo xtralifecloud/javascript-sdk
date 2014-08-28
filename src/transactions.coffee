@@ -1,4 +1,8 @@
-module.exports = (appCredentials, agent, prefixer, ClanError)->
+agent = require 'superagent'
+prefixer = require './prefixer.coffee'
+ClanError = require './ClanError.coffee'
+
+module.exports = (appCredentials)->
 	balance: (gamerCred, cb)->
 		agent
 		.get '/v1/gamer/tx/balance'
@@ -26,11 +30,7 @@ module.exports = (appCredentials, agent, prefixer, ClanError)->
 
 	history: (gamerCred, unit, cb)->
 		options = {}
-		unless cb?
-			cb = unit
-		else
-			options = {unit}
-
+		unless cb? then cb = unit else options = {unit}
 
 		agent
 		.get '/v1/gamer/tx'
