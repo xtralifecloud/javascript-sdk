@@ -1,6 +1,6 @@
 should = require 'should'
 
-Clan = require('../src/Clan.coffee')('cloudbuilder-key', 'azerty')
+Clan = require('../src/Clan.coffee')('cloudbuilder-key', 'azerty') # app credentials
 
 gamerCred = null
 
@@ -39,8 +39,8 @@ describe 'Clan JS client', ->
 			done()
 
 	it 'should accept Facebook credentials', (done)->
-
-		Clan.login 'facebook', 'any will do', 'CAAIhTFZBxVNoBAI6qKZAegnPu2cCw8vxXBXHgLJrKKssdw20muzAd66dSuaXzvoHhjGDAW4UNFhvP6ReBZBJ3fh09LgQUXNl3nPXxFNwRaH6AY8ziF5DBIKxgxhpZAQuRJshC611wAtHUtuXIJeQZConTpU3lwLd2EGgtZBbHUj5NgCRdCSQIuwZCXeMuuuTtZAZA1KAHW6Sc7FzQb9NrU3sEUWJ1og9Cy2QZD', (err, gamer)->
+		# find a FB user access token at https://developers.facebook.com/tools/accesstoken/
+		Clan.login 'facebook', 'any will do', 'CAAIhTFZBxVNoBAKEmRVDHiDcxhpTAZAaEAyGaxNJWxUBaSZC9E2QuZBqfcgjK1K8Ce4DAm1BRI897OB0kGB1hJaseP1JU7WEQFhteqwV63sKXZC5089tpMuDK1igEzrfeMtXpZBZBbZC4ebm9GRSujTCL8SZBFGAJmthltAfYvLXpoJlP7qdk2ZCStnsqQ4RRAIyhWmdZB8QDVZB29NeOyO73j9NnYBWz8F1ZCP4ZD', (err, gamer)->
 			gamer.should.have.property 'gamer_id'
 			gamer.should.have.property 'gamer_secret'
 			done()

@@ -1,4 +1,10 @@
 agent = require 'superagent'
+agent.Request.prototype.use = (fn)->
+	fn(@)
+	@
+
+prefixer = (request)->
+	request.url = 'https://sandbox-api01.clanofthecloud.mobi'+request.url
 
 class ClanError extends Error
 	constructor: (@status, @response)->
@@ -6,6 +12,8 @@ class ClanError extends Error
 		@type = @response.type
 
 module.exports = (apikey, apisecret)->
+
+	appCredentials = {'x-apikey': apikey, 'x-apisecret': apisecret}
 
 	_auth = (request)->
 		request.set 'x-apikey', apikey
@@ -17,37 +25,35 @@ module.exports = (apikey, apisecret)->
 
 	login: (network, id, secret, cb)->
 		agent
-		.post 'https://sandbox-api01.clanofthecloud.mobi/v1/gamer/login'
+		.post '/v1/gamer/login'
+		.use prefixer
 		.send {network, id, secret}
-		.set 'x-apikey', apikey
-		.set 'x-apisecret', apisecret
+		.set appCredentials
 		.end (err, res)->
+			created = res.status is 201
 			if err? then cb(err)
 			else
-				if res.status is 200 or res.status is 201
-					cb null, res.body
-				else
-					cb new ClanError res.status, res.body
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body, created
 
 	logout: (gamerCred, cb)->
 		agent
-		.post 'https://sandbox-api01.clanofthecloud.mobi/v1/gamer/logout'
-		.set 'x-apikey', apikey
-		.set 'x-apisecret', apisecret
+		.post '/v1/gamer/logout'
+		.use prefixer
+		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.end (err, res)->
 			if err? then cb(err)
 			else
-				if res.status is 200
-					cb null, res.body
-				else
-					cb new ClanError res.status, res.body
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body
 
 	echo: (cb)->
 		agent
-		.get 'https://sandbox-api01.clanofthecloud.mobi/echo/index.html'
+		.get '/echo/index.html'
+		.use prefixer()
 		.end (err, res)->
 			cb(err)
 
 
-	transactions: require('./transactions.coffee')(apikey, apisecret, agent, ClanError)
+	transactions: require('./transactions.coffee')(appCredentials, agent, prefixer, ClanError)

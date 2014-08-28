@@ -1,49 +1,45 @@
-module.exports = (apikey, apisecret, agent, ClanError)->
+module.exports = (appCredentials, agent, prefixer, ClanError)->
 	balance: (gamerCred, cb)->
 		agent
-		.get 'https://sandbox-api01.clanofthecloud.mobi/v1/gamer/tx/balance'
-		.set 'x-apikey', apikey
-		.set 'x-apisecret', apisecret
+		.get '/v1/gamer/tx/balance'
+		.use prefixer
+		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.end (err, res)->
 			if err? then cb(err)
 			else
-				if res.status is 200
-					cb null, res.body
-				else
-					cb new ClanError res.status, res.body
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body
 
 	create: (gamerCred, tx, desc, cb)->
 		agent
-		.post 'https://sandbox-api01.clanofthecloud.mobi/v1/gamer/tx'
-		.set 'x-apikey', apikey
-		.set 'x-apisecret', apisecret
+		.post '/v1/gamer/tx'
+		.use prefixer
+		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.send {transaction: tx, description: desc}
 		.end (err, res)->
 			if err? then cb(err)
 			else
-				if res.status is 200
-					cb null, res.body
-				else
-					cb new ClanError res.status, res.body
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body
 
 	history: (gamerCred, unit, cb)->
-		url = 'https://sandbox-api01.clanofthecloud.mobi/v1/gamer/tx'
+		options = {}
 		unless cb?
 			cb = unit
 		else
-			url += "?unit=#{unit}"
+			options = {unit}
+
 
 		agent
-		.get url
-		.set 'x-apikey', apikey
-		.set 'x-apisecret', apisecret
+		.get '/v1/gamer/tx'
+		.use prefixer
+		.query options
+		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.end (err, res)->
 			if err? then cb(err)
 			else
-				if res.status is 200
-					cb null, res.body
-				else
-					cb new ClanError res.status, res.body
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body
