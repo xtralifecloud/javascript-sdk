@@ -5,7 +5,7 @@ ClanError = require './ClanError.coffee'
 module.exports = (appCredentials)->
 	balance: (gamerCred, cb)->
 		agent
-		.get '/v1/gamer/tx/balance'
+		.get '/v1/gamer/tx/private/balance'
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -17,7 +17,7 @@ module.exports = (appCredentials)->
 
 	create: (gamerCred, tx, desc, cb)->
 		agent
-		.post '/v1/gamer/tx'
+		.post '/v1/gamer/tx/private'
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -33,7 +33,7 @@ module.exports = (appCredentials)->
 		unless cb? then cb = unit else options = {unit}
 
 		agent
-		.get '/v1/gamer/tx'
+		.get '/v1/gamer/tx/private'
 		.use prefixer
 		.query options
 		.set appCredentials

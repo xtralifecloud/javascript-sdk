@@ -8,7 +8,7 @@ describe 'Clan JS client', ->
 
 	it 'should allow log in', (done)->
 
-		Clan.login 'anonymous', '536cf67b2a4d430000a6b9bf', 'a1b399f71c868faf0848c959ac6b290b6169750d', (err, gamer)->
+		Clan.login 'anonymous', '53ff66a373b1dd8a9d60448f', '144ec6076756bfdf0756651f54bda6781fa1e598', (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
 			gamerCred = Clan.createGamerCredentials(gamer)

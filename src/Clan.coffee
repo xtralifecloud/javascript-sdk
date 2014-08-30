@@ -1,7 +1,8 @@
 agent = require 'superagent'
-agent.Request.prototype.use = (fn)->
-	fn(@)
-	@
+unless agent.Request.prototype.use?
+	agent.Request.prototype.use = (fn)->
+		fn(@)
+		@
 
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
