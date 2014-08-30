@@ -52,4 +52,10 @@ module.exports = (apikey, apisecret)->
 			cb(err)
 
 
-	transactions: require('./transactions.coffee')(appCredentials)
+	transactions: (domain)->
+		require('./transactions.coffee')(appCredentials, domain)
+
+	gamervfs: (domain)->
+		require('./gamervfs.coffee')(appCredentials, domain)
+
+	privateDomain: 'private'

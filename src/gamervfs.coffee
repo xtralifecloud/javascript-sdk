@@ -2,10 +2,12 @@ agent = require 'superagent'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
-module.exports = (appCredentials, domain)->
-	balance: (gamerCred, cb)->
+module.exports =  (appCredentials, domain)->
+
+	get: (gamerCred, key, cb)->
+		unless key? then key=''
 		agent
-		.get "/v1/gamer/tx/#{domain}/balance"
+		.get "/v1/gamer/vfs/#{domain}/#{key}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -15,27 +17,24 @@ module.exports = (appCredentials, domain)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	create: (gamerCred, tx, desc, cb)->
+	set: (gamerCred, key, value, cb)->
 		agent
-		.post "/v1/gamer/tx/#{domain}"
+		.put "/v1/gamer/vfs/#{domain}/#{key}"
 		.use prefixer
+		.type 'json'
+		.send value
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
-		.send {transaction: tx, description: desc}
 		.end (err, res)->
 			if err? then cb(err)
 			else
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	history: (gamerCred, unit, cb)->
-		options = {}
-		unless cb? then cb = unit else options = {unit}
-
+	del: (gamerCred, key, cb)->
 		agent
-		.get "/v1/gamer/tx/#{domain}"
+		.del "/v1/gamer/vfs/#{domain}/#{key}"
 		.use prefixer
-		.query options
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.end (err, res)->
