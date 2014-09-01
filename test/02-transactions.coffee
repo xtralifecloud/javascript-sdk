@@ -48,7 +48,7 @@ describe 'Gamer transactions', ->
 	it 'should report an error if trying to withdraw too much', (done)->
 		tx.create gamerCred, {Gold: -1}, 'jsclient test', (err, aBalance)->
 			err.status.should.eql(549)
-			err.type.should.eql 'InvalidGamerTransaction'
+			err.type.should.eql 'BalanceInsufficient'
 			should(aBalance).be.undefined
 			done()
 
