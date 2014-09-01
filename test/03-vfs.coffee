@@ -2,6 +2,8 @@ should = require 'should'
 
 Clan = require('../src/Clan.coffee')('cloudbuilder-key', 'azerty')
 
+dataset = require './0-dataset.json'
+
 gamerCred = null
 
 describe 'Gamer VFS', ->
@@ -9,7 +11,7 @@ describe 'Gamer VFS', ->
 	vfs = Clan.gamervfs(Clan.privateDomain)
 
 	it 'it should login first', (done)->
-		Clan.login 'anonymous', '53ff66a373b1dd8a9d60448f', '144ec6076756bfdf0756651f54bda6781fa1e598', (err, gamer)->
+		Clan.login 'anonymous', dataset.gamer_id, dataset.gamer_token, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
 			gamerCred = Clan.createGamerCredentials(gamer)

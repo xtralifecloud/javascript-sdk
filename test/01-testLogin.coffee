@@ -2,13 +2,15 @@ should = require 'should'
 
 Clan = require('../src/Clan.coffee')('cloudbuilder-key', 'azerty') # app credentials
 
+dataset = require './0-dataset.json'
+
 gamerCred = null
 
 describe 'Clan JS client', ->
 
 	it 'should allow log in', (done)->
 
-		Clan.login 'anonymous', '53ff66a373b1dd8a9d60448f', '144ec6076756bfdf0756651f54bda6781fa1e598', (err, gamer)->
+		Clan.login 'anonymous', dataset.gamer_id, dataset.gamer_token, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
 			gamerCred = Clan.createGamerCredentials(gamer)
@@ -21,7 +23,7 @@ describe 'Clan JS client', ->
 
 	it 'should not allow log in with wrong credentials', (done)->
 
-		Clan.login 'anonymous', '536cf67b2a4d430000a6b9bf', 'wrong a1b399f71c868faf0848c959ac6b290b6169750d', (err, gamer)->
+		Clan.login 'anonymous', dataset.gamer_id, 'wrong a1b399f71c868faf0848c959ac6b290b6169750d', (err, gamer)->
 			should(gamer).be.undefined
 			err.should.have.property('status')
 			err.status.should.eql(401)
@@ -38,7 +40,7 @@ describe 'Clan JS client', ->
 			err.message.should.eql('The received login token is invalid')
 			done()
 
-	it 'should accept Facebook credentials', (done)->
+	it.skip 'should accept Facebook credentials', (done)->
 		# find a FB user access token at https://developers.facebook.com/tools/accesstoken/
 		Clan.login 'facebook', 'any will do', 'CAAIhTFZBxVNoBAKEmRVDHiDcxhpTAZAaEAyGaxNJWxUBaSZC9E2QuZBqfcgjK1K8Ce4DAm1BRI897OB0kGB1hJaseP1JU7WEQFhteqwV63sKXZC5089tpMuDK1igEzrfeMtXpZBZBbZC4ebm9GRSujTCL8SZBFGAJmthltAfYvLXpoJlP7qdk2ZCStnsqQ4RRAIyhWmdZB8QDVZB29NeOyO73j9NnYBWz8F1ZCP4ZD', (err, gamer)->
 			gamer.should.have.property 'gamer_id'
@@ -49,7 +51,7 @@ describe 'Clan JS client', ->
 	it.skip 'should log in/out fast', (done)->
 		this.timeout 100000
 		fn = (cb)->
-			Clan.login 'anonymous', '536cf67b2a4d430000a6b9bf', 'a1b399f71c868faf0848c959ac6b290b6169750d', (err, gamer)->
+			Clan.login 'anonymous', dataset.gamer_id, dataset.gamer_token, (err, gamer)->
 				if err? then return cb(err)
 				gamer.should.have.property('gamer_id')
 				gamer.should.have.property('gamer_secret')

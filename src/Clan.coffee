@@ -58,4 +58,10 @@ module.exports = (apikey, apisecret)->
 	gamervfs: (domain)->
 		require('./gamervfs.coffee')(appCredentials, domain)
 
+	friends: ()->
+		require('./friends.coffee')(appCredentials)
+
+	properties: ()->
+		require('./properties.coffee')(appCredentials)
+
 	privateDomain: 'private'
