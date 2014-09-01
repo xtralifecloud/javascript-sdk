@@ -2,6 +2,8 @@ agent = require 'superagent'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
+# TODO support getting/setting/deleting all keys at once
+
 module.exports =  (appCredentials, domain)->
 
 	get: (gamerCred, key, cb)->
@@ -18,6 +20,7 @@ module.exports =  (appCredentials, domain)->
 				else cb null, res.body
 
 	set: (gamerCred, key, value, cb)->
+		unless key? then key=''
 		agent
 		.put "/v1/gamer/vfs/#{domain}/#{key}"
 		.use prefixer
@@ -32,6 +35,7 @@ module.exports =  (appCredentials, domain)->
 				else cb null, res.body
 
 	del: (gamerCred, key, cb)->
+		unless key? then key=''
 		agent
 		.del "/v1/gamer/vfs/#{domain}/#{key}"
 		.use prefixer
