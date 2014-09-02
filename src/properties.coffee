@@ -18,11 +18,12 @@ module.exports =  (appCredentials)->
 				else cb null, res.body
 
 	set: (gamerCred, key, value, cb)->
+		unless key? then key=''
 		agent
-		.put "/v1/gamer/properties/#{key}"
+		.post "/v1/gamer/properties/#{key}"
 		.use prefixer
 		.type 'json'
-		.send value
+		.send { value : value }
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.end (err, res)->
@@ -30,7 +31,9 @@ module.exports =  (appCredentials)->
 			else
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
+	
 	delete: (gamerCred, key, cb)->
+		unless key? then key=''
 		agent
 		.del "/v1/gamer/properties/#{key}"
 		.use prefixer
@@ -56,7 +59,7 @@ module.exports =  (appCredentials)->
 
 	save: (gamerCred, data, cb)->
 		agent
-		.put "/v1/gamer/properties"
+		.post "/v1/gamer/properties"
 		.use prefixer
 		.type 'json'
 		.send data
@@ -67,7 +70,8 @@ module.exports =  (appCredentials)->
 			else
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
-	remove: (gamerCred, key, cb)->
+	
+	remove: (gamerCred, cb)->
 		agent
 		.del "/v1/gamer/properties"
 		.use prefixer

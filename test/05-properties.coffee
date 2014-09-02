@@ -35,11 +35,12 @@ describe 'Gamer Properties', ->
 
 	it 'should get a all properties', (done)->
 		properties.load gamerCred, (err, res)->
-			res.should.have.property("done")
+			res.should.have.property("properties")
 			done()
 
 	it 'should del a property', (done)->
 		properties.delete gamerCred, "board", (err, res)->
+			res.should.have.property("done")
 			done()
 
 	it 'should replace all properties', (done)->

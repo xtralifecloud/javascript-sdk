@@ -64,4 +64,7 @@ module.exports = (apikey, apisecret)->
 	properties: ()->
 		require('./properties.coffee')(appCredentials)
 
+	leaderboards: ()->
+		require('./leaderboards.coffee')(appCredentials)
+
 	privateDomain: 'private'

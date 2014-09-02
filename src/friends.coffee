@@ -31,7 +31,7 @@ module.exports =  (appCredentials)->
 
 	status: (gamerCred, friendid, newstatus, cb)->
 		agent
-		.post "/v1/gamer/friends/"+friendid+"?status="+newstatus
+		.post "/v1/gamer/friends/#{friendid}?status=#{newstatus}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
