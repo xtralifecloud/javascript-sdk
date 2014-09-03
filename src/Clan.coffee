@@ -21,7 +21,7 @@ module.exports = (apikey, apisecret)->
 
 	login: (network, id, secret, cb)->
 		agent
-		.post '/v1/gamer/login'
+		.post '/v1/login'
 		.use prefixer
 		.send {network, id, secret}
 		.set appCredentials
