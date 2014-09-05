@@ -67,4 +67,7 @@ module.exports = (apikey, apisecret)->
 	leaderboards: ()->
 		require('./leaderboards.coffee')(appCredentials)
 
+	event: (domain)->
+		require('./event.coffee')(appCredentials, domain)
+
 	privateDomain: 'private'
