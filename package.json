@@ -1,6 +1,6 @@
 {
   "name": "cotc-jsclient",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "This package allows easy interaction with ClanOfTheCloud social gaming APIs v2",
   "main": "index.js",
   "scripts": {
