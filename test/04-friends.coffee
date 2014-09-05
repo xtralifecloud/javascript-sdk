@@ -25,7 +25,7 @@ describe 'Gamer Friends', ->
 	it 'should call get', (done)->
 		friends.get gamerCred, (err, res)->
 			if err? then return done(err)
-			res.should.containDeep([{gamer_id: dataset.friend_id }])
+			res.friends.should.containDeep([{gamer_id: dataset.friend_id }])
 			done()
 
 	it 'should call change relationship to blacklist', (done)->
@@ -35,7 +35,7 @@ describe 'Gamer Friends', ->
 
 	it 'should call getBlacklisted', (done)->
 		friends.getBlacklisted gamerCred, (err, res)->
-			res.should.containDeep([{gamer_id: dataset.friend_id }])
+			res.blacklisted.should.containDeep([{gamer_id: dataset.friend_id }])
 			done()
 
 	it 'should call change relationship to forget', (done)->
