@@ -6,7 +6,7 @@ dataset = require './0-dataset.json'
 
 gamerCred = null
 
-describe 'Gamer Properties', ->
+describe.only 'Gamer Properties', ->
 
 	properties = Clan.properties()
 
@@ -48,7 +48,13 @@ describe 'Gamer Properties', ->
 			res.should.have.property("done")
 			done()
 
+	it 'should find a user matching properties', (done)->
+		properties.find gamerCred, { level : {'$gt' : 10}}, (err, res)->
+			res.should.have.property("gamers")
+			done()
+
 	it 'should delete all properties', (done)->
 		properties.remove gamerCred, (err, res)->
 			res.should.have.property("done")
 			done()
+

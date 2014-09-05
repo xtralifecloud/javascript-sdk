@@ -82,3 +82,17 @@ module.exports =  (appCredentials)->
 			else
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
+
+	find : (gamerCred, target, cb)->
+		agent
+		.get "/v1/gamer/matchproperties"
+		.use prefixer
+		.set appCredentials
+		.auth gamerCred.gamer_id, gamerCred.gamer_secret
+		.send target
+		.end (err, res)->
+			if err? then cb(err)
+			else
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body
+
