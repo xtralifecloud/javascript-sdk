@@ -29,7 +29,7 @@ describe 'Gamer transactions', ->
 	it 'should call history', (done)->
 		tx.history gamerCred, (err, aHistory)->
 			if err? then return done(err)
-			history = aHistory
+			history = aHistory.history
 			done()
 
 	it 'should send a transaction', (done)->
@@ -55,12 +55,12 @@ describe 'Gamer transactions', ->
 	it 'should call history again', (done)->
 		tx.history gamerCred, (err, aHistory)->
 			if err? then return done(err)
-			aHistory.length.should.eql(history.length+2)
-			history = aHistory
+			aHistory.history.length.should.eql(history.length+2)
+			history = aHistory.history
 			done()
 
 	it 'should call history with unit param too', (done)->
 		tx.history gamerCred, 'Silver', (err, aHistory)->
 			if err? then return done(err)
-			aHistory.length.should.be.lessThan(history.length)
+			aHistory.history.length.should.be.lessThan(history.length)
 			done()
