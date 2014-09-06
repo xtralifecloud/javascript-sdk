@@ -1,6 +1,6 @@
 should = require 'should'
 
-Clan = require('../src/Clan.coffee')('cloudbuilder-key', 'azerty') # app credentials
+Clan = require('../src/Clan.coffee')('testgame-key', 'testgame-secret') # app credentials
 
 dataset = require './0-dataset.json'
 

@@ -1,12 +1,12 @@
 should = require 'should'
 
-Clan = require('../src/Clan.coffee')('cloudbuilder-key', 'azerty')
+Clan = require('../src/Clan.coffee')('testgame-key', 'testgame-secret') # app credentials
 
 dataset = require './0-dataset.json'
 
 gamerCred = null
 
-describe 'Gamer transactions', ->
+describe.only 'Gamer transactions', ->
 
 	balance = null
 	history = null
