@@ -20,7 +20,7 @@ describe 'Gamer VFS', ->
 	it 'should call set', (done)->
 		vfs.set gamerCred, "test", {hello: "world"}, (err, count)->
 			if err? then return done(err)
-			count.should.eql(1)
+			count.should.eql {"done": 1}
 			done()
 
 	it 'should call get', (done)->
@@ -30,7 +30,7 @@ describe 'Gamer VFS', ->
 
 	it 'should call del', (done)->
 		vfs.del gamerCred, "test", (err, count)->
-			count.should.eql(1)
+			count.should.eql {"done": 1}
 			done()
 
 
