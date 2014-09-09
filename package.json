@@ -12,14 +12,14 @@
   },
   "author": "roland du clan",
   "dependencies": {
-    "async": "~0.6.2",
-    "coffee-script": "~1.7.1",
-    "coffee-script-mapped": "~0.1.5",
+    "async": "*",
+    "coffee-script": "*",
+    "coffee-script-mapped": "*",
     "request": "*",
-    "superagent": "^0.18.2"
+    "superagent": "*"
   },
   "engines": {
-    "node": ">= 0.8.18"
+    "node": ">= 0.10.26"
   },
   "devDependencies": {
     "randomstring": "*",
