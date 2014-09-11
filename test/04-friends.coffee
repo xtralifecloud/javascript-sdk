@@ -10,7 +10,7 @@ describe 'Gamer Friends', ->
 
 	friends = Clan.friends()
 
-	it 'it should login first', (done)->
+	before 'it should login first', (done)->
 		Clan.login 'anonymous', dataset.gamer_id, dataset.gamer_token, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
