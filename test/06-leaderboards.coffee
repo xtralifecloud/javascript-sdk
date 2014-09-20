@@ -65,13 +65,13 @@ describe 'Gamer Leaderboards', ->
 				done()
 
 		it "should get 10 best highscore on level1", (done)->
-			leaderboards.getHighscores gamerCred, "level1", "hightolow", 1, 10, (err, res)->
+			leaderboards.getHighscores gamerCred, "level1", 1, 10, (err, res)->
 				res.should.have.property "level1"
 				res.level1.should.have.property "scores"
 				done()
 
 		it "should get 10 best highscore on level2", (done)->
-			leaderboards.getHighscores gamerCred, "level2", "lowtohigh", 1, 10, (err, res)->
+			leaderboards.getHighscores gamerCred, "level2", 1, 10, (err, res)->
 				res.should.have.property "level2"
 				res.level2.should.have.property "scores"
 				done()
