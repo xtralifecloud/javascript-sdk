@@ -20,17 +20,28 @@ module.exports = (apikey, apisecret)->
 		{gamer_id: gamer.gamer_id, gamer_secret: gamer.gamer_secret}
 
 	login: (network, id, secret, cb)->
-		agent
-		.post '/v1/login'
-		.use prefixer
-		.send {network, id, secret}
-		.set appCredentials
-		.end (err, res)->
-			created = res.status is 201
-			if err? then cb(err)
-			else
-				if res.error then cb new ClanError res.status, res.body
-				else cb null, res.body, created
+		if network?
+			agent
+			.post '/v1/login'
+			.use prefixer
+			.send {network, id, secret}
+			.set appCredentials
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body, false
+		else
+			cb = id
+			agent
+			.post '/v1/login/anonymous'
+			.use prefixer
+			.set appCredentials
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body, true
 
 	logout: (gamerCred, cb)->
 		agent

@@ -8,13 +8,21 @@ gamerCred = null
 
 describe 'Clan JS client', ->
 
-	it 'should allow log in', (done)->
+	it 'should allow anonymous log in', (done)->
 
-		Clan.login 'anonymous', dataset.gamer_id, dataset.gamer_token, (err, gamer)->
+		Clan.login null, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
+
 			gamerCred = Clan.createGamerCredentials(gamer)
-			done()
+
+			dataset.gamer_id = gamerCred.gamer_id
+			dataset.gamer_token = gamerCred.gamer_secret
+
+			Clan.login "anonymous", gamerCred.gamer_id, gamerCred.gamer_secret, (err, gamer)->
+				gamer.should.have.property('gamer_id')
+				gamer.should.have.property('gamer_secret')
+				done()
 
 	it 'should allow log out', (done)->
 		Clan.logout gamerCred, (err)->

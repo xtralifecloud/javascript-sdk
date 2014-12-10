@@ -17,6 +17,16 @@ describe 'Gamer Friends', ->
 			gamerCred = Clan.createGamerCredentials(gamer)
 			done()
 
+	it 'should create a friend', (done)->
+
+		Clan.login null, (err, gamer)->
+			gamer.should.have.property('gamer_id')
+			gamer.should.have.property('gamer_secret')
+
+			dataset.friend_id = gamer.gamer_id
+			dataset.friend_token = gamer.gamer_secret
+			done()
+
 	it 'should call change relationship to friend', (done)->
 		friends.status gamerCred, dataset.friend_id, "add", (err, res)->
 			res.should.have.property("done")

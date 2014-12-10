@@ -4,7 +4,8 @@
   "description": "This package allows easy interaction with ClanOfTheCloud social gaming APIs v2",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*.coffee"
+    "test": "mocha test/*.coffee",
+    "compile": "coffee -o lib -c src/*.coffee"
   },
   "repository": {
     "type": "git",
