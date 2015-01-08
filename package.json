@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/*.coffee",
-    "compile": "coffee -o lib -c src/*.coffee"
+    "compile": "coffee -o lib -c src/*.coffee",
+    "bench": "coffee bench/bench.coffee"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
   "devDependencies": {
     "randomstring": "*",
     "should": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "async": "*"
   },
   "readmeFilename": "Readme.md"
 }
