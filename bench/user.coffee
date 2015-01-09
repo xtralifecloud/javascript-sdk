@@ -1,6 +1,8 @@
 assert = require 'assert'
 Clan = require('../src/Clan.coffee')('testgame-key', 'testgame-secret')
 
+q = require 'q'
+
 # returns the number of ms in a second... and add some random noise
 # one second can take from 750ms to 1250 ms
 seconds = (s)->
@@ -20,87 +22,143 @@ module.exports =
 			tx = Clan.transactions(Clan.privateDomain)
 			lb = Clan.leaderboards()
 
-			# set three keys after 10ms
-			setTimeout ->
-				#console.log "step 1"
+			step1 = ->
+				def = q.defer()
+				#console.log "# set three keys now"
 				vfs.set creds, "test1", {hello: "world"}, (err, count)->
+					if err? then console.error "1"
 					if err? then return console.error err
-					vfs.set creds, "test2", {hello: "world"}, (err, count)->
+					vfs.set creds, "test2", {hello: "all"}, (err, count)->
+						if err? then console.error "2"
 						if err? then return console.error err
-						vfs.set creds, "test3", {hello: "world"}, (err, count)->
+						vfs.set creds, "test3", {hello: "mundo"}, (err, count)->
+							if err? then console.error "3"
 							if err? then return console.error err
-			,10
+							def.resolve()
+				def.promise
 
-			# get 3 keys after 1s
-			setTimeout ->
-				#console.log "step 2"
-				vfs.get creds, "test1", (err, data)->
-					if err? then return console.error err
-					vfs.get creds, "test2", (err, data)->
-						if err? then return console.error err
-						vfs.get creds, "test3", (err, data)->
-							if err? then return console.error err
-			, seconds(1)
 
-			# send tx after 10s
-			setTimeout ->
-				#console.log "step 3"
-				tx.create creds, {Gold: 1}, 'bench', (err, aBalance)->
-					if err? then return console.error err
-			, seconds(10)
+			step2 = ->
+				#console.log "# get 3 keys after 1s"
+				def = q.defer()
 
-			# get balance after 12s
-			setTimeout ->
-				#console.log "step 4"
-				tx.balance creds, (err, aBalance)->
-					if err? then return console.error err
-			, seconds(12)
-
-			# send tx after 14s and get 2 keys
-			setTimeout ->
-				#console.log "step 5"
-
-				tx.create creds, {Gold: 1}, 'bench', (err, aBalance)->
-					if err? then return console.error err
+				setTimeout ->
 					vfs.get creds, "test1", (err, data)->
+						if err? then console.error "4"
 						if err? then return console.error err
 						vfs.get creds, "test2", (err, data)->
+							if err? then console.error "5"
 							if err? then return console.error err
-			, seconds(14)
+							vfs.get creds, "test3", (err, data)->
+								if err? then console.error "6"
+								if err? then return console.error err
+								def.resolve()
+				, seconds(3)
+				def.promise
 
-			# get balance after 15s
-			setTimeout ->
-				#console.log "step 6"
 
-				tx.balance creds, (err, aBalance)->
-					if err? then return console.error err
+			step3 = ->
+				def = q.defer()
+				#console.log "# send tx after 10s"
+				setTimeout ->
 					tx.create creds, {Gold: 1}, 'bench', (err, aBalance)->
 						if err? then return console.error err
-			, seconds(15)
+						def.resolve()
+				, seconds(7)
+				def.promise
 
-			# score in lb after 17s and set 1 key
-			setTimeout ->
-				#console.log "step 7"
-				lb.set creds, "level1", "hightolow", { score : seconds(100), info : "using mickey"}, (err, res)->
-					if err? then return console.error err
-					vfs.set creds, "test1", {hello: "world"}, (err, count)->
-						if err? then return console.error err
-			, seconds(17)
 
-			# get lb after 20s and get 2 keys
-			setTimeout ->
-				#console.log "step 8"
-				lb.getHighscores creds, "level1", 1, 10, (err, res)->
-					if err? then return console.error err
-					vfs.get creds, "test1", (err, data)->
+			step4 = ->
+				#console.log "# get balance after 12s"
+				def = q.defer()
+				setTimeout ->
+					tx.balance creds, (err, aBalance)->
 						if err? then return console.error err
-						vfs.get creds, "test2", (err, data)->
+						def.resolve()
+				, seconds(2)
+				def.promise
+
+
+			step5 = ->
+				def = q.defer()
+				#console.log "# send tx after 14s and get 2 keys"
+				setTimeout ->
+					tx.create creds, {Gold: 1}, 'bench', (err, aBalance)->
+						if err? then return console.error err
+						vfs.get creds, "test1", (err, data)->
+							if err? then console.error err.stack
 							if err? then return console.error err
-			, seconds(20)
 
-			setTimeout ->
+							vfs.get creds, "test2", (err, data)->
+								if err? then console.error err.stack
+								if err? then return console.error err
+								def.resolve()
+
+				, seconds(2)
+				def.promise
+
+
+			step6 = ->
+				def = q.defer()
+				#console.log "# get balance after 15s"
+				setTimeout ->
+
+					tx.balance creds, (err, aBalance)->
+						if err? then return console.error err
+						tx.create creds, {Gold: 1}, 'bench', (err, aBalance)->
+							if err? then return console.error err
+							def.resolve()
+				, seconds(1)
+				def.promise
+
+
+			step7 = ->
+				def = q.defer()
+				#console.log "# score in lb after 17s and set 1 key"
+				setTimeout ->
+					lb.set creds, "level1", "hightolow", { score : seconds(100), info : "using mickey"}, (err, res)->
+						if err? then return console.error err
+						vfs.set creds, "test1", {hello: "world"}, (err, count)->
+							if err? then return console.error err
+							def.resolve()
+				, seconds(2)
+				def.promise
+
+
+			step8 = ->
+				def = q.defer()
+				#console.log "# get lb after 20s and get 2 keys"
+				setTimeout ->
+					lb.getHighscores creds, "level1", 1, 10, (err, res)->
+						if err? then return console.error err
+						vfs.get creds, "test1", (err, data)->
+							if err? then console.error "8.1"
+							if err? then return console.error err
+							vfs.get creds, "test2", (err, data)->
+								if err? then console.error "8.2"
+								if err? then return console.error err
+								def.resolve()
+
+				, seconds(3)
+				def.promise
+
+			step1()
+			.then ->
+				step2()
+			.then ->
+				step3()
+			.then ->
+				step4()
+			.then ->
+				step5()
+			.then ->
+				step6()
+			.then ->
+				step7()
+			.then ->
+				step8()
+			.then ->
 				cb()
-			, 30000
 
 		Clan.login null, (err, gamer)->
 

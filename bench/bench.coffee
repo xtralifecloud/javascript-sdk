@@ -1,7 +1,7 @@
 user = require './user.coffee'
 async = require 'async'
 
-howMany = 200
+howMany = 250
 
 _each = (cb)->
 	setTimeout ->

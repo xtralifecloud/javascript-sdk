@@ -27,7 +27,8 @@
     "randomstring": "*",
     "should": "*",
     "mocha": "*",
-    "async": "*"
+    "async": "*",
+    "q": "*"
   },
   "readmeFilename": "Readme.md"
 }
