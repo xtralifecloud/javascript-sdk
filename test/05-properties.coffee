@@ -8,53 +8,53 @@ gamerCred = null
 
 describe 'Gamer Properties', ->
 
-	properties = Clan.properties()
+	properties = null
 
 	it 'it should login first', (done)->
-		Clan.login 'anonymous', dataset.gamer_id, dataset.gamer_token, (err, gamer)->
+		Clan.login null, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
-			gamerCred = Clan.createGamerCredentials(gamer)
+			properties = Clan.withGamer(gamer).properties()
 			done()
 
 	it 'should set a property', (done)->
-		properties.set gamerCred, "board",  "square", (err, res)->
+		properties.set "board",  "square", (err, res)->
 			res.should.have.property("done")
 			done()
 
 
 	it 'should set another property', (done)->
-		properties.set gamerCred, "level",  10, (err, res)->
+		properties.set "level",  10, (err, res)->
 			res.should.have.property("done")
 			done()
 
 	it 'should get a property', (done)->
-		properties.get gamerCred, "board", (err, res)->
+		properties.get "board", (err, res)->
 			done()
 
 
 	it 'should get a all properties', (done)->
-		properties.load gamerCred, (err, res)->
+		properties.load (err, res)->
 			res.should.have.property("properties")
 			done()
 
 	it 'should del a property', (done)->
-		properties.delete gamerCred, "board", (err, res)->
+		properties.delete "board", (err, res)->
 			res.should.have.property("done")
 			done()
 
 	it 'should replace all properties', (done)->
-		properties.save gamerCred , { board : "round", level : 20 }, (err, res)->
+		properties.save  { board : "round", level : 20 }, (err, res)->
 			res.should.have.property("done")
 			done()
 
 	it 'should find a user matching properties', (done)->
-		properties.find gamerCred, { level : {'$gt' : 10}}, (err, res)->
+		properties.find { level : {'$gt' : 10}}, (err, res)->
 			res.should.have.property("gamers")
 			done()
 
 	it 'should delete all properties', (done)->
-		properties.remove gamerCred, (err, res)->
+		properties.remove (err, res)->
 			res.should.have.property("done")
 			done()
 

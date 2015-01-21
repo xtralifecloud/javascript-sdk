@@ -8,29 +8,29 @@ gamerCred = null
 
 describe 'Gamer Leaderboards', ->
 
-	leaderboards = Clan.leaderboards()
+	leaderboards = null
 
 	describe "score as friend ", ->
 
 		it 'it should login first as friend', (done)->
-			Clan.login 'anonymous', dataset.friend_id, dataset.friend_token, (err, gamer)->
+			Clan.login null, (err, gamer)->
 				gamer.should.have.property('gamer_id')
 				gamer.should.have.property('gamer_secret')
-				gamerCred = Clan.createGamerCredentials(gamer)
+				leaderboards = Clan.withGamer(gamer).leaderboards()
 				done()
 
 		it 'should set a score', (done)->
-			leaderboards.set gamerCred, "level1", "hightolow", { score : 20, info : "using mickey"}, (err, res)->
+			leaderboards.set "level1", "hightolow", { score : 20, info : "using mickey"}, (err, res)->
 				res.should.have.property("done")
 				done()
 
 		it 'should set another score', (done)->
-			leaderboards.set gamerCred, "level2", "lowtohigh", { score : 110, info : "using minie"}, (err, res)->
+			leaderboards.set "level2", "lowtohigh", { score : 110, info : "using minie"}, (err, res)->
 				res.should.have.property("done")
 				done()
 
 		it "should get user's scores", (done)->
-			leaderboards.get gamerCred, (err, res)->
+			leaderboards.get (err, res)->
 				res.should.have.property "level1"
 				res.level1.should.have.property "score"
 				res.should.have.property "level2"
@@ -40,24 +40,24 @@ describe 'Gamer Leaderboards', ->
 	describe "score as gamer ", ->
 
 		it 'it should login as gamer', (done)->
-			Clan.login 'anonymous', dataset.gamer_id, dataset.gamer_token, (err, gamer)->
+			Clan.login null, (err, gamer)->
 				gamer.should.have.property('gamer_id')
 				gamer.should.have.property('gamer_secret')
-				gamerCred = Clan.createGamerCredentials(gamer)
+				leaderboards = Clan.withGamer(gamer).leaderboards()
 				done()
 
 		it 'should set a score', (done)->
-			leaderboards.set gamerCred, "level1", "hightolow", { score : 10, info : "using mickey"}, (err, res)->
+			leaderboards.set "level1", "hightolow", { score : 10, info : "using mickey"}, (err, res)->
 				res.should.have.property("done")
 				done()
 
 		it 'should set another score', (done)->
-			leaderboards.set gamerCred, "level2", "lowtohigh", { score : 100, info : "using minie"}, (err, res)->
+			leaderboards.set "level2", "lowtohigh", { score : 100, info : "using minie"}, (err, res)->
 				res.should.have.property("done")
 				done()
 
 		it "should get user's scores", (done)->
-			leaderboards.get gamerCred, (err, res)->
+			leaderboards.get (err, res)->
 				res.should.have.property "level1"
 				res.level1.should.have.property "score"
 				res.should.have.property "level2"
@@ -65,13 +65,13 @@ describe 'Gamer Leaderboards', ->
 				done()
 
 		it "should get 10 best highscore on level1", (done)->
-			leaderboards.getHighscores gamerCred, "level1", 1, 10, (err, res)->
+			leaderboards.getHighscores "level1", 1, 10, (err, res)->
 				res.should.have.property "level1"
 				res.level1.should.have.property "scores"
 				done()
 
 		it "should get 10 best highscore on level2", (done)->
-			leaderboards.getHighscores gamerCred, "level2", 1, 10, (err, res)->
+			leaderboards.getHighscores "level2", 1, 10, (err, res)->
 				res.should.have.property "level2"
 				res.level2.should.have.property "scores"
 				done()

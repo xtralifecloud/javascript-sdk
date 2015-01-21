@@ -2,9 +2,9 @@ agent = require 'superagent'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
-module.exports =  (appCredentials)->
+module.exports =  (appCredentials, gamerCred)->
 
-	get: (gamerCred, key, cb)->
+	get: (key, cb)->
 		unless key? then key=''
 		agent
 		.get "/v1/gamer/property/#{key}"
@@ -17,7 +17,7 @@ module.exports =  (appCredentials)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	set: (gamerCred, key, value, cb)->
+	set: (key, value, cb)->
 		unless key? then key=''
 		agent
 		.post "/v1/gamer/property/#{key}"
@@ -32,7 +32,7 @@ module.exports =  (appCredentials)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 	
-	delete: (gamerCred, key, cb)->
+	delete: (key, cb)->
 		unless key? then key=''
 		agent
 		.del "/v1/gamer/property/#{key}"
@@ -45,7 +45,7 @@ module.exports =  (appCredentials)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	load: (gamerCred, cb)->
+	load: (cb)->
 		agent
 		.get "/v1/gamer/property"
 		.use prefixer
@@ -57,7 +57,7 @@ module.exports =  (appCredentials)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	save: (gamerCred, data, cb)->
+	save: (data, cb)->
 		agent
 		.post "/v1/gamer/property"
 		.use prefixer
@@ -71,7 +71,7 @@ module.exports =  (appCredentials)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 	
-	remove: (gamerCred, cb)->
+	remove: (cb)->
 		agent
 		.del "/v1/gamer/property"
 		.use prefixer
@@ -83,7 +83,7 @@ module.exports =  (appCredentials)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	find : (gamerCred, target, cb)->
+	find : (target, cb)->
 		agent
 		.get "/v1/gamer/matchproperties"
 		.use prefixer

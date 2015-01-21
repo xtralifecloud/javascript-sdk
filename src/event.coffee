@@ -4,12 +4,12 @@ ClanError = require './ClanError.coffee'
 
 _timeout = 50000
 
-module.exports = (appCredentials, domain)->
+module.exports = (appCredentials, gamerCred, domain)->
 
 	setTimeout: (timeout)->
 		_timeout = timeout
 
-	send: (gamerCred, gamer_id, message, cb)->
+	send: (gamer_id, message, cb)->
 		agent
 		.post "/v1/gamer/event/#{domain}/#{gamer_id}"
 		.use prefixer
@@ -23,7 +23,7 @@ module.exports = (appCredentials, domain)->
 				else cb null, res.body
 
 	# cb(null, null) if no message is received before timeout
-	receive: (gamerCred, ack='auto', cb)->
+	receive: (ack='auto', cb)->
 		unless cb?
 			cb = ack
 			ack = 'auto'

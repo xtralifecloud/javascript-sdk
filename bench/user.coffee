@@ -9,7 +9,7 @@ seconds = (s)->
 	s * 750 + (s * 500 * Math.random() / 2)
 
 module.exports =
-	doYourStuff: (cb)->
+	doYourStuff: (index, cb)->
 
 		doNtimes = (creds, n, cb)->
 			return cb() if n is 0
@@ -162,11 +162,11 @@ module.exports =
 
 		Clan.login null, (err, gamer)->
 
-			creds = Clan.createGamerCredentials(gamer)
+			console.log "starting cx "+index
+			functions = Clan.withGamer(gamer)
+			doNtimes functions, 10, ->
 
-			doNtimes creds, 10, ->
-
-				Clan.logout creds, (err)->
+				functions.logout creds, (err)->
 					if err? then return console.error err
 					cb()
 

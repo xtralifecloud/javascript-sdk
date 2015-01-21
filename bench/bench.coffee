@@ -1,17 +1,18 @@
 user = require './user.coffee'
 async = require 'async'
 
-howMany = 250
+howMany = 200
 
-_each = (cb)->
-	setTimeout ->
-		user.doYourStuff ->
-			howMany--
-			console.log "#{howMany} to go"
-			cb()
-	, 30000*Math.random()
+_each = (index)->
+	(cb)->
+		setTimeout ->
+			user.doYourStuff index, ->
+				howMany--
+				console.log "#{howMany} to go"
+				cb()
+		, 30000*Math.random()
 
-tasks = (_each for each in [1..howMany])
+tasks = (_each(each) for each in [1..howMany])
 
 async.parallel tasks, (err)->
 	if err? then console.error err

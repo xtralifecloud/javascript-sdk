@@ -5,6 +5,7 @@ Clan = require('../src/Clan.coffee')('testgame-key', 'testgame-secret') # app cr
 dataset = require './0-dataset.json'
 
 gamerCred = null
+_gamer = null
 
 describe 'Clan JS client', ->
 
@@ -22,10 +23,24 @@ describe 'Clan JS client', ->
 			Clan.login "anonymous", gamerCred.gamer_id, gamerCred.gamer_secret, (err, gamer)->
 				gamer.should.have.property('gamer_id')
 				gamer.should.have.property('gamer_secret')
+				_gamer = gamer
 				done()
 
+	it 'should create a new friend', (done)->
+
+		Clan.login null, (err, gamer)->
+			gamer.should.have.property('gamer_id')
+			gamer.should.have.property('gamer_secret')
+
+			gamerCred = Clan.createGamerCredentials(gamer)
+
+			dataset.friend_id = gamerCred.gamer_id
+			dataset.friend_token = gamerCred.gamer_secret
+
+			done()
+
 	it 'should allow log out', (done)->
-		Clan.logout gamerCred, (err)->
+		Clan.withGamer(_gamer).logout (err)->
 			should(err).be.eql(null)
 			done()
 
@@ -65,7 +80,7 @@ describe 'Clan JS client', ->
 				gamer.should.have.property('gamer_secret')
 				gamerCred = Clan.createGamerCredentials(gamer)
 
-				Clan.logout gamerCred, (err)->
+				Clan.withGamer(gamer).logout (err)->
 					cb(err)
 
 		array = [1..200]

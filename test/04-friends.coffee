@@ -8,13 +8,13 @@ gamerCred = null
 
 describe 'Gamer Friends', ->
 
-	friends = Clan.friends()
+	friends = null
 
 	before 'it should login first', (done)->
-		Clan.login 'anonymous', dataset.gamer_id, dataset.gamer_token, (err, gamer)->
+		Clan.login null, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
-			gamerCred = Clan.createGamerCredentials(gamer)
+			friends = Clan.withGamer(gamer).friends()
 			done()
 
 	it 'should create a friend', (done)->
@@ -28,28 +28,28 @@ describe 'Gamer Friends', ->
 			done()
 
 	it 'should call change relationship to friend', (done)->
-		friends.status gamerCred, dataset.friend_id, "add", (err, res)->
+		friends.status dataset.friend_id, "add", (err, res)->
 			res.should.have.property("done")
 			done()
 
 	it 'should call get', (done)->
-		friends.get gamerCred, (err, res)->
+		friends.get (err, res)->
 			if err? then return done(err)
 			res.friends.should.containDeep([{gamer_id: dataset.friend_id }])
 			done()
 
 	it 'should call change relationship to blacklist', (done)->
-		friends.status gamerCred, dataset.friend_id, "blacklist", (err, res)->
+		friends.status dataset.friend_id, "blacklist", (err, res)->
 			res.should.have.property("done")
 			done()
 
 	it 'should call getBlacklisted', (done)->
-		friends.getBlacklisted gamerCred, (err, res)->
+		friends.getBlacklisted (err, res)->
 			res.blacklisted.should.containDeep([{gamer_id: dataset.friend_id }])
 			done()
 
 	it 'should call change relationship to forget', (done)->
-		friends.status gamerCred, dataset.friend_id, "forget", (err, res)->
+		friends.status dataset.friend_id, "forget", (err, res)->
 			res.should.have.property("done")
 			done()
 
