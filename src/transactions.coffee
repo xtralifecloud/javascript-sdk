@@ -2,11 +2,10 @@ agent = require 'superagent'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
-module.exports = (appCredentials, gamerCred, domain, keepaliveAgent)->
+module.exports = (appCredentials, gamerCred, domain)->
 	balance: (cb)->
 		agent
 		.get "/v1/gamer/tx/#{domain}/balance"
-		.agent keepaliveAgent
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -19,7 +18,6 @@ module.exports = (appCredentials, gamerCred, domain, keepaliveAgent)->
 	create: (tx, desc, cb)->
 		agent
 		.post "/v1/gamer/tx/#{domain}"
-		.agent keepaliveAgent
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -36,7 +34,6 @@ module.exports = (appCredentials, gamerCred, domain, keepaliveAgent)->
 
 		agent
 		.get "/v1/gamer/tx/#{domain}"
-		.agent keepaliveAgent
 		.use prefixer
 		.query options
 		.set appCredentials

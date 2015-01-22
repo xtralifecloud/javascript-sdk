@@ -4,16 +4,8 @@ unless agent.Request.prototype.use?
 		fn(@)
 		@
 
-Agent = require('agentkeepalive') #.HttpsAgent
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
-
-# TODO no keepaliveagent in browser
-keepaliveAgent = new Agent
-	maxSockets: 500,
-	maxFreeSockets: 10,
-	timeout: 60000,
-	keepAliveTimeout: 30000
 
 Clan = module.exports = (apikey, apisecret)->
 
@@ -23,10 +15,10 @@ Clan = module.exports = (apikey, apisecret)->
 		{gamer_id: gamer.gamer_id, gamer_secret: gamer.gamer_secret}
 
 	login: (network, id, secret, cb)->
+
 		if network?
 			agent
 			.post '/v1/login'
-			.agent keepaliveAgent
 			.use prefixer
 			.send {network, id, secret}
 			.set appCredentials
@@ -39,7 +31,6 @@ Clan = module.exports = (apikey, apisecret)->
 			cb = id
 			agent
 			.post '/v1/login/anonymous'
-			.agent keepaliveAgent
 			.use prefixer
 			.set appCredentials
 			.end (err, res)->
@@ -51,7 +42,6 @@ Clan = module.exports = (apikey, apisecret)->
 	echo: (cb)->
 		agent
 		.get '/echo/index.html'
-		.agent keepaliveAgent
 		.use prefixer
 		.end (err, res)->
 			cb(err)
@@ -60,27 +50,29 @@ Clan = module.exports = (apikey, apisecret)->
 		creds = this.createGamerCredentials gamer
 
 		transactions: (domain)->
-			require('./transactions.coffee')(appCredentials, creds, domain, keepaliveAgent)
+			require('./transactions.coffee')(appCredentials, creds, domain)
 
 		gamervfs: (domain)->
-			require('./gamervfs.coffee')(appCredentials, creds, domain, keepaliveAgent)
+			require('./gamervfs.coffee')(appCredentials, creds, domain)
 
+		# TODO convert to new routes with domain
 		friends: ()->
-			require('./friends.coffee')(appCredentials, creds, keepaliveAgent)
+			require('./friends.coffee')(appCredentials, creds)
 
+		# TODO convert to new routes with domain
 		properties: ()->
-			require('./properties.coffee')(appCredentials, creds, keepaliveAgent)
+			require('./properties.coffee')(appCredentials, creds)
 
+		# TODO convert to new routes with domain
 		leaderboards: ()->
-			require('./leaderboards.coffee')(appCredentials, creds, keepaliveAgent)
+			require('./leaderboards.coffee')(appCredentials, creds)
 
 		events: (domain)->
-			require('./event.coffee')(appCredentials, creds, domain, keepaliveAgent)
+			require('./event.coffee')(appCredentials, creds, domain)
 
 		logout: (cb)->
 			agent
 			.post '/v1/gamer/logout'
-			.agent keepaliveAgent
 			.use prefixer
 			.set appCredentials
 			.auth creds.gamer_id, creds.gamer_secret

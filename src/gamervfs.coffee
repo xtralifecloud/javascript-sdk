@@ -4,13 +4,12 @@ ClanError = require './ClanError.coffee'
 
 # TODO support getting/setting/deleting all keys at once
 
-module.exports =  (appCredentials, gamerCred, domain, keepaliveAgent)->
+module.exports =  (appCredentials, gamerCred, domain)->
 
 	get: (key, cb)->
 		unless key? then key=''
 		agent
 		.get "/v1/gamer/vfs/#{domain}/#{key}"
-		.agent keepaliveAgent
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -24,7 +23,6 @@ module.exports =  (appCredentials, gamerCred, domain, keepaliveAgent)->
 		unless key? then key=''
 		agent
 		.put "/v1/gamer/vfs/#{domain}/#{key}"
-		.agent keepaliveAgent
 		.use prefixer
 		.type 'json'
 		.send value
@@ -40,7 +38,6 @@ module.exports =  (appCredentials, gamerCred, domain, keepaliveAgent)->
 		unless key? then key=''
 		agent
 		.del "/v1/gamer/vfs/#{domain}/#{key}"
-		.agent keepaliveAgent
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
