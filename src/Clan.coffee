@@ -55,7 +55,6 @@ Clan = module.exports = (apikey, apisecret)->
 		gamervfs: (domain='private')->
 			require('./gamervfs.coffee')(appCredentials, creds, domain)
 
-		# TODO convert to new routes with domain
 		friends: (domain='private')->
 			require('./friends.coffee')(appCredentials, creds, domain)
 
