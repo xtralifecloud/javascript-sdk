@@ -1,9 +1,9 @@
-Agent = require('agentkeepalive') #.HttpsAgent
-keepaliveAgent = new Agent
-	maxSockets: 500,
-	maxFreeSockets: 10,
-	timeout: 60000,
-	keepAliveTimeout: 30000
+#Agent = require('agentkeepalive') #.HttpsAgent
+#keepaliveAgent = new Agent
+#	maxSockets: 500,
+#	maxFreeSockets: 10,
+#	timeout: 60000,
+#	keepAliveTimeout: 30000
 
 module.exports = (request)->
 	#request.url = 'https://sandbox-api01.clanofthecloud.mobi'+request.url
@@ -12,4 +12,4 @@ module.exports = (request)->
 	request.url = 'http://195.154.227.44:8000'+request.url
 
 	# not required in browsers
-	request.agent keepaliveAgent
+	#request.agent keepaliveAgent

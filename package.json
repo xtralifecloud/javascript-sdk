@@ -2,10 +2,10 @@
   "name": "cotc-jsclient",
   "version": "2.0.0",
   "description": "This package allows easy interaction with ClanOfTheCloud social gaming APIs v2",
-  "main": "index.js",
+  "main": "lib/bundle.js",
   "scripts": {
     "test": "mocha test/*.coffee",
-    "compile": "coffee -o lib -c src/*.coffee",
+    "compile": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
     "bench": "coffee bench/bench.coffee"
   },
   "repository": {
@@ -14,10 +14,6 @@
   },
   "author": "roland du clan",
   "dependencies": {
-    "async": "*",
-    "coffee-script": "*",
-    "coffee-script-mapped": "*",
-    "request": "*",
     "superagent": "*",
     "agentkeepalive": "0.2"
   },
@@ -25,11 +21,16 @@
     "node": ">= 0.10.26"
   },
   "devDependencies": {
+    "coffee-script": "*",
+    "coffee-script-mapped": "*",
     "randomstring": "*",
     "should": "*",
     "mocha": "*",
     "async": "*",
-    "q": "*"
+    "q": "*",
+    "browserify": "*",
+    "coffeeify": "*",
+    "uglify-js" : "*"
   },
   "readmeFilename": "Readme.md"
 }

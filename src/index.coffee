@@ -1,0 +1,1 @@
+window.Clan = require './Clan.coffee'
