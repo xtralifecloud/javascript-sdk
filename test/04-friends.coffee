@@ -14,7 +14,7 @@ describe 'Gamer Friends', ->
 		Clan.login null, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
-			friends = Clan.withGamer(gamer).friends()
+			friends = Clan.withGamer(gamer).friends('private')
 			done()
 
 	it 'should create a friend', (done)->

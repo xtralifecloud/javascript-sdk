@@ -49,23 +49,21 @@ Clan = module.exports = (apikey, apisecret)->
 	withGamer: (gamer)->
 		creds = this.createGamerCredentials gamer
 
-		transactions: (domain)->
+		transactions: (domain='private')->
 			require('./transactions.coffee')(appCredentials, creds, domain)
 
-		gamervfs: (domain)->
+		gamervfs: (domain='private')->
 			require('./gamervfs.coffee')(appCredentials, creds, domain)
 
 		# TODO convert to new routes with domain
-		friends: ()->
-			require('./friends.coffee')(appCredentials, creds)
+		friends: (domain='private')->
+			require('./friends.coffee')(appCredentials, creds, domain)
 
-		# TODO convert to new routes with domain
-		properties: ()->
-			require('./properties.coffee')(appCredentials, creds)
+		properties: (domain='private')->
+			require('./properties.coffee')(appCredentials, creds, domain)
 
-		# TODO convert to new routes with domain
-		leaderboards: ()->
-			require('./leaderboards.coffee')(appCredentials, creds)
+		leaderboards: (domain='private')->
+			require('./leaderboards.coffee')(appCredentials, creds, domain)
 
 		events: (domain)->
 			require('./event.coffee')(appCredentials, creds, domain)

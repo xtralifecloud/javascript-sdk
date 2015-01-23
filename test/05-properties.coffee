@@ -14,7 +14,7 @@ describe 'Gamer Properties', ->
 		Clan.login null, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
-			properties = Clan.withGamer(gamer).properties()
+			properties = Clan.withGamer(gamer).properties('private')
 			done()
 
 	it 'should set a property', (done)->

@@ -16,7 +16,7 @@ describe 'Gamer Leaderboards', ->
 			Clan.login null, (err, gamer)->
 				gamer.should.have.property('gamer_id')
 				gamer.should.have.property('gamer_secret')
-				leaderboards = Clan.withGamer(gamer).leaderboards()
+				leaderboards = Clan.withGamer(gamer).leaderboards('private')
 				done()
 
 		it 'should set a score', (done)->
@@ -43,7 +43,7 @@ describe 'Gamer Leaderboards', ->
 			Clan.login null, (err, gamer)->
 				gamer.should.have.property('gamer_id')
 				gamer.should.have.property('gamer_secret')
-				leaderboards = Clan.withGamer(gamer).leaderboards()
+				leaderboards = Clan.withGamer(gamer).leaderboards('private')
 				done()
 
 		it 'should set a score', (done)->

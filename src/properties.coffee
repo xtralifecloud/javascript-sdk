@@ -2,12 +2,12 @@ agent = require 'superagent'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
-module.exports =  (appCredentials, gamerCred)->
+module.exports =  (appCredentials, gamerCred, domain)->
 
 	get: (key, cb)->
 		unless key? then key=''
 		agent
-		.get "/v1/gamer/property/#{key}"
+		.get "/v2.6/gamer/property/#{domain}/#{key}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -20,7 +20,7 @@ module.exports =  (appCredentials, gamerCred)->
 	set: (key, value, cb)->
 		unless key? then key=''
 		agent
-		.post "/v1/gamer/property/#{key}"
+		.post "/v2.6/gamer/property/#{domain}/#{key}"
 		.use prefixer
 		.type 'json'
 		.send { value : value }
@@ -35,7 +35,7 @@ module.exports =  (appCredentials, gamerCred)->
 	delete: (key, cb)->
 		unless key? then key=''
 		agent
-		.del "/v1/gamer/property/#{key}"
+		.del "/v2.6/gamer/property/#{domain}/#{key}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -47,7 +47,7 @@ module.exports =  (appCredentials, gamerCred)->
 
 	load: (cb)->
 		agent
-		.get "/v1/gamer/property"
+		.get "/v2.6/gamer/property/#{domain}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -59,7 +59,7 @@ module.exports =  (appCredentials, gamerCred)->
 
 	save: (data, cb)->
 		agent
-		.post "/v1/gamer/property"
+		.post "/v2.6/gamer/property/#{domain}"
 		.use prefixer
 		.type 'json'
 		.send data
@@ -73,7 +73,7 @@ module.exports =  (appCredentials, gamerCred)->
 	
 	remove: (cb)->
 		agent
-		.del "/v1/gamer/property"
+		.del "/v2.6/gamer/property/#{domain}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -85,7 +85,7 @@ module.exports =  (appCredentials, gamerCred)->
 
 	find : (target, cb)->
 		agent
-		.get "/v1/gamer/matchproperties"
+		.get "/v2.6/gamer/matchproperties/#{domain}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret

@@ -2,11 +2,11 @@ agent = require 'superagent'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
-module.exports =  (appCredentials, gamerCred)->
+module.exports =  (appCredentials, gamerCred, domain)->
 
 	get: (cb)->
 		agent
-		.get "/v1/gamer/friends"
+		.get "/v2.6/gamer/friends/#{domain}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -18,7 +18,7 @@ module.exports =  (appCredentials, gamerCred)->
 
 	getBlacklisted: (cb)->
 		agent
-		.get "/v1/gamer/friends/?status=blacklist"
+		.get "/v2.6/gamer/friends/#{domain}?status=blacklist"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -30,7 +30,7 @@ module.exports =  (appCredentials, gamerCred)->
 
 	status: (friendid, newstatus, cb)->
 		agent
-		.post "/v1/gamer/friends/#{friendid}?status=#{newstatus}"
+		.post "/v2.6/gamer/friends/#{domain}/#{friendid}?status=#{newstatus}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret

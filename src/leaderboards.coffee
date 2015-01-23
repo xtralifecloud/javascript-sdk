@@ -2,11 +2,11 @@ agent = require 'superagent'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
-module.exports =  (appCredentials, gamerCred)->
+module.exports =  (appCredentials, gamerCred, domain)->
 
 	set: (board, order, score, cb)->
 		agent
-		.post "/v1/gamer/scores/#{board}?order=#{order}"
+		.post "/v2.6/gamer/scores/#{domain}/#{board}?order=#{order}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -17,7 +17,7 @@ module.exports =  (appCredentials, gamerCred)->
 
 	get: (cb)->
 		agent
-		.get "/v1/gamer/bestscores"
+		.get "/v2.6/gamer/bestscores/#{domain}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -27,7 +27,7 @@ module.exports =  (appCredentials, gamerCred)->
 
 	getHighscores: (board, page, count, cb)->
 		agent
-		.get "/v1/gamer/scores/#{board}?page=#{page}&count=#{count}"
+		.get "/v2.6/gamer/scores/#{domain}/#{board}?page=#{page}&count=#{count}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
