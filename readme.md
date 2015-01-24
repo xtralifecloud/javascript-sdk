@@ -8,6 +8,8 @@ javascript with Browserify and optionnally minified to a mere 20kB, less than 5k
 Note: This client is not feature complete yet. It implements the latest [API](http://docs.clanofthecloud.apiary.io/#).
 Feel free to submit bug reports and/or pull requests.
 
+You can read more about concepts and data model on (API Wiki)[https://github.com/clanofthecloud/api/wiki].
+
 ## Set up
 
 After cloning this repository, you can use `npm install` to grab dependencies (with node.js installed).
