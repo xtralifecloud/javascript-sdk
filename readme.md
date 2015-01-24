@@ -25,3 +25,14 @@ You need a single JS script, `/lib/bundle.js`, which inlines `superagent`, the o
 
 Then you can use the Clan class as a starting point. See [/lib/example.html](https://github.com/clanofthecloud/javascript-client/blob/master/lib/example.html)
 for a basic example.
+
+## TODO
+
+- documentation for classes, usage, params and returned JSON... and errors too
+- package client and server lib separately
+- add support for game VFS, achievements, matches, godfather (soon)
+- support sandbox environment when it's upgraded to v2.8 (2.6 has no CORS support yet)
+- check HTTPS support on sandbox (currently uses DEV which is HTTP only)
+- allow setup of the environment (sandbox / production)
+- support failover load balancers
+- convert bench to new JS API... then remove them, they're for internal use only
