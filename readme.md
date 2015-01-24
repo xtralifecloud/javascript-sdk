@@ -1,30 +1,25 @@
-# jsclient helps to connect to clan of the cloud services
+# ClanOfTheCloud.com Javascript client
 
-jsclient manage the request to the servers, it take care of loadbalancing and has a retry mechanism.
+The 'jsclient' can be used both from node.js or from a web browser. It's written in Coffee-script, then compiled to
+javascript with Browserify and optionnally minified to a mere 20kB, less than 5kB after gzip compression.
 
-## How to use jsclient
+Note: This client is not feature complete yet. It implements the latest (API)[http://docs.clanofthecloud.apiary.io/#].
+Feel free to submit bug reports and/or pull requests.
 
-You need to create a new object by passing it the endpoints and your credentials:
+## Set up
 
-	API = require "jsclient"
-	client = new API.client endoints, apikey, apisecret
+After cloning this repository, you can use `npm install` to grab dependencies (with node.js installed).
+Coffee-script sources live in `/src` while the compiled JS is in `/lib`.
 
-where endpoints must be an array of server addresses, the default values are:
+`npm run compile` will compile the Coffee-script sources to `/lib/bundle.js` and `/lib/bundle.min.js`
 
-	endpoints = API.loadbalancers
+## Use from node.js
 
+The package is not published on the public npmjs.org repository yet.
 
-Now, when you want to make a call, just type:
+## Use in a Web browser
 
-	client.call "url", options, (err, resp, body)->
+You need a single JS script, `/lib/bundle.js`, which inlines `superagent`, the only dependency.
 
-where `url` is an entry point of the api, `options` the paramters requested by this api method, and `body` is the result of the method.
-you need to test `err` and the `resp.statusCode`, to know the status of the operation. 
-
-When you call a restricted url (logged user) you should authenticate with:
-
-	client.auth user, password
-
-before any call to client.call
-
-
+Then you can use the Clan class as a starting point. See (/lib/example.html)[https://github.com/clanofthecloud/javascript-client/blob/master/lib/example.html]
+for a basic example.
