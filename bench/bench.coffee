@@ -10,7 +10,7 @@ _each = (index)->
 				howMany--
 				console.log "#{howMany} to go"
 				cb()
-		, 30000*Math.random()
+		, 60000*Math.random()
 
 tasks = (_each(each) for each in [1..howMany])
 
