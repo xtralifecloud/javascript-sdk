@@ -1,13 +1,12 @@
-#Agent = require('agentkeepalive').HttpsAgent
-#keepAliveAgent = new Agent
-#	maxSockets: 500,
-#	maxFreeSockets: 250,
-#	timeout: 600000,
-#	keepAliveTimeout: 600000
+Agent = require('agentkeepalive').HttpsAgent
+keepAliveAgent = new Agent
+	maxSockets: 50,
+	maxFreeSockets: 0,
+	timeout: 600000,
+	keepAliveTimeout: 600000
 
-https = require('https');
-keepAliveAgent = new https.Agent({ keepAlive: true, maxSockets: 500 });
-
+#https = require('https');
+#keepAliveAgent = new https.Agent({ keepAlive: true, maxSockets: 30, maxFreeSockets: 30, keepAliveMsecs: 1000 });
 
 module.exports = (request)->
 	request.url = 'https://prod-api01.clanofthecloud.mobi'+request.url
@@ -18,3 +17,5 @@ module.exports = (request)->
 
 	# not required in browsers
 	request.agent keepAliveAgent
+
+#https.globalAgent = keepAliveAgent
