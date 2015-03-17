@@ -58,6 +58,9 @@ Clan = module.exports = (apikey, apisecret)->
 		friends: (domain='private')->
 			require('./friends.coffee')(appCredentials, creds, domain)
 
+		profile: ()->
+			require('./profile.coffee')(appCredentials, creds)
+
 		properties: (domain='private')->
 			require('./properties.coffee')(appCredentials, creds, domain)
 
