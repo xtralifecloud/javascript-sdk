@@ -30,5 +30,3 @@ module.exports =  (appCredentials, gamerCred)->
 			else
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
-
-
