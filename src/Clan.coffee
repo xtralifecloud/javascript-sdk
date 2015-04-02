@@ -14,13 +14,16 @@ Clan = module.exports = (apikey, apisecret)->
 	createGamerCredentials: (gamer)->
 		{gamer_id: gamer.gamer_id, gamer_secret: gamer.gamer_secret}
 
-	login: (network, id, secret, cb)->
+	login: (network, id, secret, options, cb)->
+		if typeof options is "function"
+			cb = options
+			options = null
 
 		if network?
 			agent
 			.post '/v1/login'
 			.use prefixer
-			.send {network, id, secret}
+			.send {network, id, secret, options}
 			.set appCredentials
 			.end (err, res)->
 				if err? then cb(err)
@@ -69,6 +72,19 @@ Clan = module.exports = (apikey, apisecret)->
 
 		events: (domain)->
 			require('./event.coffee')(appCredentials, creds, domain)
+
+		convertTo: (network, id, secret, cb)->
+			agent
+			.post '/v1/gamer/convert'
+			.use prefixer
+			.set appCredentials
+			.auth creds.gamer_id, creds.gamer_secret
+			.send {network, id, secret}
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body
 
 		logout: (cb)->
 			agent

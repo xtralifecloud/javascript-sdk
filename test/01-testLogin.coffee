@@ -70,6 +70,19 @@ describe 'Clan JS client', ->
 			gamer.should.have.property 'gamer_secret'
 			done()
 
+	it 'should allow conversion of anonymous to email', (done)->
+
+		Clan.login null, (err, gamer)->
+			gamerCred = Clan.createGamerCredentials(gamer)
+			mail = "test" + Math.random() + "@localhost.localdomain"
+			password = "password"
+
+			Clan.withGamer(gamer).convertTo "email", mail, password, (err, result)->
+				return done err if err?
+				result.done.should.eql 1
+
+				Clan.login 'email', mail, password, (err, result)->
+					done(err)
 
 	it.skip 'should log in/out fast', (done)->
 		this.timeout 100000

@@ -6,7 +6,7 @@ dataset = require './0-dataset.json'
 
 gamerCred = null
 
-describe.only 'Gamer Profile', ->
+describe 'Gamer Profile', ->
 
 	profile = null
 
