@@ -15,7 +15,7 @@
   "author": "roland du clan",
   "dependencies": {
     "superagent": "*",
-    "agentkeepalive": "0.2"
+    "agentkeepalive": "*"
   },
   "engines": {
     "node": ">= 0.10.26"

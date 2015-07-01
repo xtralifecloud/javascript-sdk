@@ -48,7 +48,8 @@ describe 'Gamer Properties', ->
 			res.should.have.property("done")
 			done()
 
-	it 'should find a user matching properties', (done)->
+	# removed from the API, use the indexing API instead
+	it.skip 'should find a user matching properties', (done)->
 		properties.find { level : {'$gt' : 10}}, (err, res)->
 			res.should.have.property("gamers")
 			done()

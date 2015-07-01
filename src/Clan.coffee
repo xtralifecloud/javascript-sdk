@@ -49,6 +49,19 @@ Clan = module.exports = (apikey, apisecret)->
 		.end (err, res)->
 			cb(err)
 
+	runBatch: (domain, batchName, params, cb)->
+		agent
+		.post "/v1/batch/#{domain}/#{batchName}"
+		.use prefixer
+		.set appCredentials
+		.send params
+		.end (err, res)->
+			if err? then cb(err)
+			else
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body
+
+
 	withGamer: (gamer)->
 		creds = this.createGamerCredentials gamer
 
@@ -70,8 +83,21 @@ Clan = module.exports = (apikey, apisecret)->
 		leaderboards: (domain='private')->
 			require('./leaderboards.coffee')(appCredentials, creds, domain)
 
-		events: (domain)->
+		events: (domain='private')->
 			require('./event.coffee')(appCredentials, creds, domain)
+
+		runBatch: (domain, batchName, params, cb)->
+			agent
+			.post "/v1/gamer/batch/#{domain}/#{batchName}"
+			.use prefixer
+			.set appCredentials
+			.auth creds.gamer_id, creds.gamer_secret
+			.send params
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body
 
 		convertTo: (network, id, secret, cb)->
 			agent

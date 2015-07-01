@@ -50,7 +50,7 @@ describe 'Clan JS client', ->
 			should(gamer).be.undefined
 			err.should.have.property('status')
 			err.status.should.eql(401)
-			err.message.should.eql('Invalid user credentials')
+			err.response.body.message.should.eql('Invalid user credentials')
 			done()
 
 	it 'should not allow log in with wrong credentials', (done)->
@@ -60,7 +60,7 @@ describe 'Clan JS client', ->
 
 			err.should.have.property('status')
 			err.status.should.eql(401)
-			err.message.should.eql('The received login token is invalid')
+			err.response.body.message.should.eql('The received login token is invalid')
 			done()
 
 	it.skip 'should accept Facebook credentials', (done)->
