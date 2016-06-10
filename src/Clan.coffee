@@ -61,6 +61,8 @@ Clan = module.exports = (apikey, apisecret)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
+	vfs: (domain='private')->
+		require('./gamevfs.coffee')(appCredentials, domain)
 
 	withGamer: (gamer)->
 		creds = this.createGamerCredentials gamer
@@ -82,6 +84,9 @@ Clan = module.exports = (apikey, apisecret)->
 
 		leaderboards: (domain='private')->
 			require('./leaderboards.coffee')(appCredentials, creds, domain)
+
+		matches: (domain='private')->
+			require('./matches.coffee')(appCredentials, creds, domain)
 
 		events: (domain='private')->
 			require('./event.coffee')(appCredentials, creds, domain)

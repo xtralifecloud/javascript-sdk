@@ -34,3 +34,14 @@ describe 'Gamer VFS', ->
 			done()
 
 
+describe 'Game VFS', ->
+
+	gamevfs = Clan.vfs(Clan.privateDomain)
+
+	it 'should call get', (done)->
+		gamevfs.get "testkey", (err, res)->
+			if err? then return done(err)
+			should(res).be.not.null
+			res.should.eql { test : 2 }
+			done()
+
