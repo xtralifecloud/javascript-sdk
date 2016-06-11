@@ -4,31 +4,22 @@ Clan = require('../src/Clan.coffee')('testgame-key', 'testgame-secret') # app cr
 
 dataset = require './0-dataset.json'
 
-gamerCred = null
-_gamer = null
 events_gamer = null
 matches = null
 
-friendCred = null
-_friend = null
 events_friend = null
 matches_friend = null
 
 matchID = null
 lastEventId = null
 
-describe.only 'Matches', ->
+describe 'Matches', ->
 
-	msgid = null
-
-	events = null
 
 	it 'should login first as gamer', (done)->
 		Clan.login null, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
-			gamerCred = Clan.createGamerCredentials(gamer)
-			_gamer = gamer
 			events_gamer = Clan.withGamer(gamer).events('private')
 			matches = Clan.withGamer(gamer).matches(Clan.privateDomain)
 			done(err)
@@ -37,8 +28,6 @@ describe.only 'Matches', ->
 		Clan.login null, (err, friend)->
 			friend.should.have.property('gamer_id')
 			friend.should.have.property('gamer_secret')
-			friendCred = Clan.createGamerCredentials(friend)
-			_friend = friend
 			events_friend = Clan.withGamer(friend).events('private')
 			matches_friend = Clan.withGamer(friend).matches(Clan.privateDomain)
 			done(err)

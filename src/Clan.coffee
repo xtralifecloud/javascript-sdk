@@ -64,6 +64,9 @@ Clan = module.exports = (apikey, apisecret)->
 	vfs: (domain='private')->
 		require('./gamevfs.coffee')(appCredentials, domain)
 
+	indexes: (domain='private')->
+		require('./indexes.coffee')(appCredentials, domain)
+
 	withGamer: (gamer)->
 		creds = this.createGamerCredentials gamer
 

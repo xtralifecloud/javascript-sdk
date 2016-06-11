@@ -28,6 +28,12 @@ You need a single JS script, `/lib/bundle.js`, which inlines `superagent`, the o
 Then you can use the Clan class as a starting point. See [/lib/example.html](https://github.com/clanofthecloud/javascript-client/blob/master/lib/example.html)
 for a basic example.
 
+## History
+
+`2016/06/10` added: game vfs, matches
+`2016/06/11` added : indexes
+
+
 ## TODO
 
 - documentation for classes, usage, params and returned JSON... and errors too
