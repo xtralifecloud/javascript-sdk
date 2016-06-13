@@ -32,6 +32,7 @@ for a basic example.
 
 `2016/06/10` added: game vfs, matches
 `2016/06/11` added : indexes
+`2016/06/13` added : kv store 
 
 
 ## TODO

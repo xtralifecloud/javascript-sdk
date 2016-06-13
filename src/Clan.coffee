@@ -67,6 +67,7 @@ Clan = module.exports = (apikey, apisecret)->
 	indexes: (domain='private')->
 		require('./indexes.coffee')(appCredentials, domain)
 
+
 	withGamer: (gamer)->
 		creds = this.createGamerCredentials gamer
 
@@ -90,6 +91,9 @@ Clan = module.exports = (apikey, apisecret)->
 
 		matches: (domain='private')->
 			require('./matches.coffee')(appCredentials, creds, domain)
+
+		kv: (domain='private')->
+			require('./kvstore.coffee')(appCredentials, creds, domain)
 
 		events: (domain='private')->
 			require('./event.coffee')(appCredentials, creds, domain)
