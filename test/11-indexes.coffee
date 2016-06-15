@@ -78,7 +78,7 @@ describe 'Indexes', ->
 		indexes.query "testindex", q, 0, 10, (err, res)->
 			if err? then return done(err)
 			should.exist(res.total)
-			res.total.should.eql(2)
+			res.total.should.greaterThan(2)
 			done()
 
 
@@ -108,7 +108,7 @@ describe 'Indexes', ->
 		indexes.query "testindex", q, 0, 10, (err, res)->
 			if err? then return done(err)
 			should.exist(res.total)
-			res.total.should.eql(1)
+			res.total.should.greaterThan(1)
 			done()
 
 

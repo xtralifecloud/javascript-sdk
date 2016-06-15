@@ -34,7 +34,7 @@ module.exports =  (appCredentials, domain)->
 
 	del: (indexName, id, cb)->
 		agent
-		.delete "/v1/index/#{domain}/#{indexName}/#{id}"
+		.del "/v1/index/#{domain}/#{indexName}/#{id}"
 		.use prefixer
 		.set appCredentials
 		.end (err, res)->

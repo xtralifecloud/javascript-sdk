@@ -4,10 +4,14 @@ unless agent.Request.prototype.use?
 		fn(@)
 		@
 
+Endpoints = require './endpoints.coffee'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
-Clan = module.exports = (apikey, apisecret)->
+
+Clan = module.exports = (apikey, apisecret, endpoint=null)->
+
+	Endpoints.set endpoint if endpoint?
 
 	appCredentials = {'x-apikey': apikey, 'x-apisecret': apisecret}
 

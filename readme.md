@@ -33,7 +33,8 @@ for a basic example.
 `2016/06/10` added: game vfs, matches
 `2016/06/11` added : indexes
 `2016/06/13` added : kv store 
-
+`2016/06/15` fixed : superagent back to version 1.2.0 as 2.0.0 as double callbakc problems...
+			 allowing to pass endpoint (sandbox, prod) at setup whitout changing the prefixer...
 
 ## TODO
 
