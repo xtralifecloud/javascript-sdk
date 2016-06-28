@@ -1,6 +1,6 @@
 {
   "name": "cotc-jsclient",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "This package allows easy interaction with ClanOfTheCloud social gaming APIs v2",
   "main": "index.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "q": "*",
     "browserify": "*",
     "coffeeify": "*",
-    "uglify-js" : "*"
+    "uglify-js": "*"
   },
   "readmeFilename": "Readme.md"
 }
