@@ -25,10 +25,12 @@ module.exports =
 		else if typeof(endpoint) == 'string' and endpoint!=""
 			endpoints.url = endpoint
 			endpoints.count = 1
+		# there's no default here...
 
 	current : ->
 		return endpoints.url if endpoints.url?
 		@tryOther
+		endpoints.url
 
 	tryOther : ->
 		if endpoints.current.url.indexOf("[id]")!=-1

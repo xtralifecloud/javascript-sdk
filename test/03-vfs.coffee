@@ -34,7 +34,8 @@ describe 'Gamer VFS', ->
 			done()
 
 
-describe 'Game VFS', ->
+# skipped because there's no default VFS key we can test, and we can't create one
+describe.skip 'Game VFS', ->
 
 	gamevfs = Clan.vfs(Clan.privateDomain)
 

@@ -49,7 +49,8 @@ describe 'Events', ->
 		, 500
 
 	it 'should block until timeout', (done)->
-		events.setTimeout 500
+		this.timeout 50000
+		events.setTimeout 10000
 
 		events.receive 'auto', (err, message)->
 			should(err).be.null
@@ -62,4 +63,4 @@ describe 'Events', ->
 		setTimeout ->
 			events.send dataset.gamer_id, {hello: 'friend'}, (err, res)->
 				should(err).be.null
-		, 700
+		, 10000

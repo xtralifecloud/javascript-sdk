@@ -10,7 +10,7 @@ describe 'Batches', ->
 
 	savedGamer = null
 
-	it 'should allow calling unauthenticated batches', (done)->
+	it.skip 'should allow calling unauthenticated batches', (done)->
 		Clan.runBatch "private", 'batchFromJS', {params: "work fine"}, (err, res)->
 			if err? then return done err
 			res.works.should.eql true
@@ -24,7 +24,7 @@ describe 'Batches', ->
 			savedGamer = gamer
 			done()
 
-	it 'should allow calling authenticated batches', (done)->
+	it.skip 'should allow calling authenticated batches', (done)->
 		Clan.withGamer(savedGamer).runBatch "private", 'batchFromJS', {params: "work fine"}, (err, res)->
 			if err? then return done err
 			res.works.should.eql true
