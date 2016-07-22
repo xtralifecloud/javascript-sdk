@@ -14,6 +14,9 @@ endpoints =
 		url: 'https://prod-api[id].clanofthecloud.mobi'
 		count: 16
 
+	dev:
+		url: 'http://localhost:2000'
+		count: 1
 
 module.exports = 
 
@@ -22,10 +25,14 @@ module.exports =
 			endpoints.current = endpoints.sandbox
 		else if endpoint == "prod"
 			endpoints.current = endpoints.prod
+		else if endpoint == "dev"
+			endpoints.current = endpoints.dev
 		else if typeof(endpoint) == 'string' and endpoint!=""
-			endpoints.url = endpoint
-			endpoints.count = 1
-		# there's no default here...
+			endpoints.current = {url: endpoint, count:1}
+		else throw new Error("endpoint must be either dev|sandbox|prod or an url")
+
+		endpoints.url = endpoints.current.url
+		@tryOther()
 
 	current : ->
 		return endpoints.url if endpoints.url?

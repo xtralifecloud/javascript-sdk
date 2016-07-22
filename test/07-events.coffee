@@ -12,7 +12,7 @@ describe 'Events', ->
 
 	events = null
 
-	it 'should login first as friend', (done)->
+	before 'should login first as friend', (done)->
 		Clan.login 'anonymous', dataset.friend_id, dataset.friend_token, (err, gamer)->
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')

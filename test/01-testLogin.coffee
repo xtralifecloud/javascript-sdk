@@ -9,6 +9,10 @@ _gamer = null
 
 describe 'Clan JS client', ->
 
+	before 'setup', (done)->
+		require('../src/endpoints.coffee').set 'dev'
+		done()
+
 	it 'should allow anonymous log in', (done)->
 
 		Clan.login null, (err, gamer)->
@@ -21,6 +25,7 @@ describe 'Clan JS client', ->
 			dataset.gamer_token = gamerCred.gamer_secret
 
 			Clan.login "anonymous", gamerCred.gamer_id, gamerCred.gamer_secret, (err, gamer)->
+				if err? then done(err)
 				gamer.should.have.property('gamer_id')
 				gamer.should.have.property('gamer_secret')
 				_gamer = gamer
