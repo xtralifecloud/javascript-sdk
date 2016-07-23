@@ -115,6 +115,18 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 					if res.error then cb new ClanError res.status, res.body
 					else cb null, res.body
 
+		outline: (cb)->
+			agent
+			.get '/v1/gamer/outline'
+			.use prefixer
+			.set appCredentials
+			.auth creds.gamer_id, creds.gamer_secret
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body
+
 		convertTo: (network, id, secret, cb)->
 			agent
 			.post '/v1/gamer/convert'
