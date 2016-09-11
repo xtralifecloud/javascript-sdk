@@ -45,10 +45,10 @@ module.exports =  (appCredentials, domain)->
 
 
 	search: (indexName, q, sort, skip, limit, cb)->
-		query = "?q=#{q}"
+		query = "?q=#{encodeURIComponent(q)}"
 		query += "&from=#{skip}" if skip?
 		query += "&max=#{limit}" if limit?
-		query += "&sort=#{sort}" if sort?
+		query += "&sort=#{encodeURIComponent(sort)}" if sort?
 		agent
 		.post "/v1/index/#{domain}/#{indexName}/search#{query}"
 		.use prefixer

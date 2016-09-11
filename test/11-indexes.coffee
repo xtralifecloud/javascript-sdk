@@ -59,12 +59,11 @@ describe 'Indexes', ->
 			done()
 
 
-	it 'should search index', (done)->
-		indexes.search "testindex", "_id:#{_gamer.gamer_id}", null, 0, 10, (err, res)->
+	it 'should search index and sort', (done)->
+		indexes.search "testindex", "*", '["level:desc"]', 0, 10, (err, res)->
 			if err? then return done(err)
 			should.exist(res.total)
 			should.exist(res.hits)
-			res.total.should.eql(1)
 			done()
 
 	it 'should query index', (done)->
