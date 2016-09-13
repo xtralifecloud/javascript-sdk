@@ -7,7 +7,7 @@ dataset = require './0-dataset.json'
 _gamer = null
 _friend = null
 
-describe 'Indexes', ->
+describe.only 'Indexes', ->
 
 	indexes = Clan.indexes(Clan.privateDomain)
 
@@ -56,6 +56,7 @@ describe 'Indexes', ->
 			if err? then return done(err)
 			should.exist(res.found)
 			res.found.should.be.true
+			res._source.payload.whatever.should.eql 'something'
 			done()
 
 
@@ -65,6 +66,7 @@ describe 'Indexes', ->
 			should.exist(res.total)
 			should.exist(res.hits)
 			res.total.should.eql(1)
+			res.hits[0]._source.payload.whatever.should.eql 'something'
 			done()
 
 	it 'should query index', (done)->
