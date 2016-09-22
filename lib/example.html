@@ -1,18 +1,17 @@
 <html>
 <head>
-	<title>Simple example ClanOfTheCloud web app</title>
+	<title>Simple example Xtralife web app</title>
 </head>
 <body>
 
-<!-- can also use minified version (22kB, <5kB compressed):
+<!-- can also use minified version (36kB, <7kB compressed):
 <script src="bundle.min.js"></script>
 -->
 <script src="bundle.js"></script>
 <script language="JavaScript">
 
 	// initialize our client with the APIKEY and APISECRET of the game
-	// we can't really protect these, but the server will enforce the Origin is the right one with CORS (in production only)
-	// Use your own sandbox keys instead...
+	// Use your own keys instead...
 	var client = Clan('testgame-key', 'testgame-secret');
 
 	// Let's login with a new fresh user
@@ -60,7 +59,7 @@
 						console.error(err);
 					}
 					console.log("All Done!");
-					document.writeln("All Done! look into the console for more details...");
+					document.writeln("All Done! look in the console for more details...");
 				});
 			});
 		});

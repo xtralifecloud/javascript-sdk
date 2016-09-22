@@ -1,18 +1,19 @@
 {
-  "name": "cotc-jsclient",
+  "name": "xtralife-js-client",
   "version": "2.0.1",
-  "description": "This package allows easy interaction with ClanOfTheCloud social gaming APIs v2",
-  "main": "index.js",
+  "description": "Simple javascript client for Xtralife gaming backend",
+  "main": "bundle.js",
   "scripts": {
     "test": "mocha test/*.coffee",
     "compile": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
-    "bench": "coffee bench/bench.coffee"
+    "bench": "coffee bench/bench.coffee",
+    "prepublish": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js"
   },
   "repository": {
     "type": "git",
-    "url": "gitlab:clients/jsclient.git"
+    "url": "https://github.com/clanofthecloud/javascript-client.git"
   },
-  "author": "roland du clan",
+  "author": "chris@xtralife.cloud",
   "dependencies": {
     "superagent": "=1.2.0",
     "agentkeepalive": "*"
