@@ -1,7 +1,7 @@
 user = require './scoreUser.coffee'
 async = require 'async'
 
-howMany = 250
+howMany = 500
 
 _each = (index)->
 	(cb)->
@@ -10,7 +10,7 @@ _each = (index)->
 				howMany--
 				console.log "#{howMany} to go"
 				cb()
-		, 60000*Math.random()
+		, 30000*Math.random()
 
 tasks = (_each(each) for each in [1..howMany])
 

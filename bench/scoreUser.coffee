@@ -8,7 +8,9 @@ q = require 'q'
 seconds = (s)->
 	s * 750 + (s * 500 * Math.random() / 2)
 
-module.exports =
+self = module.exports =
+	gamers: []
+
 	doYourStuff: (index, cb)->
 
 		doNtimes = (functions, n, cb)->
@@ -17,18 +19,39 @@ module.exports =
 			doIt functions, ->
 				doNtimes functions, n-1, cb
 
-		doIt = (functions, cb)->
-			lb = functions.leaderboards()
+		doIt = (api, cb)->
+			lb = api.leaderboards()
+			events = api.events('private')
 
+			other = self.gamers[parseInt(self.gamers.length * Math.random())]
+			events.sendVolatile other, {hello: "world #{parseInt(Math.random()*1000)}"}, (err, message) ->
+				console.log err if err
+				#console.log "message send to #{other}"
+				#console.log message
+
+			setTimeout cb, seconds(5)
+
+			###
 			setTimeout ->
 				lb.set "sync", "hightolow", { score : 1000 * Math.random(), info : "using mickey"}, (err, res)->
 					if err? then return console.error err
 					cb()
 			, seconds(15)
+			###
 
 		Clan.login null, (err, gamer)->
 			if err? then return console.log err
 			functions = Clan.withGamer(gamer)
+			self.gamers.push gamer.gamer_id
+
+			recv = ()->
+				events = functions.events('private')
+
+				events.receive 'auto', (err, message)->
+					console.log "hello: #{message.hello}"
+					setImmediate recv
+			recv()
+
 			doNtimes functions, 100, ->
 
 				functions.logout (err)->
