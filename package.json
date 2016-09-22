@@ -7,6 +7,7 @@
     "test": "mocha test/*.coffee",
     "compile": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
     "bench": "coffee bench/bench.coffee",
+    "benchScore": "coffee bench/benchScore.coffee",
     "prepublish": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js"
   },
   "repository": {
