@@ -25,7 +25,7 @@ module.exports =  (appCredentials, gamerCred, domain)->
 		.put "/v1/gamer/vfs/#{domain}/#{key}"
 		.use prefixer
 		.type 'json'
-		.send value
+		.send JSON.stringify value
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.end (err, res)->

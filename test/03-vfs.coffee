@@ -6,7 +6,7 @@ dataset = require './0-dataset.json'
 
 gamerCred = null
 
-describe 'Gamer VFS', ->
+describe.only 'Gamer VFS', ->
 
 	vfs = null
 
@@ -22,6 +22,14 @@ describe 'Gamer VFS', ->
 			if err? then return done(err)
 			count.should.eql {"done": 1}
 			done()
+
+	it 'should set a string too', (done)->
+		vfs.set "test2", 'hello world', (err, count)->
+			if err? then return done(err)
+			count.should.eql {"done": 1}
+			vfs.get "test2", (err, res)->
+				res.should.eql 'hello world'
+				done()
 
 	it 'should call get', (done)->
 		vfs.get "test", (err, res)->
