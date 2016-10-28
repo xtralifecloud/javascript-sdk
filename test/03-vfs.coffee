@@ -31,6 +31,17 @@ describe 'Gamer VFS', ->
 				res.should.eql 'hello world'
 				done()
 
+	# this is a breaking change in v3.0.0
+	# Before 3.0.0, setting a value to JSON.stringify({hello:'world'}), you would get {hello:'world'} as a result to get
+	it 'setting a string must get a string too', (done)->
+		vfs.set "test3", JSON.stringify({hello:'world'}), (err, count)->
+			if err? then return done(err)
+			count.should.eql {"done": 1}
+			vfs.get "test3", (err, res)->
+				res.should.eql JSON.stringify({hello:'world'}) # and not an object
+				done()
+
+
 	it 'should call get', (done)->
 		vfs.get "test", (err, res)->
 			res.should.eql {hello: "world"}

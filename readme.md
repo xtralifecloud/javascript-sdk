@@ -1,5 +1,7 @@
 # ClanOfTheCloud.com Javascript client
 
+**Important node: v3.0.0 breaks compatibility, see History below**
+
 Before anything, you need to **register for free** on [ClanOfTheCloud.com](http://account.clanofthecloud.com).
 
 The 'jsclient' can be used both from node.js or from a web browser. It's written in Coffee-script, then compiled to
@@ -30,6 +32,7 @@ for a basic example.
 
 ## History
 
+`2016/10/28` v3.0.0 changed API to gamer vfs: you get exactly what you set (Set a json string, get a json string, not an object like in v2)
 `2016/06/10` added: game vfs, matches
 `2016/06/11` added : indexes
 `2016/06/13` added : kv store 
