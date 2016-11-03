@@ -1,0 +1,103 @@
+﻿div.header
+{
+	background-color: #333333;
+	border-color: #666666;
+	border-style: none none ridge none;
+	border-width: 2px;
+	text-align: center;
+	position: fixed;
+	top: 0px;
+	width: 100%;
+}
+
+div.header table
+{
+	margin: 0px auto;
+}
+
+div.header table td
+{
+	height: 50px;
+}
+
+div.header table td.header-xtralife_logo
+{
+	text-align: right;
+	width: 250px;
+}
+
+div.header table td.header-xtralife_logo img
+{
+	margin: 5px 15px 5px 5px;
+	height: 30px;
+}
+
+div.header table td.header-navigation_menu
+{
+	border-color: #666666;
+	border-style: none ridge;
+	border-width: 2px;
+	width: 750px;
+}
+
+div.header table td.header-navigation_menu ul.navigation_links
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+div.header table td.header-navigation_menu ul.navigation_links li
+{
+	display: inline;
+	list-style-type: none;
+}
+
+div.header table td.header-navigation_menu ul.navigation_links a:link,
+div.header table td.header-navigation_menu ul.navigation_links a:visited
+{
+	color: #FFFFFF;
+}
+
+div.header table td.header-navigation_menu ul.navigation_links li
+{
+	color: #FFFFFF;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 0px 15px;
+}
+
+div.header table td.header-navigation_menu ul.navigation_links li.currentPage
+{
+	border-color: #FCD504;
+	border-style: dotted;
+	border-width: 1px;
+	color: #FCD504;
+	padding: 5px;
+}
+
+div.header table td.header-title
+{
+	width: 250px;
+}
+
+div.header table td.header-title h1
+{
+	font-size: 22px;
+	margin: 0px 0px 0px 15px;
+	text-align: left;
+}
+
+div.header table td.header-title p
+{
+	font-size: 12px;
+	margin: 0px 0px 0px 15px;
+	text-align: left;
+}
+
+div.header p#header-credentials
+{
+	color: #CC5555;
+	font-size: 14px;
+	margin: 5px 0px;
+	text-align: center;
+}

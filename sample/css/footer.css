@@ -1,0 +1,47 @@
+﻿div.footer
+{
+	background-color: #333333;
+	border-color: #666666;
+	border-style: ridge;
+	border-width: 2px;
+	border-radius: 2em;
+	color: #4C4C4C;
+	text-align: center;
+	margin: 10px auto;
+	width: 750px;
+}
+
+div.footer table
+{
+	margin: 0px auto;
+}
+
+div.footer table td
+{
+	height: 50px;
+	width: 250px;
+}
+
+div.footer table p
+{
+	text-align: center;
+}
+
+div.footer table td.footer-xtralife_logo img
+{
+	margin: 5px;
+	height: 30px;
+}
+
+div.footer table td.footer-text
+{
+	border-color: #666666;
+	border-style: none ridge;
+	border-width: 2px;
+}
+
+div.footer table td.footer-social_logos img
+{
+	margin: 10px;
+	height: 25px;
+}

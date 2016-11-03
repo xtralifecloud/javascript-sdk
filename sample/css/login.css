@@ -1,0 +1,27 @@
+﻿table.login_step
+{
+	margin: 0px auto;
+}
+
+table.login_step td
+{
+	padding: 5px;
+}
+
+table.login_features p#body-login
+{
+	font-size: 15px;
+	text-align: center;
+	margin: 0px;
+}
+
+table.login_features p#body-login img
+{
+	height: 20px;
+}
+
+table.login_features p.login_status
+{
+	font-size: 12px;
+	text-align: center;
+}

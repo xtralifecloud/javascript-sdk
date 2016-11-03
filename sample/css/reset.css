@@ -1,0 +1,7 @@
+﻿body, img, table, tr, td
+{
+	border-collapse: collapse;
+	border-width: 0px;
+	margin: 0px;
+	padding: 0px;
+}

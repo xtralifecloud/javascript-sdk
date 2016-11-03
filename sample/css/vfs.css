@@ -1,0 +1,66 @@
+﻿table.vfs_step
+{
+	margin: 10px auto;
+}
+
+table.vfs_step td
+{
+	padding: 0px 5px;
+}
+
+table.vfs_features span#body-gamer-vfs p,
+table.vfs_features span#body-game-vfs p
+{
+	font-size: 15px;
+	text-align: center;
+	margin: 0px 0px 10px 0px;
+}
+
+table.vfs_features p.vfs_note
+{
+	text-align: center;
+}
+
+table.vfs_features span#body-gamer-vfs table,
+table.vfs_features span#body-game-vfs table
+{
+	margin: 10px auto;
+}
+
+table.vfs_features span#body-gamer-vfs td,
+table.vfs_features span#body-game-vfs td
+{
+	border-color: #999999;
+	border-style: groove;
+	border-width: 2px;
+	text-align: center;
+	padding: 5px;
+}
+
+table.vfs_features span#body-gamer-vfs td.col_a,
+table.vfs_features span#body-game-vfs td.col_a
+{
+	width: 150px;
+}
+
+table.vfs_features span#body-gamer-vfs td.col_b,
+table.vfs_features span#body-game-vfs td.col_b
+{
+    word-break: break-all;
+	word-wrap: break-word;
+	width: 480px;
+}
+
+table.vfs_features span#body-gamer-vfs td p,
+table.vfs_features span#body-game-vfs td p
+{
+	text-align: center;
+	margin: 0px;
+}
+
+table.vfs_features span#body-gamer-vfs td.title,
+table.vfs_features span#body-game-vfs td.title
+{
+	background-color: #111111;
+	color: #FCD504;
+}

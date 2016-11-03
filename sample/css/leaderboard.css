@@ -1,0 +1,83 @@
+﻿table.leaderboard_step
+{
+	margin: 10px auto;
+}
+
+table.leaderboard_step td
+{
+	padding: 0px 5px;
+}
+
+table.leaderboard_step td.radios input
+{
+	margin: 5px;
+	width: 20px;
+}
+
+table.leaderboard_step button
+{
+	margin: 5px 0px;
+	width: 150px;
+}
+
+table.leaderboard_step input
+{
+	margin: 5px 0px;
+	width: 145px;
+}
+
+table.leaderboard_features span#body-leaderboard p
+{
+	font-size: 15px;
+	text-align: center;
+	margin: 0px 0px 10px 0px;
+}
+
+table.leaderboard_features p.leaderboard_note
+{
+	text-align: center;
+}
+
+table.leaderboard_step td.large_buttons button
+{
+	margin: 5px 15px;
+	width: 250px;
+}
+
+table.leaderboard_features span#body-leaderboard table
+{
+	margin: 10px auto;
+}
+
+table.leaderboard_features span#body-leaderboard td
+{
+	border-color: #999999;
+	border-style: groove;
+	border-width: 2px;
+	text-align: center;
+	padding: 5px;
+}
+
+table.leaderboard_features span#body-leaderboard td.col_a
+{
+	width: 150px;
+}
+
+table.leaderboard_features span#body-leaderboard td.col_b
+{
+    word-break: break-all;
+	word-wrap: break-word;
+	width: 480px;
+}
+
+table.leaderboard_features span#body-leaderboard td p
+{
+	text-align: center;
+	margin: 0px;
+}
+
+table.leaderboard_features span#body-leaderboard td.title
+{
+	background-color: #111111;
+	color: #FCD504;
+}
