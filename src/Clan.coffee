@@ -46,12 +46,11 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 					if res.error then cb new ClanError res.status, res.body
 					else cb null, res.body, true
 
-	echo: (cb)->
-		agent
-		.get '/echo/index.html'
-		.use prefixer
-		.end (err, res)->
-			cb(err)
+	resumeSession: (gamer_id, gamer_secret, cb)->
+		@login "anonymous", gamer_id, gamer_secret, {preventRegistration :true}, cb
+
+	loginWithShortCode: (shortcode, cb)->
+		@login "restore", "", shortcode, {preventRegistration :true}, cb
 
 	runBatch: (domain, batchName, params, cb)->
 		agent
@@ -71,7 +70,23 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 	indexes: (domain='private')->
 		require('./indexes.coffee')(appCredentials, domain)
 
-
+	# the mailBody will be parsed to replace occurences of [[SHORTCODE]] by actual shortcode
+	sendResetMailPassword: ( userEmail, mailSender, mailTitle, mailBody, cb)->
+		body = 
+			from: mailSender
+			title: mailTitle
+			body: mailBody
+		agent
+		.get "/v1/login/#{userEmail}"
+		.use prefixer
+		.set appCredentials
+		.send body
+		.end (err, res)->
+			if err? then cb(err)
+			else
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body
+		
 	withGamer: (gamer)->
 		creds = this.createGamerCredentials gamer
 

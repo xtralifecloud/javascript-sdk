@@ -108,8 +108,13 @@ module.exports =  (appCredentials, gamerCred, domain)->
 			if err? then return cb(err)
 			if res.error then cb new ClanError res.status, res.body else cb null, res.body
 
+	move: (matchID, lastEventID, move, osn, cb)->
+		if typeof osn is "function" # keep compatibility with previous version
+			cb = osn
+			osn = null
+		if osn?
+			move.osn = osn
 
-	move: (matchID, lastEventID, move, cb)->
 		agent
 		.post "/v1/gamer/matches/#{matchID}/move?lastEventId=#{lastEventID}"
 		.use prefixer

@@ -48,9 +48,20 @@ describe 'Clan JS client', ->
 		Clan.withGamer(_gamer).logout (err)->
 			should(err).be.eql(null)
 			done()
+	
+	it 'should allow to login with email', (done)->
+		Clan.login 'email', "devteam@xtralife.cloud", "yourpassword", (err, gamer)->
+			gamer.should.have.property('gamer_id')
+			gamer.should.have.property('gamer_secret')
+			done()
+
+	it 'sould reset email password', (done)->
+		body = "Use this code [[SHORTCODE]] to reset your password !"
+		Clan.sendResetMailPassword "devteam@xtralife.cloud", "admin@xtralife.cloud", "reset your password", body, (err, res)->
+			should(err).be.undefined
+			done()
 
 	it 'should not allow log in with wrong credentials', (done)->
-
 		Clan.login 'anonymous', dataset.gamer_id, 'wrong a1b399f71c868faf0848c959ac6b290b6169750d', (err, gamer)->
 			should(gamer).be.undefined
 			err.should.have.property('status')
@@ -58,11 +69,9 @@ describe 'Clan JS client', ->
 			err.response.body.message.should.eql('Invalid user credentials')
 			done()
 
-	it 'should not allow log in with wrong credentials', (done)->
-
+	it 'should not allow log in with wrong FB token', (done)->
 		Clan.login 'facebook', 'any will do', 'wrong FB token', (err, gamer)->
 			should(gamer).be.undefined
-
 			err.should.have.property('status')
 			err.status.should.eql(401)
 			err.response.body.message.should.eql('The received login token is invalid')
@@ -76,7 +85,6 @@ describe 'Clan JS client', ->
 			done()
 
 	it 'should allow conversion of anonymous to email', (done)->
-
 		Clan.login null, (err, gamer)->
 			gamerCred = Clan.createGamerCredentials(gamer)
 			mail = "test" + Math.random() + "@localhost.localdomain"
