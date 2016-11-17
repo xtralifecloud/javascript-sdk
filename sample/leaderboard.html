@@ -15,16 +15,37 @@
 		<link href="css/footer.css" rel="stylesheet" type="text/css" />
 		
 		<script src="js/bundle.min.js" type="text/javascript"></script>
-		<script src="js/cloudbuilder.js" type="text/javascript"></script>
+		<script src="js/sample.js" type="text/javascript"></script>
 		<script src="js/storagemanager.js" type="text/javascript"></script>
 		<script src="js/console.js" type="text/javascript"></script>
 	</head>
 	
 	<body>
-		<?php $currentPage = "leaderboard"; include("header.php"); ?>
+		<div class="header">
+			<table>
+				<tr>
+					<td class="header-xtralife_logo">
+						<a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
+					</td>
+					<td class="header-navigation_menu">
+						<ul class="navigation_links">
+							<li><a href="./index.html">Home</a></li>
+							<li><a href="./login.html">Login</a></li>
+							<li><a href="./vfs.html">VFS</a></li>
+							<li class="currentPage">Leaderboard</li>
+						</ul>
+					</td>
+					<td class="header-title">
+						<h1>JS XtraLife SDK Sample</h1>
+						<p id="header-login"></p>
+					</td>
+				</tr>
+			</table>
+			<p id="header-credentials"></p>
+		</div>
 		<div class="content">
 			<h1>Leaderboard features</h1>
-			<p>First of all, to use most of the SDK features you'll need to be <a href="./login.php">logged in</a> as a gamer... Don't forget to check the console for actions feedback!</p>
+			<p>First of all, to use most of the SDK features you'll need to be <a href="./login.html">logged in</a> as a gamer... Don't forget to check the console for actions feedback!</p>
 			<table class="content_table leaderboard_features">
 				<tr>
 					<td>
@@ -34,7 +55,7 @@
 							<table class="leaderboard_step">
 								<tr>
 									<td>
-										<button type="button" onclick="cloudBuilder.LeaderboardSet(GetLeaderboardSetOrder(), document.getElementById('leaderboardSetBoard').value, document.getElementById('leaderboardSetScoreValue').value, document.getElementById('leaderboardSetScoreInfo').value)">Post New Score -></button>
+										<button type="button" onclick="sample.LeaderboardSet(GetLeaderboardSetOrder(), document.getElementById('leaderboardSetBoard').value, document.getElementById('leaderboardSetScoreValue').value, document.getElementById('leaderboardSetScoreInfo').value)">Post New Score -></button>
 									</td>
 									<td class="radios">
 										<input type="radio" name="leaderboardSetOrder" value="lowtohigh" />LowToHigh
@@ -62,7 +83,7 @@
 								</tr>
 								<tr>
 									<td colspan="4" class="large_buttons">
-										<button type="button" onclick="cloudBuilder.LeaderboardGet()">Get All Gamer's Best Scores</button>
+										<button type="button" onclick="sample.LeaderboardGet()">Get All Gamer's Best Scores</button>
 									</td>
 								</tr>
 								<tr>
@@ -72,7 +93,7 @@
 								</tr>
 								<tr>
 									<td>
-										<button type="button" onclick="cloudBuilder.LeaderboardGetPaged(document.getElementById('leaderboardGetPagedBoard').value, document.getElementById('leaderboardGetPagedPage').value, document.getElementById('leaderboardGetPagedCount').value)">Get Paged Scores -></button>
+										<button type="button" onclick="sample.LeaderboardGetPaged(document.getElementById('leaderboardGetPagedBoard').value, document.getElementById('leaderboardGetPagedPage').value, document.getElementById('leaderboardGetPagedCount').value)">Get Paged Scores -></button>
 									</td>
 									<td>
 										<input type="text" id="leaderboardGetPagedBoard" name="leaderboardGetPagedBoard" value="[Board Name]" />
@@ -103,18 +124,37 @@
 					</td>
 				</tr>
 			</table>
-			<?php include("console.php"); ?>
+			<div class="console-container">
+				<h1>Sample Console</h1>
+				<p id="console"></p>
+			</div>
 		</div>
-		<?php include("footer.php"); ?>
+		<div class="footer">
+			<table>
+				<tr>
+					<td class="footer-xtralife_logo">
+						<a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
+					</td>
+					<td class="footer-text">
+						<p><a href="http://xtralife.cloud" target="_blank">XtraLife.cloud</a></p>
+					</td>
+					<td class="footer-social_logos">
+						<a href="https://www.facebook.com/xtralifecloud" target="_blank"><img src="img/logo-facebook.png" alt="[Logo Facebook]" /></a>
+						<a href="https://twitter.com/xtralifecloud" target="_blank"><img src="img/logo-twitter.png" alt="[Logo Twitter]" /></a>
+						<a href="https://www.linkedin.com/company/xtra-life" target="_blank"><img src="img/logo-linkedin.png" alt="[Logo LinkedIn]" /></a>
+					</td>
+				</tr>
+			</table>
+		</div>
 		
 		<script type="text/javascript">
 		  <!--
 			CheckCredentials();
 			
 			var storageManager = new StorageManager();
-			var cloudBuilder = new CloudBuilder(storageManager);
+			var sample = new Sample(storageManager);
 			
-			cloudBuilder.LoggedInCheck();
+			sample.LoggedInCheck();
 			
 			function GetLeaderboardSetOrder()
 			{

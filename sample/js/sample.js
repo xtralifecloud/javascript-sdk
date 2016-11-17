@@ -1,19 +1,19 @@
 // Those are the Api Key and Secret of your game, use your own keys provided when registering!
-var YourGameApiKey = "[YourApiKey]";
-var YourGameApiSecret = "[YourApiSecret]";
+var YourGameApiKey = "YourGameApiKey";
+var YourGameApiSecret = "YourGameApiSecret";
 
 function CheckCredentials()
 {
-	if ((YourGameApiKey == "[YourApiKey]") || (YourGameApiSecret == "[YourApiSecret]"))
-		document.getElementById("header-credentials").innerHTML = "Please change the default Api Key and Secret variables in <b>\"cloudbuilder.js\"</b> by your game's ones (provided on your frontoffice).";
+	if ((YourGameApiKey == "YourGameApiKey") || (YourGameApiSecret == "YourGameApiSecret"))
+		document.getElementById("header-credentials").innerHTML = "Please change the default Api Key and Secret variables in <b>\"sample.js\"</b> by your game's ones (provided on your frontoffice).";
 }
 
-/* ---------------------------------------- */
-/* ---------- Cloudbuilder Setup ---------- */
-/* ---------------------------------------- */
+/* ---------------------------------- */
+/* ---------- Sample Setup ---------- */
+/* ---------------------------------- */
 
-// This is our CloudBuilder constructor to handle all data relative to the SDK
-function CloudBuilder(storageManager, autoLoginAnonymously = false)
+// This is our Sample constructor to handle all data relative to the SDK
+function Sample(storageManager, autoLoginAnonymously)
 {
 	this.storageManager = storageManager;
 	this.Setup(autoLoginAnonymously);
@@ -22,18 +22,21 @@ function CloudBuilder(storageManager, autoLoginAnonymously = false)
 }
 
 // Initialize an instance of the Clan with the API credentials (testgame-apikey, testgame-secret)
-CloudBuilder.prototype.Setup = function(autoLoginAnonymously)
+Sample.prototype.Setup = function(autoLoginAnonymously)
 {
 	// Initialize our client with the APIKEY and APISECRET of the game
 	this.clan = Clan(YourGameApiKey, YourGameApiSecret);
-	this.gamerData = this.storageManager.GetData("gamer");
+	
+	// Retrieve the current logged in gamer's data if any
+	if (this.storageManager.GetData("gamer"))
+		this.gamerData = JSON.parse(this.storageManager.GetData("gamer"));
 	
 	// You may add an auto-login logic here if you want to ensure a gamer is logged in:
 	if (autoLoginAnonymously)
 	{
 		// We need to log in if not done already
 		if (this.gamerData)
-			ConsoleLog("[AutoLogin] Using last login gamer data: " + this.gamerData);
+			ConsoleLog("[AutoLogin] Using last login gamer data: " + JSON.stringify(this.gamerData));
 		else
 		{
 			ConsoleLog("[AutoLogin] No last login gamer data found, LoginAnonymously...");
@@ -47,36 +50,32 @@ CloudBuilder.prototype.Setup = function(autoLoginAnonymously)
 /* ------------------------------------ */
 
 // Updates a header HTML tag to show if a gamer data exists (logged in) or not
-CloudBuilder.prototype.LoggedInHeaderDisplay = function()
+Sample.prototype.LoggedInHeaderDisplay = function()
 {
 	var headerLoginStatus = document.getElementById("header-login");
 	
 	if (this.gamerData)
-	{
-		gamer = JSON.parse(this.gamerData);
-		headerLoginStatus.innerHTML = "(gamerID: " + gamer.gamer_id + ")";
-	}
+		headerLoginStatus.innerHTML = "(gamerID: " + this.gamerData.gamer_id + ")";
 	else
-		headerLoginStatus.innerHTML = "(currently logged out, please <a href=\"./login.php\">log in</a>)";
+		headerLoginStatus.innerHTML = "(currently logged out, please <a href=\"./login.html\">log in</a>)";
 }
 
 // Updates a body HTML tag to show if a gamer data exists (logged in) or not
-CloudBuilder.prototype.LoggedInBodyDisplay = function()
+Sample.prototype.LoggedInBodyDisplay = function()
 {
 	var bodyLoginStatus = document.getElementById("body-login");
 	
 	if (this.gamerData)
 	{
-		gamer = JSON.parse(this.gamerData);
 		var loginIcon = "";
 		
-		if (gamer.network == "anonymous")
+		if (this.gamerData.network == "anonymous")
 			loginIcon = "<img src=\"img/logomini-xtralife.png\" alt=\"[LogoMini XtraLife]\" />";
-		else if (gamer.network == "facebook")
+		else if (this.gamerData.network == "facebook")
 			loginIcon = "<img src=\"img/logomini-facebook.png\" alt=\"[LogoMini Facebook]\" />";
 		
 		if (bodyLoginStatus)
-			bodyLoginStatus.innerHTML = "Currently logged in (gamerID: " + gamer.gamer_id + ") with " + loginIcon + " '" + gamer.network + "' network type.";
+			bodyLoginStatus.innerHTML = "Currently logged in (gamerID: " + this.gamerData.gamer_id + ") with " + loginIcon + " '" + this.gamerData.network + "' network type.";
 	}
 	else if (bodyLoginStatus)
 	{
@@ -86,19 +85,16 @@ CloudBuilder.prototype.LoggedInBodyDisplay = function()
 }
 
 // Updates a HTML tag to show if a gamer data exists (logged in) or not
-CloudBuilder.prototype.LoggedInCheck = function()
+Sample.prototype.LoggedInCheck = function()
 {
 	if (this.gamerData)
-	{
-		gamer = JSON.parse(this.gamerData);
-		ConsoleLog("Currently logged in (gamerID: " + gamer.gamer_id + ") with '" + gamer.network + "' network type, gamer data:<br />" + this.gamerData);
-	}
+		ConsoleLog("Currently logged in (gamerID: " + this.gamerData.gamer_id + ") with '" + this.gamerData.network + "' network type, gamer data:<br />" + JSON.stringify(this.gamerData));
 	else
 		ConsoleLog("Currently logged out");
 }
 
 // What to do after login result
-CloudBuilder.prototype.LoginDone = function(error, gamer)
+Sample.prototype.LoginDone = function(error, gamer)
 {
 	// This is the callback we use to call after we get login results in this sample
 	// Just do what you please here; Show a welcome message, load more gamer data, redirect to another page...
@@ -109,16 +105,15 @@ CloudBuilder.prototype.LoginDone = function(error, gamer)
 }
 
 // Triggers an anonymous login (without credentials)
-CloudBuilder.prototype.LoginAnonymously = function(whenDone)
+Sample.prototype.LoginAnonymously = function(whenDone)
 {
 	this.clan.login(null, function(error, gamer)
 	{
 		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 		if (!error)
 		{
-			var gamerJson = JSON.stringify(gamer);
-			this.gamerData = gamerJson;
-			this.storageManager.SetData("gamer", gamerJson);
+			this.gamerData = gamer;
+			this.storageManager.SetData("gamer", JSON.stringify(gamer));
 		}
 		
 		this.LoggedInHeaderDisplay();
@@ -132,25 +127,24 @@ CloudBuilder.prototype.LoginAnonymously = function(whenDone)
 };
 
 // Triggers a facebook login (without credentials)
-CloudBuilder.prototype.LoginFacebook = function(whenDone)
+Sample.prototype.LoginFacebook = function(whenDone)
 {
 	var self = this;
 	
-	// Login into Facebook and CotC's Facebook App
+	// Login into Facebook and XtraLife's Facebook App
 	facebook.FacebookAppLogin(function(facebookAccessToken)
 	{
-		// Login into CotC with Facebook token once logged in into Facebook and CotC's Facebook App
+		// Login into XtraLife with Facebook token once logged in into Facebook and XtraLife's Facebook App
 		if (facebookAccessToken)
 		{
-			// We use access token from Facebook login to log into CotC
+			// We use access token from Facebook login to log into XtraLife
 			self.clan.login("facebook", "", facebookAccessToken, function(error, gamer)
 			{
 				// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 				if (!error)
 				{
-					var gamerJson = JSON.stringify(gamer);
-					self.gamerData = gamerJson;
-					self.storageManager.SetData("gamer", gamerJson);
+					self.gamerData = gamer;
+					self.storageManager.SetData("gamer", JSON.stringify(gamer));
 				}
 				
 				self.LoggedInHeaderDisplay();
@@ -163,22 +157,21 @@ CloudBuilder.prototype.LoginFacebook = function(whenDone)
 			}.bind(self));
 		}
 		else
-			ConsoleLog("Could not retrieve Facebook login token; User is probably not logged into Facebook or CotC's Facebook App");
+			ConsoleLog("Could not retrieve Facebook login token; User is probably not logged into Facebook or XtraLife's Facebook App");
 	});
 };
 
 // Triggers a login with credentials (gamerId and gamerSecret)
-CloudBuilder.prototype.LoginWithCredentials = function(gamerId, gamerSecret, whenDone)
+Sample.prototype.LoginWithCredentials = function(gamerId, gamerSecret, whenDone)
 {
-	// With credentials, the login network type have to be "anonymous", wether you want to log in with an Anonymous or a Facebook network type CotC account
+	// With credentials, the login network type have to be "anonymous", wether you want to log in with an Anonymous or a Facebook network type XtraLife account
 	this.clan.login("anonymous", gamerId, gamerSecret, function(error, gamer)
 	{
 		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 		if (!error)
 		{
-			var gamerJson = JSON.stringify(gamer);
-			this.gamerData = gamerJson;
-			this.storageManager.SetData("gamer", gamerJson);
+			this.gamerData = gamer;
+			this.storageManager.SetData("gamer", JSON.stringify(gamer));
 		}
 		
 		this.LoggedInHeaderDisplay();
@@ -192,21 +185,18 @@ CloudBuilder.prototype.LoginWithCredentials = function(gamerId, gamerSecret, whe
 };
 
 // Logout current logged in gamer by deleting his login data
-CloudBuilder.prototype.Logout = function()
+Sample.prototype.Logout = function()
 {
 	if (this.gamerData)
 	{
-		// We'll use the Json object gamer data format
-		var gamer = JSON.parse(this.gamerData);
-		
 		// You may call this logout method too, but this is not mandatory
-		this.clan.withGamer(gamer).logout(function(error, result)
+		this.clan.withGamer(this.gamerData).logout(function(error, result)
 		{
 			if (error)
 				ConsoleLog("Logout error: " + error);
 		});
 		
-		// Delete the gamerData in our cloudbuilder to consider we are logged out
+		// Delete the gamerData in our sample to consider we are logged out
 		this.gamerData = null;
 		this.storageManager.DeleteData("gamer");
 		this.LoggedInHeaderDisplay();
@@ -222,7 +212,7 @@ CloudBuilder.prototype.Logout = function()
 /* -------------------------------------------------------- */
 
 // An helper to display VFS results as a text
-CloudBuilder.prototype.VfsTextDisplay = function(container, text)
+Sample.prototype.VfsTextDisplay = function(container, text)
 {
 	if (container)
 	{
@@ -232,7 +222,7 @@ CloudBuilder.prototype.VfsTextDisplay = function(container, text)
 }
 
 // An helper to display VFS key values as a table
-CloudBuilder.prototype.VfsTableDisplay = function(container, keyValues)
+Sample.prototype.VfsTableDisplay = function(container, keyValues)
 {
 	if (container)
 	{
@@ -254,16 +244,13 @@ CloudBuilder.prototype.VfsTableDisplay = function(container, keyValues)
 }
 
 // Set a gamer VFS key with given value (can handle any standard var type, including Json objets, but we use only strings in this sample)
-CloudBuilder.prototype.GamerVfsSet = function(gamerVfsSetKey, gamerVfsSetValue)
+Sample.prototype.GamerVfsSet = function(gamerVfsSetKey, gamerVfsSetValue)
 {
 	var self = this;
 	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs");
 	
 	if (this.gamerData)
 	{
-		// We'll use the Json object gamer data format
-		var gamer = JSON.parse(this.gamerData);
-		
 		// Domains are used to scope gamer data
 		// The private domain is specific to the current game while shared domains allow a gamer to share the same VFS keys in all games sharing those respective domains
 		// this.clan.privateDomain is the equivalent of the "private" string and is the default value if no domain is specified
@@ -272,7 +259,7 @@ CloudBuilder.prototype.GamerVfsSet = function(gamerVfsSetKey, gamerVfsSetValue)
 		// The value field may be of any standard type or under Json object format
 		// (e.g. Key: Profile / Value: {"Name":"John", "Surname":"Doe", "Age":21})
 		// (e.g. Key: LastSearch / Value: Cookies)
-		this.clan.withGamer(gamer).gamervfs(vfsDomain).set(gamerVfsSetKey, gamerVfsSetValue, function(error, result)
+		this.clan.withGamer(this.gamerData).gamervfs(vfsDomain).set(gamerVfsSetKey, gamerVfsSetValue, function(error, result)
 		{
 			// If the operation went wrong for some reason
 			if (error)
@@ -300,23 +287,20 @@ CloudBuilder.prototype.GamerVfsSet = function(gamerVfsSetKey, gamerVfsSetValue)
 }
 
 // Get a gamer VFS key value
-CloudBuilder.prototype.GamerVfsGet = function(gamerVfsGetKey)
+Sample.prototype.GamerVfsGet = function(gamerVfsGetKey)
 {
 	var self = this;
 	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs");
 	
 	if (this.gamerData)
 	{
-		// We'll use the Json object gamer data format
-		var gamer = JSON.parse(this.gamerData);
-		
 		// Domains are used to scope gamer data
 		// The private domain is specific to the current game while shared domains allow a gamer to share the same VFS keys in all games sharing those respective domains
 		// this.clan.privateDomain is the equivalent of the "private" string and is the default value if no domain is specified
 		var vfsDomain = this.clan.privateDomain;
 		
 		// An empty key field will get all existing keys instead of a specified one
-		this.clan.withGamer(gamer).gamervfs(vfsDomain).get(gamerVfsGetKey, function(error, result)
+		this.clan.withGamer(this.gamerData).gamervfs(vfsDomain).get(gamerVfsGetKey, function(error, result)
 		{
 			// If the operation went wrong for some reason
 			if (error)
@@ -352,23 +336,20 @@ CloudBuilder.prototype.GamerVfsGet = function(gamerVfsGetKey)
 }
 
 // Delete a gamer VFS key
-CloudBuilder.prototype.GamerVfsDelete = function(gamerVfsDeleteKey)
+Sample.prototype.GamerVfsDelete = function(gamerVfsDeleteKey)
 {
 	var self = this;
 	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs");
 	
 	if (this.gamerData)
 	{
-		// We'll use the Json object gamer data format
-		var gamer = JSON.parse(this.gamerData);
-		
 		// Domains are used to scope gamer data
 		// The private domain is specific to the current game while shared domains allow a gamer to share the same VFS keys in all games sharing those respective domains
 		// this.clan.privateDomain is the equivalent of the "private" string and is the default value if no domain is specified
 		var vfsDomain = this.clan.privateDomain;
 		
 		// An empty key field will delete all existing keys instead of a specified one, so double check this!
-		this.clan.withGamer(gamer).gamervfs(vfsDomain).del(gamerVfsDeleteKey, function(error, result)
+		this.clan.withGamer(this.gamerData).gamervfs(vfsDomain).del(gamerVfsDeleteKey, function(error, result)
 		{
 			// If the operation went wrong for some reason
 			if (error)
@@ -396,7 +377,7 @@ CloudBuilder.prototype.GamerVfsDelete = function(gamerVfsDeleteKey)
 }
 
 // Get a game VFS key value
-CloudBuilder.prototype.GameVfsGet = function(gameVfsGetKey)
+Sample.prototype.GameVfsGet = function(gameVfsGetKey)
 {
 	var self = this;
 	var bodyGameVfsStatus = document.getElementById("body-game-vfs");
@@ -439,7 +420,7 @@ CloudBuilder.prototype.GameVfsGet = function(gameVfsGetKey)
 /* ------------------------------------------ */
 
 // An helper to display leaderboard results as a text
-CloudBuilder.prototype.LeaderboardTextDisplay = function(container, text)
+Sample.prototype.LeaderboardTextDisplay = function(container, text)
 {
 	if (container)
 	{
@@ -449,7 +430,7 @@ CloudBuilder.prototype.LeaderboardTextDisplay = function(container, text)
 }
 
 // An helper to display leaderboard scores as a table
-CloudBuilder.prototype.LeaderboardTableDisplay = function(container, leaderboards)
+Sample.prototype.LeaderboardTableDisplay = function(container, leaderboards)
 {
 	if (container)
 	{
@@ -471,7 +452,7 @@ CloudBuilder.prototype.LeaderboardTableDisplay = function(container, leaderboard
 }
 
 // An helper to display leaderboard scores as a paged table
-CloudBuilder.prototype.LeaderboardTablePagedDisplay = function(container, boardName, boardScores, scoresAmount)
+Sample.prototype.LeaderboardTablePagedDisplay = function(container, boardName, boardScores, scoresAmount)
 {
 	if (container)
 	{
@@ -495,16 +476,13 @@ CloudBuilder.prototype.LeaderboardTablePagedDisplay = function(container, boardN
 }
 
 // Set a gamer score with given value on given board
-CloudBuilder.prototype.LeaderboardSet = function(boardSortOrder, boardName, scoreValue, scoreInfo)
+Sample.prototype.LeaderboardSet = function(boardSortOrder, boardName, scoreValue, scoreInfo)
 {
 	var self = this;
 	var bodyLeaderboardStatus = document.getElementById("body-leaderboard");
 	
 	if (this.gamerData)
 	{
-		// We'll use the Json object gamer data format
-		var gamer = JSON.parse(this.gamerData);
-		
 		// Domains are used to scope gamer data
 		// The private domain is specific to the current game while shared domains allow games to share data between them across those respective domains
 		// this.clan.privateDomain is the equivalent of the "private" string and is the default value if no domain is specified
@@ -518,7 +496,7 @@ CloudBuilder.prototype.LeaderboardSet = function(boardSortOrder, boardName, scor
 		// The score value may be any number (in this sample, we convert this value into a Number as we get it from a string input field)
 		// The score description is a short text or a Json object you may want to attach to the posted score
 		// (e.g. {"Level":15, "UsedBoosters":0})
-		this.clan.withGamer(gamer).leaderboards(leaderboardDomain).set(boardName, boardSortOrder, scoreObject, function(error, result)
+		this.clan.withGamer(this.gamerData).leaderboards(leaderboardDomain).set(boardName, boardSortOrder, scoreObject, function(error, result)
 		{
 			// If the operation went wrong for some reason
 			if (error)
@@ -546,22 +524,19 @@ CloudBuilder.prototype.LeaderboardSet = function(boardSortOrder, boardName, scor
 }
 
 // Get gamer's best score for each board in which he posted at least one score
-CloudBuilder.prototype.LeaderboardGet = function()
+Sample.prototype.LeaderboardGet = function()
 {
 	var self = this;
 	var bodyLeaderboardStatus = document.getElementById("body-leaderboard");
 	
 	if (this.gamerData)
 	{
-		// We'll use the Json object gamer data format
-		var gamer = JSON.parse(this.gamerData);
-		
 		// Domains are used to scope gamer data
 		// The private domain is specific to the current game while shared domains allow games to share data between them across those respective domains
 		// this.clan.privateDomain is the equivalent of the "private" string and is the default value if no domain is specified
 		var leaderboardDomain = this.clan.privateDomain;
 		
-		this.clan.withGamer(gamer).leaderboards(leaderboardDomain).get(function(error, result)
+		this.clan.withGamer(this.gamerData).leaderboards(leaderboardDomain).get(function(error, result)
 		{
 			// If the operation went wrong for some reason
 			if (error)
@@ -589,16 +564,13 @@ CloudBuilder.prototype.LeaderboardGet = function()
 }
 
 // Get specific board scores on a given page
-CloudBuilder.prototype.LeaderboardGetPaged = function(boardName, pageNumber, scoresAmount)
+Sample.prototype.LeaderboardGetPaged = function(boardName, pageNumber, scoresAmount)
 {
 	var self = this;
 	var bodyLeaderboardStatus = document.getElementById("body-leaderboard");
 	
 	if (this.gamerData)
 	{
-		// We'll use the Json object gamer data format
-		var gamer = JSON.parse(this.gamerData);
-		
 		// Domains are used to scope gamer data
 		// The private domain is specific to the current game while shared domains allow games to share data between them across those respective domains
 		// this.clan.privateDomain is the equivalent of the "private" string and is the default value if no domain is specified
@@ -606,7 +578,7 @@ CloudBuilder.prototype.LeaderboardGetPaged = function(boardName, pageNumber, sco
 		
 		// The first page is number 1 (not 0)
 		// This request's result gives several infos, including the max number of pages for given board and scores amount to help you paging the results
-		this.clan.withGamer(gamer).leaderboards(leaderboardDomain).getHighscores(boardName, Number(pageNumber), Number(scoresAmount), function(error, result)
+		this.clan.withGamer(this.gamerData).leaderboards(leaderboardDomain).getHighscores(boardName, Number(pageNumber), Number(scoresAmount), function(error, result)
 		{
 			// If the operation went wrong for some reason
 			if (error)
