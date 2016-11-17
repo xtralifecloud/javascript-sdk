@@ -65,14 +65,14 @@ Facebook.prototype.StatusChangeCallback = function(response)
 	if (response.status === "connected")
 	{
 		// Logged into your app and Facebook.
-		ConsoleLog("[Facebook] Logged into Facebook and Facebook CotC's app");
+		ConsoleLog("[Facebook] Logged into Facebook and Facebook XtraLife's app");
 		facebook.TestAPI();
 		return response.authResponse.accessToken;
 	}
 	else if (response.status === "not_authorized")
 	{
 		// The person is logged into Facebook, but not your app.
-		ConsoleLog("[Facebook] Logged into Facebook but not logged into Facebook CotC's app");
+		ConsoleLog("[Facebook] Logged into Facebook but not logged into Facebook XtraLife's app");
 		return null;
 	}
 	else
@@ -94,10 +94,10 @@ Facebook.prototype.TestAPI = function()
 	});
 }
 
-// Login into Facebook and Facebook CotC's app (when user click on a "Facebook Login" button e.g.)
+// Login into Facebook and Facebook XtraLife's app (when user click on a "Facebook Login" button e.g.)
 Facebook.prototype.FacebookAppLogin = function(AfterLogin)
 {
-	// Check if an user is already logged into Facebook and Facebook CotC's app
+	// Check if an user is already logged into Facebook and Facebook XtraLife's app
 	facebook.CheckLoginState(function(facebookAccessToken)
 	{
 		// If not logged in, ask the user to log into Facebook
