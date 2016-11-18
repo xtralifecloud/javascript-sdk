@@ -16,6 +16,7 @@
 		
 		<script src="js/bundle.min.js" type="text/javascript"></script>
 		<script src="js/sample.js" type="text/javascript"></script>
+		<script src="js/sample-login.js" type="text/javascript"></script>
 		<script src="js/storagemanager.js" type="text/javascript"></script>
 		<script src="js/facebook.js" type="text/javascript"></script>
 		<script src="js/console.js" type="text/javascript"></script>
@@ -34,6 +35,7 @@
 							<li class="currentPage">Login</li>
 							<li><a href="./vfs.html">VFS</a></li>
 							<li><a href="./leaderboard.html">Leaderboard</a></li>
+							<li><a href="./match.html">Match</a></li>
 						</ul>
 					</td>
 					<td class="header-title">
@@ -57,13 +59,18 @@
 								<tr>
 									<td>
 										<button type="button" onclick="sample.LoginAnonymously(sample.LoginDone)"><img src="img/logomini-xtralife.png" alt="[LogoMini XtraLife]" />New Anonymous Login</button>
-										<button onclick="sample.LoginFacebook(sample.LoginDone)"><img src="img/logomini-facebook.png" alt="[LogoMini Facebook]" />Login with Facebook</button>
+										<button onclick="sample.LoginFacebook(sample.LoginDone)"><img src="img/logomini-facebook.png" alt="[LogoMini Facebook]" />Login With Facebook</button>
 									</td>
 									<td>
 										<button type="button" onclick="sample.LoggedInCheck()">Check XtraLife Login Status</button>
 									</td>
 									<td>
 										<button type="button" onclick="sample.Logout()">Logout (Delete Gamer Cache)</button>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3">
+										<p class="login_note"><u>Note for Facebook Login:</u> You will need an up and running server on the "localhost" domain to make it work.</p>
 									</td>
 								</tr>
 							</table>

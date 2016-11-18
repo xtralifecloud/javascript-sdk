@@ -1,0 +1,86 @@
+﻿table.match_features
+{
+	width: 900px;
+}
+
+table.match_step
+{
+	margin: 10px auto;
+}
+
+table.match_step td
+{
+	padding: 0px 5px;
+	width: 280px;
+}
+
+table.match_step td.checkboxes
+{
+	text-align: left;
+}
+
+table.match_step td.checkboxes input
+{
+	margin: 5px;
+	width: 20px;
+}
+
+table.match_step input
+{
+	width: 250px;
+}
+
+table.match_features span#body-match-create p,
+table.match_features span#body-match-list p,
+table.match_features span#body-match-join p,
+table.match_features span#body-match-invite p,
+table.match_features span#body-match-finish p,
+table.match_features span#body-match-move p
+{
+	font-size: 15px;
+	text-align: center;
+	margin: 0px 0px 10px 0px;
+}
+
+table.match_features p.match_note
+{
+	text-align: center;
+}
+
+table.match_features span#body-match-list table
+{
+	margin: 10px auto;
+}
+
+table.match_features span#body-match-list td
+{
+	border-color: #999999;
+	border-style: groove;
+	border-width: 2px;
+	text-align: center;
+	padding: 5px;
+    word-break: break-all;
+	word-wrap: break-word;
+}
+
+table.match_features span#body-match-list td.col_a
+{
+	width: 250px;
+}
+
+table.match_features span#body-match-list td.col_b
+{
+	width: 550px;
+}
+
+table.match_features span#body-match-list td p
+{
+	text-align: center;
+	margin: 0px;
+}
+
+table.match_features span#body-match-list td.title
+{
+	background-color: #111111;
+	color: #FCD504;
+}

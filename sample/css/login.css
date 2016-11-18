@@ -15,6 +15,11 @@ table.login_features p#body-login
 	margin: 0px;
 }
 
+table.login_features p.login_note
+{
+	text-align: center;
+}
+
 table.login_features p#body-login img
 {
 	height: 20px;

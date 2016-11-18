@@ -56,6 +56,8 @@ table.leaderboard_features span#body-leaderboard td
 	border-width: 2px;
 	text-align: center;
 	padding: 5px;
+    word-break: break-all;
+	word-wrap: break-word;
 }
 
 table.leaderboard_features span#body-leaderboard td.col_a
@@ -65,8 +67,6 @@ table.leaderboard_features span#body-leaderboard td.col_a
 
 table.leaderboard_features span#body-leaderboard td.col_b
 {
-    word-break: break-all;
-	word-wrap: break-word;
 	width: 480px;
 }
 
