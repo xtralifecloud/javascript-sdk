@@ -17,7 +17,9 @@ You can read more about concepts and data model on [API Wiki](https://github.com
 After cloning this repository, you can use `npm install` to grab dependencies (with node.js installed).
 Coffee-script sources live in `/src` while the compiled JS is in `/lib`.
 
-`npm run compile` will compile the Coffee-script sources to `/lib/bundle.js` and `/lib/bundle.min.js`
+`npm run build:browser` will compile the Coffee-script sources to `/lib/bundle.js` and `/lib/bundle.min.js`
+
+`npm run build:node` builds the node version of the module.
 
 ## Use in a Web browser
 
