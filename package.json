@@ -1,6 +1,6 @@
 {
   "name": "xtralife-js-client",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Simple javascript client for Xtralife gaming backend",
   "main": "lib/bundle.js",
   "scripts": {
