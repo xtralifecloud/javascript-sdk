@@ -10,7 +10,7 @@ _gamer = null
 describe 'Clan JS client', ->
 
 	before 'setup', (done)->
-		require('../src/endpoints.coffee').set 'sandbox'
+		#require('../src/endpoints.coffee').set 'sandbox'
 		done()
 
 	it 'should allow anonymous log in', (done)->

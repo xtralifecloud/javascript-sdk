@@ -19,10 +19,6 @@ Coffee-script sources live in `/src` while the compiled JS is in `/lib`.
 
 `npm run compile` will compile the Coffee-script sources to `/lib/bundle.js` and `/lib/bundle.min.js`
 
-## Use from node.js
-
-The package is not published on the public npmjs.org repository yet.
-
 ## Use in a Web browser
 
 You need a single JS script, `/lib/bundle.js`, which inlines `superagent`, the only dependency.
@@ -48,9 +44,3 @@ for a basic example.
 
 - documentation for classes, usage, params and returned JSON... and errors too
 - package client and server lib separately
-- add support for achievements, godfather
-- support sandbox environment when it's upgraded to v2.8 (2.6 has no CORS support yet)
-- check HTTPS support on sandbox (currently uses DEV which is HTTP only)
-- allow setup of the environment (sandbox / production)
-- support failover load balancers
-- convert bench to new JS API... then remove them, they're for internal use only

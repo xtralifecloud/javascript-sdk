@@ -2,13 +2,11 @@
   "name": "xtralife-js-client",
   "version": "3.1.0",
   "description": "Simple javascript client for Xtralife gaming backend",
-  "main": "bundle.js",
+  "main": "lib/bundle.js",
   "scripts": {
     "test": "mocha test/*.coffee",
     "compile": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
-    "bench": "coffee bench/bench.coffee",
-    "benchScore": "coffee bench/benchScore.coffee",
-    "prepublish": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js"
+    "prepublish": "npm run compile"
   },
   "repository": {
     "type": "git",
