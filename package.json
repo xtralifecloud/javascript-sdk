@@ -34,5 +34,8 @@
     "uglify-js": "*",
     "http-server": "*"
   },
-  "readmeFilename": "Readme.md"
+  "readmeFilename": "Readme.md",
+  "files": [
+    "lib/bundle.js"
+  ]
 }
