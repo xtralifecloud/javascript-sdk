@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha test/*.coffee",
     "compile": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile",
+    "start": "http-server sample"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,8 @@
     "q": "*",
     "browserify": "*",
     "coffeeify": "*",
-    "uglify-js": "*"
+    "uglify-js": "*",
+    "http-server": "*"
   },
   "readmeFilename": "Readme.md"
 }
