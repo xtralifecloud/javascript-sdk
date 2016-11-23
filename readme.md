@@ -26,6 +26,13 @@ You need a single JS script, `/lib/bundle.js`, which inlines `superagent`, the o
 Then you can use the Clan class as a starting point. See [/lib/example.html](https://github.com/clanofthecloud/javascript-client/blob/master/lib/example.html)
 for a basic example.
 
+## Sample JS application
+
+The sample app resides in `./sample`. You can use `npm install` to install an HTTP server to serve
+the static assets, and `npm start` to start it.
+
+Then browse to [http://127.0.0.1:8080](http://127.0.0.1:8080).
+
 ## History
 
 - `2016/11/17` added :
