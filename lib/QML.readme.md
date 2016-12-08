@@ -1,6 +1,6 @@
 # Running in QML
 
-You need to modify bundle.js (or bundle.min.js) :
+You need to modify bundle.QML.js :
 
 As the first line, add :
 
@@ -20,4 +20,4 @@ And at the end of the file, add :
 function GetClan() { return window.Clan; }
 ```
 
-Now you can `import 'bundle.js' as Api;` and use `var Clan = Api.GetClan();` and use Clan normally.
+Now you can `import 'bundle.qml.js' as Api;` and use `var Clan = Api.GetClan();` and use Clan normally.

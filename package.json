@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha test/*.coffee",
     "build:browser": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
+    "build:QML": "browserify -t coffeeify --ig src/index.coffee > ./lib/bundle.qml.js",
     "build:node": "browserify --node -s xtralife -t coffeeify src/Clan.coffee > ./lib/xtralife.js",
     "prepublish": "npm run build:node",
     "start": "http-server sample"
