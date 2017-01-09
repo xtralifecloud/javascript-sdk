@@ -55,7 +55,7 @@
 					<td>
 						<fieldset>
 							<legend>Step 1 - Create a match</legend>
-							<p>The starting point should be a gamer (which is called creator) creating a match. Once done, you will end up with a match ID that you can keep for later use (check the console to get it). A creator is solely able to perform some administrative functions, such as deleting or finishing a match. When creating a match, the creator automatically becomes a player and joins the match (although he is able to leave it right away). Everyone is free to join the match, and leave it anytime. An event (or a notification for players who closed the game) is sent to every participating player whenever most actions happen (join, leave, finish, etc.). Once a match is created, it is a good idea to use indexes to make it quickly and easily searchable. While custom properties are indexed, the payload allows you to associate some additional data without indexing it.</p>
+							<p>The starting point should be a gamer (which is called creator) creating a match. Once done, you will end up with a match ID that you can keep for later use (check the console to get it). A creator is solely able to delete a match. When creating a match, the creator automatically becomes a player and joins the match (although he is able to leave it right away). Everyone is free to join the match, and leave it anytime. An event (or a notification for players who closed the game) is sent to every participating player whenever most actions happen (join, leave, finish, etc.). Once a match is created, it is a good idea to use indexes to make it quickly and easily searchable. While custom properties are indexed, the payload allows you to associate some additional data without indexing it.</p>
 							<table class="match_step">
 								<tr>
 									<td>
@@ -300,7 +300,7 @@
 					<td>
 						<fieldset>
 							<legend>Step 6 - Finish and delete a match</legend>
-							<p>The match creator (and only him) can decide to close a match by setting it in the "finish" state. This will prevent any further move or other actions for this match. The creator may also delete the match once it's finished, but that's not mandatory. You may also remove a match from the indexed searches (e.g. to hide a finished match from matches listing).</p>
+							<p>The match creator (and only him) can decide to delete a match, but any player can set it to the "finish" state. This will prevent any further move or other actions for this match. The creator may also delete the match once it's finished, but that's not mandatory. You may also remove a match from the indexed searches (e.g. to hide a finished match from matches listing).</p>
 							<table class="match_step">
 								<tr>
 									<td>
@@ -317,8 +317,7 @@
 								</tr>
 								<tr>
 									<td colspan="3">
-										<p class="match_note"><u>Note for Finish:</u> Only the match creator can finish it.
-										<br />Notification is under Json object format and contain messages you may
+										<p class="match_note"><u>Note for Finish:</u> Notification is under Json object format and contain messages you may
 										<br />want to pass to other participating players if they closed the game.
 										<br />(e.g. {"en":"Your match is finished!"})</p>
 									</td>
@@ -336,8 +335,7 @@
 								</tr>
 								<tr>
 									<td colspan="3">
-										<p class="match_note"><u>Note for Delete:</u> Only the match creator can delete it.
-										<br />A match needs to be finished before it can be deleted.</p>
+										<p class="match_note"><u>Note for Delete:</u> Only the match creator can delete a match.</p>
 									</td>
 								</tr>
 								<tr>
