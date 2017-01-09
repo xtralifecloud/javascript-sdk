@@ -1,15 +1,14 @@
 # Running in QML
 
-You need to modify bundle.QML.js :
+You need to modify `bundle.qml.js` :
 
 As the first line, add :
 
 ```
-var window = {
-    XMLHttpRequest: XMLHttpRequest, 
-};
+var window = { XMLHttpRequest: XMLHttpRequest };
 var setTimeout = function (fn, ms) {};
 var clearTimeout = function (timeout) {};
+function btoa(param) { return Qt.btoa(param); }
 ```
 
 This will disable request timeouts, because QML doesn't support `setTimeout`/`clearTimeout`.

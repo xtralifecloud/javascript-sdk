@@ -68,7 +68,7 @@ Sample.prototype.MatchCreate = function(customProperties, indexedProperties, ind
 				self.MatchTextDisplay(bodyMatchCreateStatus, resultMessageShort);
 				
 				// Then, we index the match to make it available for indexed searching
-				var properties = indexedProperties ? JSON.parse(indexedProperties) : null;
+				var properties = indexedProperties ? JSON.parse(indexedProperties) : {};
 				var payload = indexPayload ? JSON.parse(indexPayload) : null;
 				
 				self.clan.indexes(matchDomain).set("Matches", result.match._id, properties, payload, function(indexError, indexResult)
