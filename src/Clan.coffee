@@ -18,6 +18,17 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 	createGamerCredentials: (gamer)->
 		{gamer_id: gamer.gamer_id, gamer_secret: gamer.gamer_secret}
 
+	loginAnonymous: (options, cb)->
+		agent.post '/v1/login/anonymous'
+			.use prefixer
+			.send {options}
+			.set appCredentials
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.error
+					else cb null, res.body, true
+
 	login: (network, id, secret, options, cb)->
 		if typeof options is "function"
 			cb = options
@@ -86,7 +97,18 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 			else
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
-		
+
+	userExists: (network, id, cb)->
+		agent
+		.post '/v1/users/#{network}/#{encodeURIComponent(id)}'
+		.use prefixer
+		.set appCredentials
+		.end (err, res)->
+			if err? then cb(err)
+			else
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body		
+
 	withGamer: (gamer)->
 		creds = this.createGamerCredentials gamer
 
@@ -116,6 +138,12 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 
 		events: (domain='private')->
 			require('./event.coffee')(appCredentials, creds, domain)
+
+		achievements: (domain='private')->
+			require('./achievements.coffee')(appCredentials, creds, domain)
+
+		referral: (domain='private')->
+			require('./referral.coffee')(appCredentials, creds, domain)
 
 		runBatch: (domain, batchName, params, cb)->
 			agent
@@ -155,9 +183,73 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 					if res.error then cb new ClanError res.status, res.body
 					else cb null, res.body
 
+		link: (network, id, secret, cb)->
+			agent
+			.post 'v1/gamer/link'
+			.use prefixer
+			.set appCredentials
+			.auth creds.gamer_id, creds.gamer_secret
+			.send {network, id, secret}
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body
+
+		unlink: (network, cb)->
+			agent
+			.post 'v1/gamer/unlink'
+			.use prefixer
+			.set appCredentials
+			.auth creds.gamer_id, creds.gamer_secret
+			.send {network}
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body
+
 		logout: (cb)->
 			agent
 			.post '/v1/gamer/logout'
+			.use prefixer
+			.set appCredentials
+			.auth creds.gamer_id, creds.gamer_secret
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body
+
+		changeEmail: (newEmailAddress, cb)->
+			agent
+			.post '/v1/gamer/email'
+			.use prefixer
+			.set appCredentials
+			.auth creds.gamer_id, creds.gamer_secret
+			.send {email:newEmailAddress}
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body
+
+		changePassword: (newPassword, cb)->
+			agent
+			.post '/v1/gamer/password'
+			.use prefixer
+			.set appCredentials
+			.auth creds.gamer_id, creds.gamer_secret
+			.send {password:newPassword}
+			.end (err, res)->
+				if err? then cb(err)
+				else
+					if res.error then cb new ClanError res.status, res.body
+					else cb null, res.body
+
+		listUsers: (filter, limit, skip, cb)->
+			agent
+			.post '/v1/gamer?q=#{encodeURIComponent(filter)}&limit=#{limit}&skip=#{skip}'
 			.use prefixer
 			.set appCredentials
 			.auth creds.gamer_id, creds.gamer_secret
