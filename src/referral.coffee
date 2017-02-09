@@ -4,9 +4,9 @@ ClanError = require './ClanError.coffee'
 
 module.exports =  (appCredentials, gamerCred, domain)->
 
-	get: (cb)->
+	getCode: (cb)->
 		agent
-		.get "/v2.6/gamer/friends/#{domain}"
+		.put "/v2.6/gamer/godfather/#{domain}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -16,9 +16,22 @@ module.exports =  (appCredentials, gamerCred, domain)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	getBlacklisted: (cb)->
+	useCode: (godfather, reward, cb)->
 		agent
-		.get "/v2.6/gamer/friends/#{domain}?status=blacklist"
+		.post "/v2.6/gamer/godfather/#{domain}"
+		.use prefixer
+		.set appCredentials
+        .send { godfather, reward }
+		.auth gamerCred.gamer_id, gamerCred.gamer_secret
+		.end (err, res)->
+			if err? then cb(err)
+			else
+				if res.error then cb new ClanError res.status, res.body
+				else cb null, res.body
+
+	getGodfather: (cb)->
+		agent
+		.get "/v2.6/gamer/godfather/#{domain}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -28,9 +41,9 @@ module.exports =  (appCredentials, gamerCred, domain)->
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	status: (friendid, newstatus, cb)->
+	getGodchildren: (cb)->
 		agent
-		.post "/v2.6/gamer/friends/#{domain}/#{friendid}?status=#{newstatus}"
+		.get "/v2.6/gamer/godchildren/#{domain}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
@@ -39,17 +52,3 @@ module.exports =  (appCredentials, gamerCred, domain)->
 			else
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
-
-	networkFriends: (network, friends, automatching, cb)->
-		agent
-		.post "/v2.12/gamer/friends/#{domain}?network=#{network}"
-		.use prefixer
-		.send {friends, automatching}
-		.set appCredentials
-		.auth gamerCred.gamer_id, gamerCred.gamer_secret
-		.end (err, res)->
-			if err? then cb(err)
-			else
-				if res.error then cb new ClanError res.status, res.body
-				else cb null, res.body
-

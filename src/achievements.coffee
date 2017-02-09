@@ -2,26 +2,27 @@ agent = require 'superagent'
 prefixer = require './prefixer.coffee'
 ClanError = require './ClanError.coffee'
 
-module.exports =  (appCredentials, domain)->
+module.exports =  (appCredentials, gamerCred, domain)->
 
-	get: (key, cb)->
-		unless key? then key=''
+	list: (cb)->
 		agent
-		.get "/v1/vfs/#{domain}/#{key}"
+		.get "/v1/gamer/achievements/#{domain}"
 		.use prefixer
 		.set appCredentials
+		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.end (err, res)->
 			if err? then cb(err)
 			else
 				if res.error then cb new ClanError res.status, res.body
 				else cb null, res.body
 
-	getValue: (key, cb)->
-		unless key? then key=''
+	associateData: (name, data, cb)->
 		agent
-		.get "/v3.0/vfs/#{domain}/#{key}"
+		.post "/v1/gamer/achievements/#{domain}/#{name}/gamerdata"
 		.use prefixer
 		.set appCredentials
+		.send data
+		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.end (err, res)->
 			if err? then cb(err)
 			else
