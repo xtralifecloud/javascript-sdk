@@ -4,12 +4,11 @@ ClanError = require './ClanError.coffee'
 
 module.exports =  (appCredentials, gamerCred, domain)->
 
-	list: (properties, options=null, cb)->
-		unless cb?
-			cb = options
-			options = null
+	#list: (properties, options=null, cb)->
+	list: (options, cb)->
 
-		queryoptions = "&properties=#{JSON.stringify(properties)}"
+		#queryoptions = "&properties=#{JSON.stringify(properties)}"
+		queryoptions = ""
 		queryoptions += "&full" if options?.full?
 		queryoptions += "&participating" if options?.participating?
 		queryoptions += "&finished" if options?.finished?
@@ -108,7 +107,7 @@ module.exports =  (appCredentials, gamerCred, domain)->
 			if err? then return cb(err)
 			if res.error then cb new ClanError res.status, res.body else cb null, res.body
 
-	move: (matchID, lastEventID, move, osn, cb)->
+	move: (matchID, lastEventID, move, globalState, osn, cb)->
 		if typeof osn is "function" # keep compatibility with previous version
 			cb = osn
 			osn = null
@@ -121,7 +120,7 @@ module.exports =  (appCredentials, gamerCred, domain)->
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.type 'json'
-		.send move
+		.send { move, globalState }
 		.end (err, res)->
 			if err? then return cb(err)
 			if res.error then cb new ClanError res.status, res.body else cb null, res.body
