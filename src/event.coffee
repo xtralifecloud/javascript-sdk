@@ -9,13 +9,15 @@ module.exports = (appCredentials, gamerCred, domain)->
 	setTimeout: (timeout)->
 		_timeout = timeout
 
-	send: (gamer_id, message, cb)->
+	send: (gamer_id, message, osn, cb)->
+		evt = { type : "user", event : message, from : gamerCred.gamer_id, to : gamer_id }
+		evt.osn = osn if osn?
 		agent
 		.post "/v1/gamer/event/#{domain}/#{gamer_id}"
 		.use prefixer
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
-		.send message
+		.send evt
 		.end (err, res)->
 			if err? then cb(err)
 			else
