@@ -145,6 +145,9 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 		referral: (domain='private')->
 			require('./referral.coffee')(appCredentials, creds, domain)
 
+		store: ()->
+			require('./store.coffee')(appCredentials, creds)
+
 		runBatch: (domain, batchName, params, cb)->
 			agent
 			.post "/v1/gamer/batch/#{domain}/#{batchName}"
