@@ -1,0 +1,121 @@
+﻿/*---------*/
+/* General */
+/*---------*/
+
+/* Default theme for any container (body, div, ...) */
+.xtralife-theme { background-color: #222; color: #fff; cursor: default; font-family: "Intel Clear W Italic", Arial, sans-serif; margin: 0; padding: 15px; text-align: justify; text-shadow: 0 1px 0 #111;
+	-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+body.xtralife-theme { padding: 0; }
+
+/* Headings color and size */
+.xtralife-theme h1, .xtralife-theme h2, .xtralife-theme h3, .xtralife-theme h4, .xtralife-theme h5, .xtralife-theme h6 { color: #fdd400; }
+.xtralife-theme h1 { font-size: 2.0rem; line-height: 2.0rem; margin-bottom: 1.5rem; margin-top: 0rem; }
+.xtralife-theme h2 { font-size: 1.8rem; line-height: 1.8rem; margin-bottom: 1.4rem; margin-top: 0rem; }
+.xtralife-theme h3 { font-size: 1.6rem; line-height: 1.6rem; margin-bottom: 1.3rem; margin-top: 0rem; }
+.xtralife-theme h4 { font-size: 1.4rem; line-height: 1.4rem; margin-bottom: 1.2rem; margin-top: 0rem; }
+.xtralife-theme h5 { font-size: 1.2rem; line-height: 1.2rem; margin-bottom: 1.1rem; margin-top: 0rem; }
+.xtralife-theme h6 { font-size: 1.0rem; line-height: 1.0rem; margin-bottom: 1.0rem; margin-top: 0rem; }
+.xtralife-theme p  { font-size: 1.0rem; line-height: 1.0rem; margin-bottom: 1.0rem; margin-top: 0rem; }
+
+/* Anchors color */
+.xtralife-theme a { color: #fdd400; }
+
+/* Horizontal rule spacing */
+.xtralife-theme hr { margin: 15px 0; }
+
+/* Hides any element */
+.xtralife-hidden { display: none; }
+
+/* Centers text */
+.xtralife-text-center { text-align: center; }
+
+/* Extend width to all available horizontal place */
+.xtralife-extend-width { width: 100%; }
+
+	/*-----*/
+	/* Box */
+	/*-----*/
+
+/* Box container position and size */
+div.xtralife-box { margin: 10% 0; position: absolute; top: 0; width: 100%; overflow: hidden; }
+
+/* Box content centering and size */
+div.xtralife-box-header, div.xtralife-box-body { margin: 0 auto; width: 75%; max-width: 600px; }
+
+/* Reduces headings margin in box headers */
+div.xtralife-box-header h6, div.xtralife-box-header h5, div.xtralife-box-header h4, div.xtralife-box-header h3,
+div.xtralife-box-header h2, div.xtralife-box-header h1 { margin-bottom: 5px; }
+
+/* Box header style */
+div.xtralife-box-header { background-color: #111; border-bottom: groove 2px #fdd400; border-top-left-radius: 1em; border-top-right-radius: 1em;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.6); margin-top: 12px; padding-bottom: 10px; padding-top: 10px; }
+
+/* Box body style */
+div.xtralife-box-body { border-bottom-left-radius: 1em; border-bottom-right-radius: 1em; box-shadow: 0 0 12px rgba(0, 0, 0, 0.6); margin-bottom: 12px; }
+
+	/*--------*/
+	/* Button */
+	/*--------*/
+
+input.xtralife-button { background-color: #333; border: solid 1px #111; border-radius: 0.6em; box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+    color: #fff; cursor: pointer;  padding: 0.7em 1.1em 0.9em 1.1em; font-weight: bold; text-shadow: 0 1px 0 #111; }
+input.xtralife-button:hover { background-color: #444; }
+input.xtralife-button:active { background-color: #a88d00; }
+
+input.xtralife-button-facebook { background-color: #29487d; }
+input.xtralife-button-facebook:hover { background-color: #315796; }
+input.xtralife-button-facebook:active { background-color: #213963; }
+
+	/*-------------*/
+	/* Text inputs */
+	/*-------------*/
+
+/* */
+input.xtralife-text { background-color: #222; border: solid 1px #444; border-radius: 1em; color: #fff; padding: 5px 10px 8px 10px; }
+input.xtralife-text:hover { background-color: #333; }
+input.xtralife-text:focus { box-shadow: 0 0 12px rgba(253, 212, 0, 1); }
+
+/*----------*/
+/* Specific */
+/*----------*/
+
+/* Full screen transparent mask */
+div#xtralife-mask { opacity: 0.5; height: 100%; width: 100%; position: fixed; top: 0; }
+
+	/*--------------------*/
+	/* Login Box Specific */
+	/*--------------------*/
+
+/* Error message color */
+p#xtralife-login-error-message { color: #e33; }
+
+/* Loading logo size and spacing */
+img#xtralife-login-loading-logo { height: 60px; width: 60px; }
+p#xtralife-login-loading-logo-container { margin-bottom: 0; }
+
+/* Email selector align, color and spacing */
+div#xtralife-login-email-selector-signin, div#xtralife-login-email-selector-title, div#xtralife-login-email-selector-register
+	{ border-color: #111; border-style: solid; display: block; height: 1.4em; padding: 10px 0; }
+div#xtralife-login-email-selector-signin h6, div#xtralife-login-email-selector-title h4, div#xtralife-login-email-selector-register h6 { margin-bottom: 0; }
+div#xtralife-login-email-selector-signin h6, div#xtralife-login-email-selector-register h6 { color: #fff; margin-top: 0.2em; }
+
+/* Email selector border, size and position */
+div#xtralife-login-email-selector-signin { border-width: 1px; border-top-left-radius: 1em; float: left; width: 25%; }
+div#xtralife-login-email-selector-title { border-width: 1px 0; margin: 0 auto; width: 50%; }
+div#xtralife-login-email-selector-register { border-width: 1px; border-top-right-radius: 1em; float: right; width: 25%; }
+
+/* Email selector selected/unselected style */
+div.xtralife-login-email-selector-selected { background-color: #fdd400; box-shadow: 0 0 12px rgba(253, 212, 0, 1); cursor: pointer; }
+div.xtralife-login-email-selector-unselected { background-color: #333; cursor: pointer; }
+div.xtralife-login-email-selector-unselected:hover { background-color: #444; }
+div.xtralife-login-email-selector-unselected:active { background-color: #a88d00; }
+
+/* Email login method body border and spacing */
+div#xtralife-login-method-email-signin, div#xtralife-login-method-email-register { border: solid 1px #444; border-bottom-left-radius: 1em; border-bottom-right-radius: 1em; padding: 10px; }
+div#xtralife-login-method-email-signin td, div#xtralife-login-method-email-register td { padding: 5px 10px 5px 0; }
+div#xtralife-login-method-email-signin p, div#xtralife-login-method-email-register p { margin: 0; }
+
+/* Email login method input size */
+div#xtralife-login-method-email-signin input[type="text"], div#xtralife-login-method-email-signin input[type="password"],
+	div#xtralife-login-method-email-register input[type="text"], div#xtralife-login-method-email-register input[type="password"]
+	{ float: right; max-width: 400px; }

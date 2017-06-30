@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+		<title>XtraLife Sample</title>
+
+		<link href="css/xtralife-theme.css" rel="stylesheet" type="text/css" />
+
+		<script src="js/facebook-implement.js" type="text/javascript"></script>
+		<script src="js/xtralife-3.2.1.min.js" type="text/javascript"></script>
+		<script src="js/xtralife-implement.js" type="text/javascript"></script>
+		<script src="js/sample.js" type="text/javascript"></script>
+	</head>
+
+	<body class="xtralife-theme">
+		<div class="xtralife-theme" id="xtralife-mask"></div>
+		<div class="xtralife-theme">
+			<h2>XtraLife Sample</h2>
+			<p>Current login status: <span id="xtralife-login-status"></span></p>
+			<input id="xtralife-login-button" class="xtralife-button" type="button" value="Login" onclick="sample.login.ShowLoginBox(true);">
+			<input id="xtralife-logout-button" class="xtralife-button" type="button" value="Logout" onclick="sample.login.Logout();">
+		</div>
+
+		<!-- ---------- -->
+		<!-- Box: Login -->
+		<!-- ---------- -->
+		<div class="xtralife-box xtralife-extend-width" id="xtralife-login">
+			<div class="xtralife-theme xtralife-text-center xtralife-box-header">
+				<h2>Login</h2>
+			</div>
+			<div class="xtralife-theme xtralife-box-body">
+				<!-- -------------------------- -->
+				<!-- Login Box Section: Methods -->
+				<!-- -------------------------- -->
+				<div id="xtralife-login-section-methods">
+					<p>Please choose a login method:</p>
+					<hr>
+					<div class="xtralife-text-center" id="xtralife-login-email-selector-signin" onclick="sample.login.SelectLoginEmailBox('signin');">
+						<h6>Sign In</h6>
+					</div>
+					<div class="xtralife-text-center" id="xtralife-login-email-selector-register" onclick="sample.login.SelectLoginEmailBox('register');">
+						<h6>Register</h6>
+					</div>
+					<div class="xtralife-text-center" id="xtralife-login-email-selector-title">
+						<h4>Email</h4>
+					</div>
+					<div id="xtralife-login-method-email-signin">
+						<table>
+							<tr>
+								<td>
+									<div><p>Email:</p></div>
+								</td>
+								<td class="xtralife-extend-width">
+									<input type="text" value="" name="xtralife-login-email-signin-email" class="xtralife-text xtralife-extend-width" id="xtralife-login-email-signin-email">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Password:</p>
+								</td>
+								<td class="xtralife-extend-width">
+									<input type="password" value="" name="xtralife-login-email-signin-password" class="xtralife-text xtralife-extend-width" id="xtralife-login-email-signin-password">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="xtralife-text-center" style="text-align: center;">
+										<input style="margin: auto;" class="xtralife-button" type="button" value="Sign in with email" onclick="sample.login.LoginEmail_SignIn();">
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="xtralife-login-method-email-register">
+						<table>
+							<tr>
+								<td>
+									<p>Email:</p>
+								</td>
+								<td class="xtralife-extend-width">
+									<input type="text" value="" name="xtralife-login-email-register-email" class="xtralife-text xtralife-extend-width" id="xtralife-login-email-register-email">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Password:</p>
+								</td>
+								<td class="xtralife-extend-width">
+									<input type="password" value="" name="xtralife-login-email-register-password1" class="xtralife-text xtralife-extend-width" id="xtralife-login-email-register-password1">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Confirm Password:</p>
+								</td>
+								<td class="xtralife-extend-width">
+									<input type="password" value="" name="xtralife-login-email-register-password2" class="xtralife-text xtralife-extend-width" id="xtralife-login-email-register-password2">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="xtralife-text-center" style="text-align: center;">
+										<input class="xtralife-button" type="button" value="Register with email" onclick="sample.login.LoginEmail_Register();">
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<hr>
+					<div class="xtralife-text-center">
+						<input class="xtralife-button xtralife-button-facebook" type="button" value="Sign in with Facebook" onclick="sample.login.LoginFacebook();">
+					</div>
+				</div>
+				<!-- ----------------------------- -->
+				<!-- Login Box Section: Logging In -->
+				<!-- ----------------------------- -->
+				<div class="xtralife-text-center" id="xtralife-login-section-loggingin">
+					<h5>Logging in...</h5>
+					<p id="xtralife-login-loading-logo-container">
+						<img src="img/xtralife-loading.gif" id="xtralife-login-loading-logo">
+					</p>
+				</div>
+				<!-- ------------------------ -->
+				<!-- Login Box Section: Error -->
+				<!-- ------------------------ -->
+				<div id="xtralife-login-section-error">
+					<p id="xtralife-login-error-message"></p>
+					<div class="xtralife-text-center">
+						<input class="xtralife-button" type="button" value="OK" onclick="sample.login.SelectLoginSection(sample.login.SECTION.METHODS);">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">xtralife.Init(); sample.Init();</script>
+	</body>
+</html>
