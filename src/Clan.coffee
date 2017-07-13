@@ -88,7 +88,7 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 			title: mailTitle
 			body: mailBody
 		agent
-		.get "/v1/login/#{userEmail}"
+		.post "/v1/login/#{userEmail}"
 		.use prefixer
 		.set appCredentials
 		.send body
