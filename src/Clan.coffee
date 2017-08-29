@@ -83,10 +83,21 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 
 	# the mailBody will be parsed to replace occurences of [[SHORTCODE]] by actual shortcode
 	sendResetMailPassword: ( userEmail, mailSender, mailTitle, mailBody, cb)->
+		textBody = "[[SHORTCODE]]"
+		htmlBody = null
+		if typeof mailBody == "object"
+			if mailBody.html == true
+				htmlBody = mailBody.body
+			else
+				textBody = mailBody.body
+		else
+			textBody = mailBody
 		body = 
 			from: mailSender
 			title: mailTitle
-			body: mailBody
+			body: textBody
+		if htmlBody != null then body.html = htmlBody
+
 		agent
 		.post "/v1/login/#{userEmail}"
 		.use prefixer
