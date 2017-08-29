@@ -1,43 +1,43 @@
 {
-  "name": "xtralife-js-client",
-  "version": "3.2.1",
-  "description": "Simple javascript client for Xtralife gaming backend",
-  "main": "lib/xtralife.js",
-  "scripts": {
-    "test": "mocha test/*.coffee",
-    "build:browser": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
-    "build:QML": "browserify -t coffeeify --ig src/index.coffee > ./lib/bundle.qml.js",
-    "build:node": "browserify --node -s xtralife -t coffeeify src/Clan.coffee > ./lib/xtralife.js",
-    "prepublish": "npm run build:node",
-    "start": "http-server sample"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/clanofthecloud/javascript-client.git"
-  },
-  "author": "chris@xtralife.cloud",
-  "dependencies": {
-    "superagent": "=1.2.0",
-    "agentkeepalive": "*"
-  },
-  "engines": {
-    "node": ">= 0.10.26"
-  },
-  "devDependencies": {
-    "coffee-script": "*",
-    "coffee-script-mapped": "*",
-    "randomstring": "*",
-    "should": "*",
-    "mocha": "*",
-    "async": "*",
-    "q": "*",
-    "browserify": "*",
-    "coffeeify": "*",
-    "uglify-js": "*",
-    "http-server": "*"
-  },
-  "readmeFilename": "Readme.md",
-  "files": [
-    "lib/xtralife.js"
-  ]
+    "name": "xtralife-js-client",
+    "version": "3.2.2",
+    "description": "Simple javascript client for Xtralife gaming backend",
+    "main": "lib/xtralife.js",
+    "scripts": {
+        "test": "mocha test/*.coffee",
+        "build:browser": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
+        "build:QML": "browserify -t coffeeify --ig src/index.coffee > ./lib/bundle.qml.js",
+        "build:node": "browserify --node -s xtralife -t coffeeify src/Clan.coffee > ./lib/xtralife.js",
+        "prepublish": "npm run build:node",
+        "start": "http-server sample"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/clanofthecloud/javascript-client.git"
+    },
+    "author": "chris@xtralife.cloud",
+    "dependencies": {
+        "superagent": "=1.2.0",
+        "agentkeepalive": "*"
+    },
+    "engines": {
+        "node": ">= 0.10.26"
+    },
+    "devDependencies": {
+        "coffee-script": "*",
+        "coffee-script-mapped": "*",
+        "randomstring": "*",
+        "should": "*",
+        "mocha": "*",
+        "async": "*",
+        "q": "*",
+        "browserify": "*",
+        "coffeeify": "*",
+        "uglify-js": "*",
+        "http-server": "*"
+    },
+    "readmeFilename": "Readme.md",
+    "files": [
+        "lib/xtralife.js"
+    ]
 }
