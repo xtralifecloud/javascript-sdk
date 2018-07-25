@@ -111,7 +111,7 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 
 	userExists: (network, id, cb)->
 		agent
-		.post '/v1/users/#{network}/#{encodeURIComponent(id)}'
+		.get "/v1/users/#{network}/#{encodeURIComponent(id)}"
 		.use prefixer
 		.set appCredentials
 		.end (err, res)->
@@ -263,7 +263,7 @@ Clan = module.exports = (apikey, apisecret, endpoint=null)->
 
 		listUsers: (filter, limit, skip, cb)->
 			agent
-			.post '/v1/gamer?q=#{encodeURIComponent(filter)}&limit=#{limit}&skip=#{skip}'
+			.get "/v1/gamer?q=#{encodeURIComponent(filter)}&limit=#{limit}&skip=#{skip}"
 			.use prefixer
 			.set appCredentials
 			.auth creds.gamer_id, creds.gamer_secret
