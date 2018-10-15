@@ -1,6 +1,6 @@
 {
   "name": "cotc-jsclient",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "dependencies": {
     "agentkeepalive": {
       "version": "2.0.2",
