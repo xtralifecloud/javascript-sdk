@@ -14,6 +14,7 @@ describe 'Events', ->
 
 	before 'should login first as friend', (done)->
 		Clan.login 'anonymous', dataset.friend_id, dataset.friend_token, (err, gamer)->
+			if err? then return done(err)
 			gamer.should.have.property('gamer_id')
 			gamer.should.have.property('gamer_secret')
 			events = Clan.withGamer(gamer).events('private')
@@ -33,14 +34,14 @@ describe 'Events', ->
 
 			events.receive 'auto', (err, message)->
 				should(err).be.null
-				message.hello.should.be.eql 'friend'
+				message.event.hello.should.be.eql 'friend'
 				message.id.should.be.eql msgid
 				done()
 
 	it 'should block until timeout', (done)->
 		events.receive 'auto', (err, message)->
 			should(err).be.null
-			message.hello.should.be.eql 'friend'
+			message.event.hello.should.be.eql 'friend'
 			done()
 
 		setTimeout ->
@@ -48,16 +49,16 @@ describe 'Events', ->
 				should(err).be.null
 		, 500
 
-	it 'should block until timeout', (done)->
+	it.skip 'should block until timeout', (done)->
 		this.timeout 50000
-		events.setTimeout 10000
+		events.setTimeout 8000
 
 		events.receive 'auto', (err, message)->
 			should(err).be.null
 			should(message).be.null
 			events.receive 'auto', (err, message)->
 				should(err).be.null
-				message.hello.should.be.eql 'friend'
+				message.event.hello.should.be.eql 'friend'
 				done()
 
 		setTimeout ->

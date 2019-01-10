@@ -15,7 +15,6 @@ lastEventId = null
 
 describe 'Matches', ->
 
-
 	it 'should login first as gamer', (done)->
 		Clan.login null, (err, gamer)->
 			gamer.should.have.property('gamer_id')
@@ -72,7 +71,7 @@ describe 'Matches', ->
 			res.match._id.should.eql(matchID)
 			done(err)
 
-	it 'gamer should recieve a message', (done)->
+	it 'gamer should receive a message', (done)->
 		events_gamer.receive 'auto', (err, message)->
 			should(err).be.null
 			message.should.have.property('type')
@@ -88,11 +87,10 @@ describe 'Matches', ->
 
 	it 'gamer should make a move', (done)->
 		move = 
-			move : 
-				type : "bet"
-				amount : 10
+			type : "bet"
+			amount : 10
 		matches.move matchID, lastEventId, move, (err, res)->
-			should(err).be.null
+			if err? then return done(err)
 			should.exist(res.match.lastEventId)
 			lastEventId = res.match.lastEventId
 			done(err)
@@ -114,9 +112,8 @@ describe 'Matches', ->
 
 	it 'friend should make a move', (done)->
 		move = 
-			move : 
-				type : "bet"
-				amount : 10
+			type : "bet"
+			amount : 10
 		matches_friend.move matchID, lastEventId, move, (err, res)->
 			should(err).be.null
 			should.exist(res.match.lastEventId)

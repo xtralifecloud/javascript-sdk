@@ -10,6 +10,9 @@ module.exports = (appCredentials, gamerCred, domain)->
 		_timeout = timeout
 
 	send: (gamer_id, message, osn, cb)->
+		unless cb?
+			cb = osn
+			osn = null
 		evt = { type : "user", event : message, from : gamerCred.gamer_id, to : gamer_id }
 		evt.osn = osn if osn?
 		agent

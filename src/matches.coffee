@@ -108,11 +108,17 @@ module.exports =  (appCredentials, gamerCred, domain)->
 			if res.error then cb new ClanError res.status, res.body else cb null, res.body
 
 	move: (matchID, lastEventID, move, globalState, osn, cb)->
-		if typeof osn is "function" # keep compatibility with previous version
+		unless cb?
 			cb = osn
 			osn = null
-		if osn?
-			move.osn = osn
+		unless cb?
+			cb = globalState
+			globalState = null
+
+		move.osn = osn if osn?
+
+		message = {move}
+		if globalState? then message.globalState = globalState
 
 		agent
 		.post "/v1/gamer/matches/#{matchID}/move?lastEventId=#{lastEventID}"
@@ -120,7 +126,7 @@ module.exports =  (appCredentials, gamerCred, domain)->
 		.set appCredentials
 		.auth gamerCred.gamer_id, gamerCred.gamer_secret
 		.type 'json'
-		.send { move, globalState }
+		.send message
 		.end (err, res)->
 			if err? then return cb(err)
 			if res.error then cb new ClanError res.status, res.body else cb null, res.body
