@@ -1,4 +1,2 @@
 
-require('coffeescript/register');
-
-module.exports = require('./src/Clan.coffee');
+module.exports = require('./src/Clan.js');

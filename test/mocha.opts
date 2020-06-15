@@ -1,4 +1,3 @@
 --reporter spec
---require coffeescript/register
 -t 5000
 -s 0

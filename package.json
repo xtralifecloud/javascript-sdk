@@ -2,13 +2,11 @@
   "name": "xtralife-js-client",
   "version": "4.0.0",
   "description": "Simple javascript client for Xtralife gaming backend",
-  "main": "lib/xtralife.js",
+  "main": "index.js",
   "scripts": {
-    "test": "mocha test/*.coffee",
-    "build:browser": "browserify -t coffeeify src/index.coffee > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
-    "build:QML": "browserify -t coffeeify --ig src/index.coffee > ./lib/bundle.qml.js",
-    "build:node": "browserify --node -s xtralife -t coffeeify src/Clan.coffee > ./lib/xtralife.js",
-    "prepublish": "npm run build:node",
+    "test": "mocha test/*.js",
+    "build:browser": "browserify src/index.js > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
+    "build:QML": "browserify --ig src/index.js > ./lib/bundle.qml.js",
     "start": "http-server sample"
   },
   "repository": {
@@ -17,24 +15,21 @@
   },
   "author": "chris@xtralife.cloud",
   "dependencies": {
-    "superagent": "<3",
-    "agentkeepalive": "*"
+    "agentkeepalive": "^4.1.3",
+    "superagent": "^2.3.0"
   },
   "engines": {
     "node": ">= 0.10.26"
   },
   "devDependencies": {
-    "coffeescript": "< 2",
-    "coffee-script-mapped": "*",
+    "async": "^3.2.0",
+    "browserify": "^16.5.1",
+    "http-server": "^0.12.3",
+    "mocha": "^8.0.1",
+    "q": "*",
     "randomstring": "*",
     "should": "*",
-    "mocha": "*",
-    "async": "*",
-    "q": "*",
-    "browserify": "*",
-    "coffeeify": "*",
-    "uglify-js": "*",
-    "http-server": "*"
+    "uglify-js": "^3.9.4"
   },
   "readmeFilename": "Readme.md",
   "files": [
