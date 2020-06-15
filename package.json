@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/*.js",
-    "build:browser": "browserify src/index.js > ./lib/bundle.js && uglifyjs -c -- lib/bundle.js > lib/bundle.min.js",
-    "build:QML": "browserify --ig src/index.js > ./lib/bundle.qml.js",
+    "build:browser": "parcel build index.js --bundle-node-modules -o bundle.min.js -d lib",
     "start": "http-server sample"
   },
   "repository": {
@@ -22,14 +21,10 @@
     "node": ">= 0.10.26"
   },
   "devDependencies": {
-    "async": "^3.2.0",
-    "browserify": "^16.5.1",
     "http-server": "^0.12.3",
     "mocha": "^8.0.1",
-    "q": "*",
-    "randomstring": "*",
     "should": "*",
-    "uglify-js": "^3.9.4"
+    "parcel-bundler": "^1.12.4"
   },
   "readmeFilename": "Readme.md",
   "files": [
