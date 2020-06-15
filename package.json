@@ -26,8 +26,5 @@
     "should": "*",
     "parcel-bundler": "^1.12.4"
   },
-  "readmeFilename": "Readme.md",
-  "files": [
-    "lib/xtralife.js"
-  ]
+  "readmeFilename": "Readme.md"
 }
