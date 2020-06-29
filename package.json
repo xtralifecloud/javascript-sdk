@@ -15,7 +15,7 @@
   "author": "chris@xtralife.cloud",
   "dependencies": {
     "agentkeepalive": "^4.1.3",
-    "superagent": "^2.3.0"
+    "superagent": "^5.3.1"
   },
   "engines": {
     "node": ">= 0.10.26"
