@@ -24,7 +24,7 @@
     "node": ">= 0.10.26"
   },
   "devDependencies": {
-    "coffeescript": "< 2",
+    "coffeescript": "^2.7.0",
     "coffee-script-mapped": "*",
     "randomstring": "*",
     "should": "*",
