@@ -20,7 +20,7 @@ describe('Events', function () {
 	let events = null;
 
 	before('should login first as friend', done => {
-		Clan.login('anonymous', dataset.friend_id, dataset.friend_token, function (err, gamer) {
+		Clan.login(null, {'id':dataset.friend_id, 'secret':dataset.friend_token}, null, function (err, gamer) {
 			if (err != null) { done(err); return }
 			gamer.should.have.property('gamer_id');
 			gamer.should.have.property('gamer_secret');
@@ -38,7 +38,8 @@ describe('Events', function () {
 	});
 
 	it('should have sent message to other user', done => {
-		Clan.login('anonymous', dataset.gamer_id, dataset.gamer_token, function (err, gamer) {
+		Clan.login(null, {'id':dataset.gamer_id, 'secret':dataset.gamer_token}, null, function (err, gamer) {
+			if (err != null) { done(err); return }
 			gamer.should.have.property('gamer_id');
 			gamer.should.have.property('gamer_secret');
 			events = Clan.withGamer(gamer).events('private');
@@ -54,6 +55,7 @@ describe('Events', function () {
 
 	it('should block until timeout', function (done) {
 		events.receive('auto', function (err, message) {
+			if (err != null) { done(err); return }
 			should(err).be.null;
 			message.event.hello.should.be.eql('friend');
 			return done();

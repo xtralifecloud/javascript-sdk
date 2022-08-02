@@ -58,7 +58,7 @@
 							<table class="login_step">
 								<tr>
 									<td>
-										<button type="button" onclick="sample.LoginAnonymously(sample.LoginDone)"><img src="img/logomini-xtralife.png" alt="[LogoMini XtraLife]" />New Anonymous Login</button>
+										<button type="button" onclick="sample.LoginAnonymously(null, sample.LoginDone)"><img src="img/logomini-xtralife.png" alt="[LogoMini XtraLife]" />New Anonymous Login</button>
 										<button onclick="sample.LoginFacebook(sample.LoginDone)"><img src="img/logomini-facebook.png" alt="[LogoMini Facebook]" />Login With Facebook</button>
 									</td>
 									<td>
@@ -85,13 +85,76 @@
 							<table class="login_step">
 								<tr>
 									<td>
-										<button type="button" onclick="sample.LoginWithCredentials(document.getElementById('gamerId').value, document.getElementById('gamerSecret').value, sample.LoginDone)">Login With Credentials -></button>
+										<button type="button" onclick="sample.LoginWithCredentials(document.getElementById('gamerId').value, document.getElementById('gamerSecret').value, sample.LoginDone)">Login With Credentials =></button>
 									</td>
 									<td>
 										<input type="text" id="gamerId" name="gamerId" value="[Gamer ID]" />
 									</td>
 									<td>
 										<input type="text" id="gamerSecret" name="gamerSecret" value="[Gamer Secret]" />
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<fieldset>
+							<legend> Convert</legend>
+							<p>You can try to convert your anonymous account to an mail account.</p>
+							<table class="login_step">
+								<tr>
+									<td>
+										<button type="button" onclick="sample.convert(document.getElementById('mailId').value, document.getElementById('mailSecret').value)">Convert =></button>
+									</td>
+									<td>
+										<input type="text" id="mailId" name="mailId" value="[Mail]" />
+									</td>
+									<td>
+										<input type="text" id="mailSecret" name="mailSecret" value="[Gamer Secret]" />
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<fieldset>
+							<legend>Login with Facebook Token</legend>
+							<p>If you have an authentification token for Facebook, you can login using it.</p>
+							<table class="login_step">
+								<tr>
+									<td>
+										<button type="button" onclick="sample.loginWithFacebook(document.getElementById('auth').value)">Login =></button>
+									</td>
+									<td>
+										<input type="text" id="auth" name="auth" value="[Auth Token]" />
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<fieldset>
+							<legend>Login with OSN (Operating System Notification)</legend>
+							<p>You can pass operating system informations as parameters to the login.</p>
+							<table class="login_step">
+								<tr>
+									<td>
+										<button type="button" onclick="sample.LoginAnonymously({
+											'os': document.getElementById('osnPlatform').value,
+											'token': document.getElementById('osnToken').value}
+										)">Login =></button>
+									</td>
+									<td>
+										<input type="text" id="osnPlatform" name="osnPlatform" value="ios" />
+									</td>
+									<td>
+										<input type="text" id="osnToken" name="osnToken" value="15E5E768349BD93784714E994547B5BD23A548E2129F0BB826A838A939F905BA" />
 									</td>
 								</tr>
 							</table>

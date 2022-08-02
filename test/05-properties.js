@@ -17,7 +17,7 @@ describe('Gamer Properties', function () {
     let properties = null;
 
     it('it should login first', done => {
-        Clan.login(null, function (err, gamer) {
+        Clan.login(null, null, null, function (err, gamer) {
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');
             properties = Clan.withGamer(gamer).properties('private');

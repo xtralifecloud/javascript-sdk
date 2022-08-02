@@ -1,6 +1,6 @@
 // Those are the Api Key and Secret of your game, use your own keys provided when registering!
-var YourGameApiKey = "YourGameApiKey";
-var YourGameApiSecret = "YourGameApiSecret";
+var YourGameApiKey = "testgame-key";
+var YourGameApiSecret = "testgame-secret";
 
 function CheckCredentials()
 {

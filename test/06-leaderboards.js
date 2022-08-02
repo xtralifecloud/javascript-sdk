@@ -19,7 +19,7 @@ describe('Gamer Leaderboards', function () {
     describe("score as friend ", function () {
 
         it('it should login first as friend', done => {
-            Clan.login(null, function (err, gamer) {
+            Clan.login(null, null, null, function (err, gamer) {
                 gamer.should.have.property('gamer_id');
                 gamer.should.have.property('gamer_secret');
                 leaderboards = Clan.withGamer(gamer).leaderboards('private');
@@ -55,7 +55,7 @@ describe('Gamer Leaderboards', function () {
     describe("score as gamer ", function () {
 
         it('it should login as gamer', done => {
-            Clan.login(null, function (err, gamer) {
+            Clan.login(null, null, null, function (err, gamer) {
                 gamer.should.have.property('gamer_id');
                 gamer.should.have.property('gamer_secret');
                 leaderboards = Clan.withGamer(gamer).leaderboards('private');

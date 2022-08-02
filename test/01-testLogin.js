@@ -21,37 +21,28 @@ describe('Clan JS client', function () {
         done());
 
     it('should allow anonymous log in', done => {
-        Clan.login(null, function (err, gamer) {
-            gamer.should.have.property('gamer_id');
-            gamer.should.have.property('gamer_secret');
-
-            gamerCred = Clan.createGamerCredentials(gamer);
-
-            dataset.gamer_id = gamerCred.gamer_id;
-            dataset.gamer_token = gamerCred.gamer_secret;
-
-            Clan.login("anonymous", gamerCred.gamer_id, gamerCred.gamer_secret, function (err, gamer) {
+            Clan.loginAnonymous(null, function (err, gamer) {
                 if (err != null) { done(err); }
                 gamer.should.have.property('gamer_id');
                 gamer.should.have.property('gamer_secret');
+                dataset.gamer_id = gamer.gamer_id;
+                dataset.gamer_token = gamer.gamer_secret;
                 _gamer = gamer;
                 done();
             });
-        })
+
     });
 
     it('should create a new friend', done => {
-        Clan.login(null, function (err, gamer) {
+        Clan.loginAnonymous(null, function (err, gamer) {
+            if (err != null) { done(err); }
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');
-
-            gamerCred = Clan.createGamerCredentials(gamer);
-
-            dataset.friend_id = gamerCred.gamer_id;
-            dataset.friend_token = gamerCred.gamer_secret;
-
+            dataset.friend_id = gamer.gamer_id;
+            dataset.friend_token = gamer.gamer_secret;
+            _gamer = gamer;
             done();
-        })
+        });
     });
 
     it('should allow log out', done => {
@@ -62,7 +53,9 @@ describe('Clan JS client', function () {
     });
 
     it('should allow to login with email', done => {
-        Clan.login('email', "devteam@xtralife.cloud", "yourpassword", function (err, gamer) {
+        credentials = {id: 'devteam@xtralife.cloud', secret: 'yourpassword'};
+        Clan.login('email', credentials, null, function (err, gamer) {
+            if (err != null) { done(err); }
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');
             done();
@@ -78,30 +71,29 @@ describe('Clan JS client', function () {
     });
 
     it('should not allow log in with wrong credentials', done => {
-        Clan.login('anonymous', dataset.gamer_id, 'wrong a1b399f71c868faf0848c959ac6b290b6169750d', function (err, gamer) {
+        credentials = {id: dataset.gamer_id, secret: 'wrong a1b399f71c868faf0848c959ac6b290b6169750d'}
+        Clan.login('anonymous', credentials, null, function (err, gamer) {
             should(gamer).be.undefined;
-            err.should.have.property('status');
-            err.status.should.eql(401);
-            err.response.body.message.should.eql('Invalid user credentials');
             done();
         })
     });
 
     it('should not allow log in with wrong FB token', done => {
-        Clan.login('facebook', 'any will do', 'wrong FB token', function (err, gamer) {
+        credentials = {auth_token: "wrong FB token"}
+        Clan.login('facebook', credentials, null, function (err, gamer) {
             should(gamer).be.undefined;
             err.should.have.property('status');
-            err.status.should.eql(401);
-            err.response.body.message.should.eql('The received login token is invalid');
+            err.response.body.details.code.should.eql(190);
             done();
         })
     });
 
-    it.skip('should accept Facebook credentials', done => {// find a FB user access token at https://developers.facebook.com/tools/accesstoken/
+    it('should accept Facebook credentials', done => {// find a FB user access token at https://developers.facebook.com/tools/accesstoken/
+        credentials = {auth_token: 'CAAIhTFZBxVNoBAKEmRVDHiDcxhpTAZAaEAyGaxNJWxUBaSZC9E2QuZBqfcgjK1K8Ce4DAm1BRI897OB0kGB1hJaseP1JU7WEQFhteqwV63sKXZC5089tpMuDK1igEzrfeMtXpZBZBbZC4ebm9GRSujTCL8SZBFGAJmthltAfYvLXpoJlP7qdk2ZCStnsqQ4RRAIyhWmdZB8QDVZB29NeOyO73j9NnYBWz8F1ZCP4ZD'}
         Clan.login(
             'facebook',
-            'any will do',
-            'CAAIhTFZBxVNoBAKEmRVDHiDcxhpTAZAaEAyGaxNJWxUBaSZC9E2QuZBqfcgjK1K8Ce4DAm1BRI897OB0kGB1hJaseP1JU7WEQFhteqwV63sKXZC5089tpMuDK1igEzrfeMtXpZBZBbZC4ebm9GRSujTCL8SZBFGAJmthltAfYvLXpoJlP7qdk2ZCStnsqQ4RRAIyhWmdZB8QDVZB29NeOyO73j9NnYBWz8F1ZCP4ZD',
+            credentials,
+            null,
             function (err, gamer) {
                 gamer.should.have.property('gamer_id');
                 gamer.should.have.property('gamer_secret');
@@ -110,24 +102,26 @@ describe('Clan JS client', function () {
         )
     });
 
-    it('should allow conversion of anonymous to email', done => {
-        Clan.login(null, function (err, gamer) {
-            gamerCred = Clan.createGamerCredentials(gamer);
+    it('should allow conversion of anonymous to email', done => {         
+        Clan.loginAnonymous(null, function (err, gamer) {
+            if (err != null) { done(err); }
+            gamer.should.have.property('gamer_id');
+            gamer.should.have.property('gamer_secret');
             const mail = "test" + Math.random() + "@localhost.localdomain";
             const password = "password";
-
-            Clan.withGamer(gamer).convertTo("email", mail, password, function (err, result) {
+            credentials = Clan.createLoginCredentials(mail, password);
+            Clan.withGamer(gamer).convertTo("email", credentials, function (err, result) {
                 if (err != null) { return done(err); }
                 result.done.should.eql(1);
-
-                Clan.login('email', mail, password, (err, result) => done(err));
-            });
-        })
+                Clan.login('email', credentials, null, (err, result) => done(err));
+            }
+            )})
     });
 
     it.skip('should log in/out fast', function (done) {
+        credentials = {id: dataset.gamer_id, secret: dataset.gamer_token}
         this.timeout(100000);
-        const fn = cb => Clan.login('anonymous', dataset.gamer_id, dataset.gamer_token, function (err, gamer) {
+        const fn = cb => Clan.login('anonymous', credentials, null, function (err, gamer) {
             if (err != null) { return cb(err); }
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');

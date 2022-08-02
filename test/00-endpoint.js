@@ -8,9 +8,9 @@ const Endpoints = require('../src/endpoints.js');
 
 describe("Set endpoint", function () {
 
-	// it("should set the endpoint to local", () => Endpoints.set('dev'));
+	// it.skip ("should set the endpoint to local", () => Endpoints.set('dev'));
 
-	it("should set the endpoint to sandbox", () => Endpoints.set('sandbox'));
+	//it.skip("should set the endpoint to sandbox", () => Endpoints.set('sandbox'));
 
 	// DONT it.skip("should set the endpoint to production", () => Endpoints.set('prod'));
 });

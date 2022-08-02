@@ -6,7 +6,9 @@
   "scripts": {
     "test": "mocha test/*.js",
     "build:browser": "parcel build index.js --bundle-node-modules -o bundle.min.js -d lib",
-    "start": "http-server sample"
+    "build:sample": "parcel build index.js --bundle-node-modules -o bundle.min.js -d sample/js",
+    "start": "http-server sample",
+    "sample": "parcel build index.js --bundle-node-modules -o bundle.min.js -d sample/js && http-server sample"
   },
   "repository": {
     "type": "git",

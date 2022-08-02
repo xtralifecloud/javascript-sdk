@@ -18,7 +18,7 @@ describe('KV store', function () {
     let kv = null;
 
     it('it should login first', done => {
-        Clan.login(null, function (err, gamer) {
+        Clan.login(null, null, null, function (err, gamer) {
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');
             kv = Clan.withGamer(gamer).kv(Clan.privateDomain);

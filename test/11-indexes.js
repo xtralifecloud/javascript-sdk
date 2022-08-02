@@ -19,11 +19,11 @@ describe('Indexes', function () {
 	const indexes = Clan.indexes(Clan.privateDomain);
 
 	it('it should login first', done => {
-		Clan.login(null, function (err, gamer) {
+		Clan.login(null, null, null, function (err, gamer) {
 			gamer.should.have.property('gamer_id');
 			gamer.should.have.property('gamer_secret');
 			_gamer = gamer;
-			return Clan.login(null, function (err, friend) {
+			return Clan.login(null, null, null, function (err, friend) {
 				friend.should.have.property('gamer_id');
 				friend.should.have.property('gamer_secret');
 				_friend = friend;

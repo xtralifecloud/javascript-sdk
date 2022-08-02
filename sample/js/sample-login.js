@@ -10,9 +10,9 @@ Sample.prototype.LoginDone = function(error, gamer)
 }
 
 // Triggers an anonymous login (without credentials)
-Sample.prototype.LoginAnonymously = function(whenDone)
+Sample.prototype.LoginAnonymously = function(osn, whenDone)
 {
-	this.clan.login(null, function(error, gamer)
+	this.clan.login(null, null, osn, function(error, gamer)
 	{
 		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 		if (!error)
@@ -35,7 +35,6 @@ Sample.prototype.LoginAnonymously = function(whenDone)
 Sample.prototype.LoginFacebook = function(whenDone)
 {
 	var self = this;
-	
 	// Login into Facebook and XtraLife's Facebook App
 	facebook.FacebookAppLogin(function(facebookAccessToken)
 	{
@@ -70,7 +69,7 @@ Sample.prototype.LoginFacebook = function(whenDone)
 Sample.prototype.LoginWithCredentials = function(gamerId, gamerSecret, whenDone)
 {
 	// With credentials, the login network type have to be "anonymous", wether you want to log in with an Anonymous or a Facebook network type XtraLife account
-	this.clan.resumeSession(gamerId, gamerSecret, function(error, gamer)
+	this.clan.resumeSession(gamerId, gamerSecret, null, function(error, gamer)
 	{
 		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 		if (!error)
@@ -88,6 +87,49 @@ Sample.prototype.LoginWithCredentials = function(gamerId, gamerSecret, whenDone)
 			whenDone(error, gamer);
 	}.bind(this));
 };
+
+Sample.prototype.loginWithFacebook = function(token, whenDone)
+{
+	credentials = {auth_token: token}
+	this.clan.login("facebook", credentials, null, function(error, gamer)
+	{
+		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
+		if (!error)
+		{
+			this.gamerData = gamer;
+			this.storageManager.SetData("gamer", JSON.stringify(gamer));
+		}
+		
+		this.LoggedInHeaderDisplay();
+		this.LoggedInBodyDisplay();
+		this.LoggedInCheck();
+		
+		// Callback
+		if (whenDone)
+			whenDone(error, gamer);
+}.bind(this))};
+
+
+Sample.prototype.convert = function(gamerId, gamerSecret, whenDone)
+{
+	credentials = {id: gamerId, secret: gamerSecret}
+	if (this.gamerData)
+	{
+		this.clan.withGamer(this.gamerData).convertTo("email", credentials, function(error, gamer, gamerData)
+		{
+			if (error)
+				ConsoleLog("Convert error: " + error);
+			else
+				ConsoleLog(`Gamer ${gamer.gamer.gamer_id} successfully converted to mail (${credentials.id}) !`)
+		})
+	}
+	else{
+		ConsoleLog("You need to be logged in to convert your account.")
+	};
+	if (whenDone)
+			whenDone(error, gamer);
+};
+
 
 // Logout current logged in gamer by deleting his login data
 Sample.prototype.Logout = function()

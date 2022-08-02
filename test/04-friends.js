@@ -18,7 +18,7 @@ describe('Gamer Friends', function () {
     let friends = null;
 
     before('it should login first', done => {
-        Clan.login(null, function (err, gamer) {
+        Clan.login(null, null, null, function (err, gamer) {
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');
             friends = Clan.withGamer(gamer).friends('private');
@@ -27,7 +27,7 @@ describe('Gamer Friends', function () {
     });
 
     it('should create a friend', done => {
-        Clan.login(null, function (err, gamer) {
+        Clan.login(null, null, null, function (err, gamer) {
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');
 

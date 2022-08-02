@@ -23,7 +23,7 @@ let lastEventId = null;
 describe('Matches', function () {
 
     it('should login first as gamer', done => {
-        Clan.login(null, function (err, gamer) {
+        Clan.login(null, null, null, function (err, gamer) {
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');
             events_gamer = Clan.withGamer(gamer).events('private');
@@ -33,7 +33,7 @@ describe('Matches', function () {
     });
 
     it('should login now as friend', done => {
-        Clan.login(null, function (err, friend) {
+        Clan.login(null, null, null, function (err, friend) {
             friend.should.have.property('gamer_id');
             friend.should.have.property('gamer_secret');
             events_friend = Clan.withGamer(friend).events('private');
