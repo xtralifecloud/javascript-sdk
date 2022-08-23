@@ -1,6 +1,7 @@
 // Those are the Api Key and Secret of your game, use your own keys provided when registering!
 var YourGameApiKey = "testgame-key";
 var YourGameApiSecret = "testgame-secret";
+var endpoint = 'http://localhost:2000'
 
 function CheckCredentials()
 {
@@ -21,7 +22,7 @@ function Sample(storageManager, autoLoginAnonymously)
 Sample.prototype.Setup = function(autoLoginAnonymously)
 {
 	// Initialize our client with the APIKEY and APISECRET of the game
-	this.clan = Clan(YourGameApiKey, YourGameApiSecret);
+	this.clan = Clan(YourGameApiKey, YourGameApiSecret, endpoint);
 	
 	// Retrieve the current logged in gamer's data if any
 	if (this.storageManager.GetData("gamer"))

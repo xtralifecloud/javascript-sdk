@@ -10,9 +10,9 @@ Sample.prototype.LoginDone = function(error, gamer)
 }
 
 // Triggers an anonymous login (without credentials)
-Sample.prototype.LoginAnonymously = function(osn, whenDone)
+Sample.prototype.LoginAnonymously = function(options, whenDone)
 {
-	this.clan.login(null, null, osn, function(error, gamer)
+	this.clan.login(null, null, options, function(error, gamer)
 	{
 		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 		if (!error)
@@ -29,47 +29,14 @@ Sample.prototype.LoginAnonymously = function(osn, whenDone)
 		if (whenDone)
 			whenDone(error, gamer);
 	}.bind(this));
-};
-
-// Triggers a facebook login (without credentials)
-Sample.prototype.LoginFacebook = function(whenDone)
-{
-	var self = this;
-	// Login into Facebook and XtraLife's Facebook App
-	facebook.FacebookAppLogin(function(facebookAccessToken)
-	{
-		// Login into XtraLife with Facebook token once logged in into Facebook and XtraLife's Facebook App
-		if (facebookAccessToken)
-		{
-			// We use access token from Facebook login to log into XtraLife
-			self.clan.login("facebook", "", facebookAccessToken, function(error, gamer)
-			{
-				// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
-				if (!error)
-				{
-					self.gamerData = gamer;
-					self.storageManager.SetData("gamer", JSON.stringify(gamer));
-				}
-				
-				self.LoggedInHeaderDisplay();
-				self.LoggedInBodyDisplay();
-				self.LoggedInCheck();
-				
-				// Callback
-				if (whenDone)
-					whenDone(error, gamer);
-			}.bind(self));
-		}
-		else
-			ConsoleLog("Could not retrieve Facebook login token; User is probably not logged into Facebook or XtraLife's Facebook App");
-	});
 };
 
 // Triggers a login with credentials (gamerId and gamerSecret)
-Sample.prototype.LoginWithCredentials = function(gamerId, gamerSecret, whenDone)
+Sample.prototype.LoginWithCredentials = function(network, gamerId, gamerSecret, options, whenDone)
 {
 	// With credentials, the login network type have to be "anonymous", wether you want to log in with an Anonymous or a Facebook network type XtraLife account
-	this.clan.resumeSession(gamerId, gamerSecret, null, function(error, gamer)
+	credentials = {id: gamerId, secret: gamerSecret}
+	this.clan.login(network, credentials, options, function(error, gamer)
 	{
 		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 		if (!error)
@@ -88,10 +55,10 @@ Sample.prototype.LoginWithCredentials = function(gamerId, gamerSecret, whenDone)
 	}.bind(this));
 };
 
-Sample.prototype.loginWithFacebook = function(token, whenDone)
+Sample.prototype.LoginWithToken = function(network, token, options, whenDone)
 {
 	credentials = {auth_token: token}
-	this.clan.login("facebook", credentials, null, function(error, gamer)
+	this.clan.login(network, credentials, options, function(error, gamer)
 	{
 		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 		if (!error)
@@ -110,17 +77,23 @@ Sample.prototype.loginWithFacebook = function(token, whenDone)
 }.bind(this))};
 
 
-Sample.prototype.convert = function(gamerId, gamerSecret, whenDone)
+Sample.prototype.convert = function(network, gamerId, gamerSecret, whenDone)
 {
-	credentials = {id: gamerId, secret: gamerSecret}
+	if (network == 'email'){
+		credentials = {id: gamerId, secret: gamerSecret}
+	}
+	else{
+		credentials = {auth_token: gamerId}
+	}
+	
 	if (this.gamerData)
 	{
-		this.clan.withGamer(this.gamerData).convertTo("email", credentials, function(error, gamer, gamerData)
+		this.clan.withGamer(this.gamerData).convertTo(network, credentials, function(error, gamer, gamerData)
 		{
 			if (error)
-				ConsoleLog("Convert error: " + error);
+				ConsoleLog("Convert error: " + JSON.stringify(error));
 			else
-				ConsoleLog(`Gamer ${gamer.gamer.gamer_id} successfully converted to mail (${credentials.id}) !`)
+				ConsoleLog(`Gamer ${gamer.gamer.gamer_id} successfully converted to ${network} (${credentials.id}) !`)
 		})
 	}
 	else{

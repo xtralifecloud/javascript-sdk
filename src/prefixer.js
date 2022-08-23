@@ -4,9 +4,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 
-const Endpoints = require('./endpoints.js');
-
 module.exports = function (request) {
-	request.url = Endpoints.current() + request.url;
+	request.url = this.endpoint + request.url;
 	return request;
 };

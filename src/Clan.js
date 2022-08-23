@@ -14,16 +14,12 @@ if (agent.Request.prototype.use == null) {
     };
 }
 
-const Endpoints = require('./endpoints.js');
 const prefixer = require('./prefixer.js');
 const ClanError = require('./ClanError.js');
 
-
 // @ts-ignore
-module.exports = function Clan(apikey, apisecret, endpoint = null) {
 
-    if (endpoint != null) { Endpoints.set(endpoint); }
-
+module.exports = function Clan(apikey, apisecret, endpoint) {
     const appCredentials = { 'x-apikey': apikey, 'x-apisecret': apisecret };
 
     return {
@@ -35,10 +31,10 @@ module.exports = function Clan(apikey, apisecret, endpoint = null) {
             return { gamer_id: gamer.gamer_id, gamer_secret: gamer.gamer_secret };
         },
 
-        loginAnonymous(options, cb) {
+        loginAnonymous(osn, options, cb) {
             return agent.post('/v1/login/anonymous')
                 .use(prefixer)
-                .send({ options })
+                .send({ osn, options })
                 .set(appCredentials)
                 .end(function(err, res) {
                     if (err != null) {
@@ -51,7 +47,7 @@ module.exports = function Clan(apikey, apisecret, endpoint = null) {
                 });
         }, // Maybe we can delete this one, as login() function will do this automatically if we don't pass any network parameters ?
 
-        login(network, credentials, osn, options, cb) {
+        login(network, credentials, options, cb) {
             if (typeof options === "function") {
                 cb = options;
                 options = null;
@@ -61,7 +57,7 @@ module.exports = function Clan(apikey, apisecret, endpoint = null) {
                 return agent
                     .post('/v1/login')
                     .use(prefixer)
-                    .send({ network, credentials, osn, options })
+                    .send({ network, credentials, options })
                     .set(appCredentials)
                     .end(function(err, res) {
                         if (err != null) {
@@ -77,7 +73,7 @@ module.exports = function Clan(apikey, apisecret, endpoint = null) {
                     .post('/v1/login/anonymous')
                     .use(prefixer)
                     .set(appCredentials)
-                    .send({ osn, options })
+                    .send({ options })
                     .end(function(err, res) {
                         if (err != null) {
                             return cb(err);
@@ -90,8 +86,8 @@ module.exports = function Clan(apikey, apisecret, endpoint = null) {
             }
         },
 
-        resumeSession(id, secret, osn, cb) {
-            return this.login("anonymous", this.createLoginCredentials(id, secret), osn, { preventRegistration: true }, cb);
+        resumeSession(id, secret, cb) {
+            return this.login("anonymous", this.createLoginCredentials(id, secret), { preventRegistration: true }, cb);
         },
 
         loginWithShortCode(shortCode, cb) {

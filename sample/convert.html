@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-    <title>Login features</title>
+    <title>Convert feature</title>
 
     <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
 
@@ -32,8 +32,8 @@
                 <td class="header-navigation_menu">
                     <ul class="navigation_links">
                         <li><a href="./index.html">Home</a></li>
-                        <li class="currentPage">Login</li>
-                        <li><a href="./convert.html">Convert</a></li>
+                        <li><a href="./login.html">Login</li></a>
+                        <li class="currentPage">Convert</li>
                         <li><a href="./vfs.html">VFS</a></li>
                         <li><a href="./leaderboard.html">Leaderboard</a></li>
                         <li><a href="./match.html">Match</a></li>
@@ -49,18 +49,14 @@
     </div>
     <div class="xtralife-box xtralife-extend-width" id="xtralife-login">
         <div class="xtralife-theme xtralife-text-center xtralife-box-header">
-            <h2>Login</h2>
+            <h2>Convert</h2>
         </div>
         <div class="xtralife-theme xtralife-box-body">
-            <!-- -------------------------- -->
-            <!-- Login Box Section: Methods -->
-            <!-- -------------------------- -->
+            
             <div id="xtralife-login-section-methods">
-                <p style="font-size: 15px; text-align: center;">
-                    This function allows a player to log in the XtraLife servers. If the credentials have never been used yet, then it will create a new profile. It's up to you then to save the gamer_id and gamer_secret if you want to log the player in automatically the
-                    next time. If the credentials have already been used, then the player is simply authenticated. When a new profile is created, the HTTP result code returned is 201, and it's 200 otherwise, if the profile already exists.</p>
-                <p style="font-size: 13px; text-align: center; font-style: italic;">Note : "New Anonymous Login" creates a new profile every time you call it. You should then store the credentials (check console for gamer_id and gamer_secret) obtained from the Json response to automatically log in again later as the same gamer.</p>
-                <p style="font-size: 13px; text-align: center;"><a href="http://doc.xtralife.cloud/backend/#login" style="text-decoration: underline;">Read the documentation about login here.</a></p>
+                <p style="font-size: 15px; text-align: center;">This function is used to convert an anonymous profile to a profile linked to a social network. The main advantage is it will be easier when done to connect on another device with the same profile. The internal `gamer_id` and `gamer_secret` are not modified, so they can still be used if stored locally on a device.</p>
+                <p style="font-size: 15px; text-align: center;">You need to be logged in to convert your account.</p>
+                <p style="font-size: 15px; text-align: center;"><a href="http://doc.xtralife.cloud/backend/#convert">See the docs about it here.</a></p>
                 <div class="xtralife-text-center" style="text-align: center;">
                     <input class="xtralife-button xtralife-button-anonymous" type="button" value="New Anonymous Login" onclick="sample.LoginAnonymously(null, sample.LoginDone)">
                     <input class="xtralife-button xtralife-button-status" type="button" value="Check XtraLife login status" onclick="sample.LoggedInCheck();">
@@ -69,15 +65,13 @@
                 <hr>
                 <h4>Select a network</h4>
                 <select name="network" id="network" class="xtralife-select xtralife-text-center xtralife-extend-width" onchange="handleNetworkChange()">
-                        <option value="anonymous">Anonymous</option>
-                        <option value="email">Email</option>
-                        <option value="facebook">Facebook</option>
-                        <option value="google">Google</option>
-                        <option value="steam">Steam</option>
-                        <option value="firebase">Firebase</option>
-                        <option value="apple">Apple</option>
-                        <option value="gamecenter">Gamecenter</option>
-                        
+                    <option value="email">Email</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="google">Google</option>
+                    <option value="steam">Steam</option>
+                    <option value="firebase">Firebase</option>
+                    <option value="apple">Apple</option>
+                    <option value="gamecenter">Gamecenter</option>
                     </select>
                 <hr>
                 <div id="xtralife-login-method-email-signin">
@@ -95,7 +89,7 @@
                         <tr id="gamerId" style="display:table-row">
                             <td>
                                 <div>
-                                    <b><p id="gamerIdText">Gamer ID</p></b>
+                                    <b><p id="gamerIdText">Mail</p></b>
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
@@ -104,36 +98,16 @@
                         </tr>
                         <tr id="gamerSecret" style="display:table-row">
                             <td>
-                                <b><p id="gamerSecretText">Gamer Secret</p></b>
+                                <b><p id="gamerSecretText">Password</p></b>
                             </td>
                             <td class="xtralife-extend-width">
                                 <input type="text" value="" name="gamerSecretVal" class="xtralife-text xtralife-extend-width" id="gamerSecretVal">
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <div>
-                                    <p><i>Device OS (optional)</i></p>
-                                </div>
-                            </td>
-                            <td class="xtralife-extend-width">
-                                <input type="text" value="" name="osnPlatform" class="xtralife-text xtralife-extend-width" id="osnPlatform">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div>
-                                    <p><i>Device Token (optional)</i></p>
-                                </div>
-                            </td>
-                            <td class="xtralife-extend-width">
-                                <input type="text" value="" name="osnToken" class="xtralife-text xtralife-extend-width" id="osnToken">
-                            </td>
-                        </tr>
-                        <tr>
                             <td colspan="2">
                                 <div class="xtralife-text-center" style="text-align: center;">
-                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Login" onclick="loginWithNetwork();">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Convert" onclick="handleConvert()">
                                 </div>
                             </td>
                         </tr>
@@ -183,45 +157,20 @@
         </script>
 
         <script>
-            function loginWithNetwork() {
+            function handleConvert() {
                 if (document.getElementById('authToken').style.display == 'none') {
-                    if (document.getElementById('osnPlatform').value != '' && document.getElementById('osnToken').value != '') {
-                        sample.LoginWithCredentials(document.getElementById('network').value, document.getElementById('gamerIdVal').value, document.getElementById('gamerSecretVal').value, {
-                            'deviceToken': {
-                                'os': document.getElementById('osnPlatform').value,
-                                'token': document.getElementById('osnToken').value
-                            },
-                        }, sample.LoginDone)
-                    } else {
-                        sample.LoginWithCredentials(document.getElementById('network').value, document.getElementById('gamerIdVal').value, document.getElementById('gamerSecretVal').value, null, sample.LoginDone)
-                    }
+                    sample.convert(document.getElementById('network').value, document.getElementById('gamerIdVal').value, document.getElementById('gamerSecretVal').value)
                 } else {
-                    if (document.getElementById('osnPlatform').value != '' && document.getElementById('osnToken').value != '') {
-                        sample.LoginWithToken(document.getElementById('network').value, document.getElementById('authTokenVal').value, {
-                            'deviceToken': {
-                                'os': document.getElementById('osnPlatform').value,
-                                'token': document.getElementById('osnToken').value
-                            },
-                        }, sample.LoginDone)
-                    } else {
-                        sample.LoginWithToken(document.getElementById('network').value, document.getElementById('authTokenVal').value, null, sample.LoginDone)
-                    }
+                    sample.convert(document.getElementById('network').value, document.getElementById('authTokenVal').value, null)
                 }
             }
 
             function handleNetworkChange() {
                 var network = document.getElementById("network").value;
-                if (network == "anonymous" || network == "email") {
+                if (network == "email") {
                     document.getElementById("gamerId").style.display = "table-row";
                     document.getElementById("gamerSecret").style.display = "table-row";
                     document.getElementById("authToken").style.display = "none";
-                    if (network == "anonymous") {
-                        document.getElementById("gamerIdText").innerHTML = "Gamer ID";
-                        document.getElementById("gamerSecretText").innerHTML = "Gamer Secret";
-                    } else {
-                        document.getElementById("gamerIdText").innerHTML = "Mail";
-                        document.getElementById("gamerSecretText").innerHTML = "Password";
-                    }
                 } else {
                     document.getElementById("gamerId").style.display = "none";
                     document.getElementById("gamerSecret").style.display = "none";
