@@ -59,7 +59,9 @@
                 <p style="font-size: 15px; text-align: center;">
                     This function allows a player to log in the XtraLife servers. If the credentials have never been used yet, then it will create a new profile. It's up to you then to save the gamer_id and gamer_secret if you want to log the player in automatically the
                     next time. If the credentials have already been used, then the player is simply authenticated. When a new profile is created, the HTTP result code returned is 201, and it's 200 otherwise, if the profile already exists.</p>
-                <p style="font-size: 13px; text-align: center; font-style: italic;">Note : "New Anonymous Login" creates a new profile every time you call it. You should then store the credentials (check console for gamer_id and gamer_secret) obtained from the Json response to automatically log in again later as the same gamer.</p>
+                <p style="font-size: 13px; text-align: center; font-style: italic;">Note : "New Anonymous Login" creates a new profile every time you call it. You should then store the credentials (check console for gamer_id and gamer_secret) obtained from the Json response to automatically log in again later as the same
+                    gamer.
+                </p>
                 <p style="font-size: 13px; text-align: center;"><a href="http://doc.xtralife.cloud/backend/#login" style="text-decoration: underline;">Read the documentation about login here.</a></p>
                 <div class="xtralife-text-center" style="text-align: center;">
                     <input class="xtralife-button xtralife-button-anonymous" type="button" value="New Anonymous Login" onclick="sample.LoginAnonymously(null, sample.LoginDone)">
@@ -89,7 +91,8 @@
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" name="authTokenVal" class="xtralife-text xtralife-extend-width" id="authTokenVal">
+                                <input type="text" value="" name="authTokenVal" placeholder="GGQVliTlJ3c0QxM08xcTY5Nkoybk90UnJlWEl6bEzvM3FkdEVIVkFJVVByaU9EU0JQQTJheWpSeHpOSFpGY3hQVzNRRVR6NzNQUjUxOUcwMmNpZAUNFR2RxSV9jU1pZAYWlqWTFrWVBSSmUwLWRNbTYzcHZAJaU9qbzZANZA05waGdUX2ltdwZDZD" class="xtralife-text xtralife-extend-width"
+                                    id="authTokenVal">
                             </td>
                         </tr>
                         <tr id="gamerId" style="display:table-row">
@@ -99,7 +102,7 @@
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" name="gamerIdVal" class="xtralife-text xtralife-extend-width" id="gamerIdVal">
+                                <input type="text" value="" placeholder="6304b8328172c017c63d223b" name="gamerIdVal" class="xtralife-text xtralife-extend-width" id="gamerIdVal">
                             </td>
                         </tr>
                         <tr id="gamerSecret" style="display:table-row">
@@ -107,7 +110,69 @@
                                 <b><p id="gamerSecretText">Gamer Secret</p></b>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" name="gamerSecretVal" class="xtralife-text xtralife-extend-width" id="gamerSecretVal">
+                                <input type="text" value="" placeholder="41a52a9dcedc1825554d94ca358c279aa9c14a4b" name="gamerSecretVal" class="xtralife-text xtralife-extend-width" id="gamerSecretVal">
+                            </td>
+                        </tr>
+                        <tr id="idGamecenter" style="display:none">
+                            <td>
+                                <div>
+                                    <p><b>ID</b></p>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" placeholder="T:_11db253c14bf51908d51ae77c9752886" name="idGCVal" class="xtralife-text xtralife-extend-width" id="idGCVal">
+                            </td>
+                        </tr>
+                        <tr id="pkGamecenter" style="display:none">
+                            <td>
+                                <div>
+                                    <p><b>Public Key URL</b></p>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" placeholder="https://static.gc.apple.com/public-key/gc-prod-6.cer" name="pkGCVal" class="xtralife-text xtralife-extend-width" id="pkGCVal">
+                            </td>
+                        </tr>
+
+                        <tr id="signatureGamecenter" style="display:none">
+                            <td>
+                                <div>
+                                    <p><b>Signature</b></p>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" placeholder="G3mVqOcDh/MidqPgJn/h56Sv9RmwtYsddFAfNpZLQolSnuOqN4dp+4y34fuk9QGbjsrBSvw0JXCfNAJ/8+EpQ6SNog+CoNTCvVRKQbq8vljHfX9NbllODRa3sDLpTX/GCrZcOXbqggUC5Ehfif8afdGw/IQJj+E1KDuvkhrcLvtX+ggqwTvxsirQcOat9zvGBCkhqb/E1lgPMI3JIetHogF+y6KUbBhrTyUuC76cuqscJoIQEu2QmONlzVOX3Riw/1MJVm6f2SU+ohREIklg0gsK6h1o0z29Yz/LXEuoQWYGCmwGzzqbk4zCh04ZoiyuFAVcovDCj2Yk9JEsj0U5bmrrCGG18INpbZvcdUVB8K096SoWe67VRd0ZdWxWwT71h5AO1P+pw02valuZMUQyaj/yW4Z8fp9R9ZphQOnF8JQ5p9vMPvxQl9e1YYFTDXrMqabqEt2rjGgCy6OwcYL2XbuBJYWRTd0nHsWJtyMqh7Porc2f2twmeWwPIZaC2NUqg20CtP0m0Ri6Xl33S/MLPtptE7dDNxEh7JvOPVKvtWdG3qEmygNeEKYoDr0OgTdAwlBriDGlTYyMu7GAUBvxthp0M55FSYlfda41Gsn/oFFqpA+ls629pPeWFdxAsgZiMONHsVIpkpfZ2It1ZQ0p2LoXm4DIAsKEZBPSSL7698A="
+                                    name="signatureGCVal" class="xtralife-text xtralife-extend-width" id="signatureGCVal">
+                            </td>
+                        </tr>
+                        <tr id="saltGamecenter" style="display:none">
+                            <td>
+                                <div>
+                                    <p><b>Salt</b></p>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" name="saltGCVal" placeholder="iyIEaQ==" class="xtralife-text xtralife-extend-width" id="saltGCVal">
+                            </td>
+                        </tr>
+                        <tr id="timestampGamecenter" style="display:none">
+                            <td>
+                                <div>
+                                    <p><b>Timestamp</b></p>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" name="timestampGCVal" placeholder="1649687629348" class="xtralife-text xtralife-extend-width" id="timestampGCVal">
+                            </td>
+                        </tr>
+                        <tr id="bundleGamecenter" style="display:none">
+                            <td>
+                                <div>
+                                    <p><b>Bundle ID</b></p>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" name="bundleGCVal" placeholder="cloud.xtralife.gamecenterauth" class="xtralife-text xtralife-extend-width" id="bundleGCVal">
                             </td>
                         </tr>
                         <tr>
@@ -117,7 +182,7 @@
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" name="osnPlatform" class="xtralife-text xtralife-extend-width" id="osnPlatform">
+                                <input type="text" value="" placeholder="ios" name="osnPlatform" class="xtralife-text xtralife-extend-width" id="osnPlatform">
                             </td>
                         </tr>
                         <tr>
@@ -127,13 +192,13 @@
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" name="osnToken" class="xtralife-text xtralife-extend-width" id="osnToken">
+                                <input type="text" value="" placeholder="15E5E768349BD93784714E994547B5BD23A548E2129F0BB826A838A939K905BP" name="osnToken" class="xtralife-text xtralife-extend-width" id="osnToken">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <div class="xtralife-text-center" style="text-align: center;">
-                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Login" onclick="loginWithNetwork();">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Login" onclick="sample.Login(sample.LoginDone);">
                                 </div>
                             </td>
                         </tr>
@@ -181,55 +246,48 @@
             sample.LoggedInCheck();
             //-->
         </script>
-
         <script>
-            function loginWithNetwork() {
-                if (document.getElementById('authToken').style.display == 'none') {
-                    if (document.getElementById('osnPlatform').value != '' && document.getElementById('osnToken').value != '') {
-                        sample.LoginWithCredentials(document.getElementById('network').value, document.getElementById('gamerIdVal').value, document.getElementById('gamerSecretVal').value, {
-                            'deviceToken': {
-                                'os': document.getElementById('osnPlatform').value,
-                                'token': document.getElementById('osnToken').value
-                            },
-                        }, sample.LoginDone)
-                    } else {
-                        sample.LoginWithCredentials(document.getElementById('network').value, document.getElementById('gamerIdVal').value, document.getElementById('gamerSecretVal').value, null, sample.LoginDone)
-                    }
-                } else {
-                    if (document.getElementById('osnPlatform').value != '' && document.getElementById('osnToken').value != '') {
-                        sample.LoginWithToken(document.getElementById('network').value, document.getElementById('authTokenVal').value, {
-                            'deviceToken': {
-                                'os': document.getElementById('osnPlatform').value,
-                                'token': document.getElementById('osnToken').value
-                            },
-                        }, sample.LoginDone)
-                    } else {
-                        sample.LoginWithToken(document.getElementById('network').value, document.getElementById('authTokenVal').value, null, sample.LoginDone)
-                    }
-                }
-            }
-
             function handleNetworkChange() {
                 var network = document.getElementById("network").value;
-                if (network == "anonymous" || network == "email") {
-                    document.getElementById("gamerId").style.display = "table-row";
-                    document.getElementById("gamerSecret").style.display = "table-row";
-                    document.getElementById("authToken").style.display = "none";
-                    if (network == "anonymous") {
-                        document.getElementById("gamerIdText").innerHTML = "Gamer ID";
-                        document.getElementById("gamerSecretText").innerHTML = "Gamer Secret";
-                    } else {
-                        document.getElementById("gamerIdText").innerHTML = "Mail";
-                        document.getElementById("gamerSecretText").innerHTML = "Password";
-                    }
-                } else {
+                if (network == "gamecenter") {
                     document.getElementById("gamerId").style.display = "none";
                     document.getElementById("gamerSecret").style.display = "none";
-                    document.getElementById("authToken").style.display = "table-row";
+                    document.getElementById("authToken").style.display = "none";
+                    document.getElementById("idGamecenter").style.display = "table-row";
+                    document.getElementById("pkGamecenter").style.display = "table-row";
+                    document.getElementById("signatureGamecenter").style.display = "table-row";
+                    document.getElementById("saltGamecenter").style.display = "table-row";
+                    document.getElementById("timestampGamecenter").style.display = "table-row";
+                    document.getElementById("bundleGamecenter").style.display = "table-row";
+                } else {
+                    document.getElementById("idGamecenter").style.display = "none";
+                    document.getElementById("pkGamecenter").style.display = "none";
+                    document.getElementById("signatureGamecenter").style.display = "none";
+                    document.getElementById("saltGamecenter").style.display = "none";
+                    document.getElementById("timestampGamecenter").style.display = "none";
+                    document.getElementById("bundleGamecenter").style.display = "none";
+                    if (network == "anonymous" || network == "email") {
+                        document.getElementById("gamerId").style.display = "table-row";
+                        document.getElementById("gamerSecret").style.display = "table-row";
+                        document.getElementById("authToken").style.display = "none";
+                        if (network == "anonymous") {
+                            document.getElementById("gamerIdText").innerHTML = "Gamer ID";
+                            document.getElementById("gamerSecretText").innerHTML = "Gamer Secret";
+                            document.getElementById("gamerIdVal").placeholder = "6304b8328172c017c63d223b";
+                            document.getElementById("gamerSecretVal").placeholder = "41a52a9dcedc1825554d94ca358c279aa9c14a4b";
+                        } else {
+                            document.getElementById("gamerIdText").innerHTML = "Mail";
+                            document.getElementById("gamerSecretText").innerHTML = "Password";
+                            document.getElementById("gamerIdVal").placeholder = "myEmail@gmail.com";
+                            document.getElementById("gamerSecretVal").placeholder = "myPassword";
+                        }
+                    } else {
+                        document.getElementById("gamerId").style.display = "none";
+                        document.getElementById("gamerSecret").style.display = "none";
+                        document.getElementById("authToken").style.display = "table-row";
+                    }
                 }
             }
         </script>
-
 </body>
-
 </html>

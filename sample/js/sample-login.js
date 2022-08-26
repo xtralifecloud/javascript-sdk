@@ -31,12 +31,40 @@ Sample.prototype.LoginAnonymously = function(options, whenDone)
 	}.bind(this));
 };
 
-// Triggers a login with credentials (gamerId and gamerSecret)
-Sample.prototype.LoginWithCredentials = function(network, gamerId, gamerSecret, options, whenDone)
+///////////
+Sample.prototype.Login = function(whenDone)
 {
-	// With credentials, the login network type have to be "anonymous", wether you want to log in with an Anonymous or a Facebook network type XtraLife account
-	credentials = {id: gamerId, secret: gamerSecret}
-	this.clan.login(network, credentials, options, function(error, gamer)
+	// Create the credentials JSON according to the chosen network
+	var network = document.getElementById("network").value;
+	if (network == "gamecenter") {
+		credentials = {
+			"id": document.getElementById('idGCVal').value,
+			"publicKeyUrl": document.getElementById('pkGCVal').value,
+			"signature": document.getElementById('signatureGCVal').value,
+			"salt": document.getElementById('saltGCVal').value,
+			"timestamp": document.getElementById('timestampGCVal').value,
+			"bundleId": document.getElementById('bundleGCVal').value
+		}
+	} else if (network == "anonymous" || network == "email") {
+		credentials = {
+			id: document.getElementById('gamerIdVal').value,
+			secret: document.getElementById('gamerSecretVal').value
+		}
+	} else {
+		credentials = {
+			auth_token: document.getElementById('authTokenVal').value
+		}
+	}
+
+	// Create an "options" object depending on whether you have chosen to enter the OS and the token of the device
+	var options;
+	if (document.getElementById('osnPlatform').value != '' && document.getElementById('osnToken').value != '') {
+		options = { deviceToken: {
+			os: document.getElementById('osnPlatform').value,
+			token: document.getElementById('osnToken').value
+		   }}
+	}
+		this.clan.login(network, credentials, options, function(error, gamer)
 	{
 		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
 		if (!error)
@@ -55,37 +83,30 @@ Sample.prototype.LoginWithCredentials = function(network, gamerId, gamerSecret, 
 	}.bind(this));
 };
 
-Sample.prototype.LoginWithToken = function(network, token, options, whenDone)
+Sample.prototype.convert = function(whenDone)
 {
-	credentials = {auth_token: token}
-	this.clan.login(network, credentials, options, function(error, gamer)
-	{
-		// Store credentials for later use if no error occured; This will set BasicAuthentication on future requests
-		if (!error)
-		{
-			this.gamerData = gamer;
-			this.storageManager.SetData("gamer", JSON.stringify(gamer));
+
+	var network = document.getElementById("network").value;
+	if (network == "gamecenter") {
+		credentials = {
+			"id": document.getElementById('idGCVal').value,
+			"publicKeyUrl": document.getElementById('pkGCVal').value,
+			"signature": document.getElementById('signatureGCVal').value,
+			"salt": document.getElementById('saltGCVal').value,
+			"timestamp": document.getElementById('timestampGCVal').value,
+			"bundleId": document.getElementById('bundleGCVal').value
 		}
-		
-		this.LoggedInHeaderDisplay();
-		this.LoggedInBodyDisplay();
-		this.LoggedInCheck();
-		
-		// Callback
-		if (whenDone)
-			whenDone(error, gamer);
-}.bind(this))};
-
-
-Sample.prototype.convert = function(network, gamerId, gamerSecret, whenDone)
-{
-	if (network == 'email'){
-		credentials = {id: gamerId, secret: gamerSecret}
+	} else if (network == "anonymous" || network == "email") {
+		credentials = {
+			id: document.getElementById('gamerIdVal').value,
+			secret: document.getElementById('gamerSecretVal').value
+		}
+	} else {
+		credentials = {
+			auth_token: document.getElementById('authTokenVal').value
+		}
 	}
-	else{
-		credentials = {auth_token: gamerId}
-	}
-	
+
 	if (this.gamerData)
 	{
 		this.clan.withGamer(this.gamerData).convertTo(network, credentials, function(error, gamer, gamerData)

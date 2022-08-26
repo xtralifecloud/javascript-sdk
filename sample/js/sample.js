@@ -1,4 +1,4 @@
-// Those are the Api Key and Secret of your game, use your own keys provided when registering!
+// Those are the Api Key and Secret of your game, use your own keys provided in your game's configuration files !
 var YourGameApiKey = "testgame-key";
 var YourGameApiSecret = "testgame-secret";
 var endpoint = 'http://localhost:2000'

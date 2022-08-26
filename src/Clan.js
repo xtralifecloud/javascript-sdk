@@ -16,15 +16,19 @@ if (agent.Request.prototype.use == null) {
 
 const prefixer = require('./prefixer.js');
 const ClanError = require('./ClanError.js');
+const Endpoint = require('./endpoint.js');
 
 // @ts-ignore
 
 module.exports = function Clan(apikey, apisecret, endpoint) {
+
+    if (endpoint != null) { Endpoint.set(endpoint); }
+
     const appCredentials = { 'x-apikey': apikey, 'x-apisecret': apisecret };
 
     return {
         createLoginCredentials(id, secret) {
-            return { id: id , secret: secret };
+            return { id: id, secret: secret };
         },
 
         createGamerCredentials(gamer) {
@@ -91,7 +95,7 @@ module.exports = function Clan(apikey, apisecret, endpoint) {
         },
 
         loginWithShortCode(shortCode, cb) {
-			const credentials = this.createLoginCredentials("", shortCode);
+            const credentials = this.createLoginCredentials("", shortCode);
             return this.login("restore", credentials, { preventRegistration: true }, cb);
         },
 

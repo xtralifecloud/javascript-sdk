@@ -8,8 +8,8 @@ require('mocha')
  */
 const should = require('should');
 
-const Clan = require('../src/Clan.js')('testgame-key', 'testgame-secret'); // app credentials
-
+const Clan = require('../src/Clan.js')('testgame-key', 'testgame-secret', 'http://localhost:2000'); // app credentials
+const Endpoint = require('../src/endpoint.js');
 const dataset = require('./0-dataset.json');
 
 let gamerCred = null;
@@ -20,8 +20,14 @@ describe('Clan JS client', function () {
     before('setup', done => //require('../src/endpoints.js').set 'sandbox'
         done());
 
-    it('should allow anonymous log in', done => {
-            Clan.loginAnonymous(null, function (err, gamer) {
+    
+        it("should get the endpoint and return http://localhost:2000", () => {
+            console.log(Endpoint.get());
+        })
+
+    it('should alloOOOOOOOOOw anonymous log in', done => {
+        
+            Clan.loginAnonymous(null, null, function (err, gamer) {console.log(Endpoint.get());
                 if (err != null) { done(err); }
                 gamer.should.have.property('gamer_id');
                 gamer.should.have.property('gamer_secret');
@@ -34,7 +40,7 @@ describe('Clan JS client', function () {
     });
 
     it('should create a new friend', done => {
-        Clan.loginAnonymous(null, function (err, gamer) {
+        Clan.loginAnonymous(null, null, function (err, gamer) {
             if (err != null) { done(err); }
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');
@@ -62,7 +68,7 @@ describe('Clan JS client', function () {
         })
     });
 
-    it('sould reset email password', function (done) {
+    it('should reset email password', function (done) {
         const body = "Use this code [[SHORTCODE]] to reset your password !";
         Clan.sendResetMailPassword("devteam@xtralife.cloud", "admin@xtralife.cloud", "reset your password", body, function (err, res) {
             should(err).be.undefined;
@@ -88,22 +94,18 @@ describe('Clan JS client', function () {
         })
     });
 
-    it('should accept Facebook credentials', done => {// find a FB user access token at https://developers.facebook.com/tools/accesstoken/
-        credentials = {auth_token: 'CAAIhTFZBxVNoBAKEmRVDHiDcxhpTAZAaEAyGaxNJWxUBaSZC9E2QuZBqfcgjK1K8Ce4DAm1BRI897OB0kGB1hJaseP1JU7WEQFhteqwV63sKXZC5089tpMuDK1igEzrfeMtXpZBZBbZC4ebm9GRSujTCL8SZBFGAJmthltAfYvLXpoJlP7qdk2ZCStnsqQ4RRAIyhWmdZB8QDVZB29NeOyO73j9NnYBWz8F1ZCP4ZD'}
-        Clan.login(
-            'facebook',
-            credentials,
-            null,
-            function (err, gamer) {
-                gamer.should.have.property('gamer_id');
-                gamer.should.have.property('gamer_secret');
-                done();
-            }
-        )
+    it('should accept Facebook credentials', done => { // find a FB user access token at https://developers.facebook.com/tools/accesstoken/
+        credentials = {auth_token: 'EAAEq3gnqZAOwBASD3T9M9LF7cUPrTTFAnfmQglQmtA0TkeRLLmJURVrGPlUhgX0LJQVZBvLXSCQKID5BVBiqonvt6QGlYfxfNVZAYbxhcslDzL1ZCoZBnAnK1wnRvzlmOEVJb3ZB5Uzcafd787UItNtq3fTyMh4Oxjsf0ojckE4gZDZD'}
+        Clan.login('facebook', credentials, null, function (err, gamer) {
+            if (err != null) { done(err); }
+            gamer.should.have.property('gamer_id');
+            gamer.should.have.property('gamer_secret');
+            done();
+        })
     });
 
     it('should allow conversion of anonymous to email', done => {         
-        Clan.loginAnonymous(null, function (err, gamer) {
+        Clan.loginAnonymous(null, null, function (err, gamer) {
             if (err != null) { done(err); }
             gamer.should.have.property('gamer_id');
             gamer.should.have.property('gamer_secret');

@@ -1,16 +1,19 @@
 require('mocha')
+const should = require('should');
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const Endpoints = require('../src/endpoints.js');
+const Endpoint = require('../src/endpoint.js');
 
-describe("Set endpoint", function () {
+describe("Set endpoint", function() {
+    it("should set the endpoint to http://localhost:2000", () => Endpoint.set('http://localhost:2000'));
+});
 
-	// it.skip ("should set the endpoint to local", () => Endpoints.set('dev'));
-
-	//it.skip("should set the endpoint to sandbox", () => Endpoints.set('sandbox'));
-
-	// DONT it.skip("should set the endpoint to production", () => Endpoints.set('prod'));
+describe("Get endpoint", function() {
+    it("should get the endpoint and return http://localhost:2000", () => {
+        console.log(Endpoint.get());
+        should(Endpoint.get() == 'http://localhost:2000').be.true();
+    })
 });

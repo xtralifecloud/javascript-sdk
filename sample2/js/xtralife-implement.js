@@ -13,8 +13,9 @@ xtralife.ConsoleError = function() { if (xtralife.LOG) { console.error.apply(con
 
 // Application environment credentials
 xtralife.APP_CREDENTIALS = {
-	SANDBOX: { apiKey: "d02a7AoFM8McnQR", apiSecret: "W4iZjw60mBvnRmRaNnp7" }
+	SANDBOX: { apiKey: "testgame-key", apiSecret: "testgame-secret" }
 };
+xtralife.endpoint = 'http://localhost:2000'
 
 // Displayed error messages
 xtralife.DISPLAYED_ERROR = {
@@ -32,7 +33,7 @@ xtralife.DISPLAYED_ERROR = {
 xtralife.Init = function()
 {
 	xtralife.ConsoleLog("[XtraLife:Init]", "Initializing...");
-	xtralife.clan = Clan(xtralife.APP_CREDENTIALS.SANDBOX.apiKey, xtralife.APP_CREDENTIALS.SANDBOX.apiSecret);
+	xtralife.clan = Clan(xtralife.APP_CREDENTIALS.SANDBOX.apiKey, xtralife.APP_CREDENTIALS.SANDBOX.apiSecret, xtralife.endpoint);
 };
 
 /*----------------*/
@@ -49,8 +50,8 @@ xtralife.login.LoginEmail = function(email, password, preventRegistration, OnSuc
 
 	// If true, prevents from creating a new account if it doesn't exist yet
 	var options = preventRegistration ? { preventRegistration: true } : {};
-	
-	xtralife.clan.login("email", email, password, options, function(error, gamer)
+	credentials = {id:email, secret:password}
+	xtralife.clan.login("email", credentials, options, function(error, gamer)
 	{
 		if (!error) { OnSuccess(gamer); }
 		else

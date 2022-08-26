@@ -6,7 +6,7 @@ require('mocha')
  */
 const should = require('should');
 
-const Clan = require('../src/Clan.js')('testgame-key', 'testgame-secret'); // app credentials
+const Clan = require('../src/Clan.js')('testgame-key', 'testgame-secret', 'http://localhost:2000'); // app credentials // app credentials
 
 const dataset = require('./0-dataset.json');
 
