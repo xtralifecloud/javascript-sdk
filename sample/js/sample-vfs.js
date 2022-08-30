@@ -1,9 +1,12 @@
 // A helper to display VFS results as a text
-Sample.prototype.VfsTextDisplay = function(container, text)
+Sample.prototype.VfsTextDisplay = function(container, text, success)
 {
 	if (container)
 	{
-		var finalText = "<p><b>" + text + "</b></p>";
+		var color = 'rgb(255, 55, 55)';
+		if (success == true)
+			color = 'rgb(92, 207, 89)';
+		var finalText = `<p style='color: ${color}; text-align: center'><b>` + text + "</b></p>";
 		container.innerHTML = finalText;
 	}
 }
@@ -13,7 +16,7 @@ Sample.prototype.VfsTableDisplay = function(container, keyValues)
 {
 	if (container)
 	{
-		var finalTable = "<table><tr><td class=\"col_a title\"><b>Key(s)</b></td><td class=\"col_b title\"><b>Value(s)</b></td></tr>";
+		var finalTable = "<table style='color:rgb(92, 207, 89); margin-left: auto; margin-right: auto;'><tr><td class=\"col_a title\"><b>Key(s)</b></td><td class=\"col_b title\"><b>Value(s)</b></td></tr>";
 		var foundKey = false;
 		
 		for (var key in keyValues)
@@ -34,7 +37,7 @@ Sample.prototype.VfsTableDisplay = function(container, keyValues)
 Sample.prototype.GamerVfsSet = function(gamerVfsSetKey, gamerVfsSetValue)
 {
 	var self = this;
-	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs");
+	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs-set");
 	
 	if (this.gamerData)
 	{
@@ -53,14 +56,14 @@ Sample.prototype.GamerVfsSet = function(gamerVfsSetKey, gamerVfsSetValue)
 			{
 				var errorMessage = "VFS Set error: " + error;
 				ConsoleLog(errorMessage);
-				self.VfsTextDisplay(bodyGamerVfsStatus, errorMessage);
+				self.VfsTextDisplay(bodyGamerVfsStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "VFS Set (Key: " + gamerVfsSetKey + " / Value: " + gamerVfsSetValue + ") -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.VfsTextDisplay(bodyGamerVfsStatus, resultMessage);
+				self.VfsTextDisplay(bodyGamerVfsStatus, resultMessage, true);
 			}
 		});
 	}
@@ -69,7 +72,7 @@ Sample.prototype.GamerVfsSet = function(gamerVfsSetKey, gamerVfsSetValue)
 	{
 		var errorMessage = "VFS Set error: Can't use VFS features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.VfsTextDisplay(bodyGamerVfsStatus, errorMessage);
+		this.VfsTextDisplay(bodyGamerVfsStatus, errorMessage, false);
 	}
 }
 
@@ -77,7 +80,7 @@ Sample.prototype.GamerVfsSet = function(gamerVfsSetKey, gamerVfsSetValue)
 Sample.prototype.GamerVfsGet = function(gamerVfsGetKey)
 {
 	var self = this;
-	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs");
+	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs-get");
 	
 	if (this.gamerData)
 	{
@@ -94,7 +97,7 @@ Sample.prototype.GamerVfsGet = function(gamerVfsGetKey)
 			{
 				var errorMessage = "VFS Get error: " + error;
 				ConsoleLog(errorMessage);
-				self.VfsTextDisplay(bodyGamerVfsStatus, errorMessage);
+				self.VfsTextDisplay(bodyGamerVfsStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
@@ -118,7 +121,7 @@ Sample.prototype.GamerVfsGet = function(gamerVfsGetKey)
 	{
 		var errorMessage = "VFS Get error: Can't use VFS features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.VfsTextDisplay(bodyGamerVfsStatus, errorMessage);
+		this.VfsTextDisplay(bodyGamerVfsStatus, errorMessage, false);
 	}
 }
 
@@ -126,7 +129,7 @@ Sample.prototype.GamerVfsGet = function(gamerVfsGetKey)
 Sample.prototype.GamerVfsDelete = function(gamerVfsDeleteKey)
 {
 	var self = this;
-	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs");
+	var bodyGamerVfsStatus = document.getElementById("body-gamer-vfs-del");
 	
 	if (this.gamerData)
 	{
@@ -143,14 +146,14 @@ Sample.prototype.GamerVfsDelete = function(gamerVfsDeleteKey)
 			{
 				var errorMessage = "VFS Delete error: " + error;
 				ConsoleLog(errorMessage);
-				self.VfsTextDisplay(bodyGamerVfsStatus, errorMessage);
+				self.VfsTextDisplay(bodyGamerVfsStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "VFS Delete (Key: " + gamerVfsDeleteKey + ") -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.VfsTextDisplay(bodyGamerVfsStatus, resultMessage);
+				self.VfsTextDisplay(bodyGamerVfsStatus, resultMessage, true);
 			}
 		});
 	}
@@ -159,7 +162,7 @@ Sample.prototype.GamerVfsDelete = function(gamerVfsDeleteKey)
 	{
 		var errorMessage = "VFS Delete error: Can't use VFS features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.VfsTextDisplay(bodyGamerVfsStatus, errorMessage);
+		this.VfsTextDisplay(bodyGamerVfsStatus, errorMessage, false);
 	}
 }
 
@@ -167,7 +170,7 @@ Sample.prototype.GamerVfsDelete = function(gamerVfsDeleteKey)
 Sample.prototype.GameVfsGet = function(gameVfsGetKey)
 {
 	var self = this;
-	var bodyGameVfsStatus = document.getElementById("body-game-vfs");
+	var bodyGameVfsStatus = document.getElementById("body-game-vfs-get");
 	
 	// Domains are used to scope data
 	// The private domain is specific to the current game while shared domains allow data to be shared across all games sharing those respective domains

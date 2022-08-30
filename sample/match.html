@@ -1,394 +1,537 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		
-		<title>Match features</title>
-		
-		<link href="img/favicon.ico" rel="icon" type="image/x-icon" />
-		
-		<link href="css/reset.css" rel="stylesheet" type="text/css" />
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
-		<link href="css/header.css" rel="stylesheet" type="text/css" />
-		<link href="css/match.css" rel="stylesheet" type="text/css" />
-		<link href="css/console.css" rel="stylesheet" type="text/css" />
-		<link href="css/footer.css" rel="stylesheet" type="text/css" />
-		
-		<script src="js/bundle.min.js" type="text/javascript"></script>
-		<script src="js/sample.js" type="text/javascript"></script>
-		<script src="js/sample-event.js" type="text/javascript"></script>
-		<script src="js/sample-match.js" type="text/javascript"></script>
-		<script src="js/storagemanager.js" type="text/javascript"></script>
-		<script src="js/console.js" type="text/javascript"></script>
-	</head>
-	
-	<body>
-		<div class="header">
-			<table>
-				<tr>
-					<td class="header-xtralife_logo">
-						<a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
-					</td>
-					<td class="header-navigation_menu">
-						<ul class="navigation_links">
-							<li><a href="./index.html">Home</a></li>
-							<li><a href="./login.html">Login</a></li>
-							<li><a href="./convert.html">Convert</a></li>
-							<li><a href="./vfs.html">VFS</a></li>
-							<li><a href="./leaderboard.html">Leaderboard</a></li>
-							<li class="currentPage">Match</li>
-						</ul>
-					</td>
-					<td class="header-title">
-						<h1>JS XtraLife SDK Sample</h1>
-						<p id="header-login"></p>
-					</td>
-				</tr>
-			</table>
-			<p id="header-credentials"></p>
-		</div>
-		<div class="content">
-			<h1>Match features</h1>
-			<p>First of all, to use most of the SDK features you'll need to be <a href="./login.html">logged in</a> as a gamer... Don't forget to check the console for actions feedback!</p>
-			<p>The match system is designed around a centralized game state stored on the XtraLife servers, with gamers participating to the match making a move, updating the global game state and notifying the other players on an asynchronous basis. It means that this match system is better suited for turn by turn games, rather than real time games such as MMORPGs, which may require a more sophisticated logic to be handled on your servers. As with other functionalities, matches are scoped by domain, allowing to share data amongst multiple games.</p>
-			<table class="content_table match_features">
-				<tr>
-					<td>
-						<fieldset>
-							<legend>Step 1 - Create a match</legend>
-							<p>The starting point should be a gamer (which is called creator) creating a match. Once done, you will end up with a match ID that you can keep for later use (check the console to get it). A creator is solely able to delete a match. When creating a match, the creator automatically becomes a player and joins the match (although he is able to leave it right away). Everyone is free to join the match, and leave it anytime. An event (or a notification for players who closed the game) is sent to every participating player whenever most actions happen (join, leave, finish, etc.). Once a match is created, it is a good idea to use indexes to make it quickly and easily searchable. While custom properties are indexed, the payload allows you to associate some additional data without indexing it.</p>
-							<table class="match_step">
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchCreate(document.getElementById('matchCreateCustomProperties').value, document.getElementById('matchCreateIndexedProperties').value, document.getElementById('matchCreateIndexPayload').value, document.getElementById('matchCreateDescription').value, document.getElementById('matchCreatePlayers').value, document.getElementById('matchCreateShoe').value)">Create And Index Match -></button>
-									</td>
-									<td>
-										<input type="text" id="matchCreateCustomProperties" name="matchCreateCustomProperties" value="[Custom Properties] (optional)" />
-										<br />
-										<input type="text" id="matchCreateIndexedProperties" name="matchCreateIndexedProperties" value="[Indexed Properties] (optional)" />
-										<br />
-										<input type="text" id="matchCreateIndexPayload" name="matchCreateIndexPayload" value="[Index Payload] (optional)" />
-									</td>
-									<td>
-										<input type="text" id="matchCreateDescription" name="matchCreateDescription" value="[Match Description]" />
-										<br />
-										<input type="text" id="matchCreatePlayers" name="matchCreatePlayers" value="[Max Players Number]" />
-										<br />
-										<input type="text" id="matchCreateShoe" name="matchCreateShoe" value="[Shoe Items] (optional)" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<p class="match_note"><u>Note for Create:</u> Custom properties are additional data (under Json object format)
-										<br />linked to the created match you can use to complete match informations.
-										<br />(e.g. {"CardsCount":3})
-										<br />Indexed properties are like custom properties but can be used to refine matches listing.
-										<br />(e.g. {"Type":"Battle", "PrivateMatch":true, "MaxEnergy":42})
-										<br />Index payload is additional data you can link to the match and you don't want to be indexed for searches.
-										<br />(e.g. {"ActivePlayers":2})
-										<br />The shoe (under Json object format) is basically a container of possible values that are returned in a random order as
-										<br />they are poked by players. When all items have been drawn from the shoe and more items are requested, the existing
-										<br />serie is duplicated, shuffled and appended to the current shoe, meaning an endless play can be considered.
-										<br />(e.g. [{"Name":"King", "Value":13}, {"Name":"Queen", "Value":12}, {"Name":"Jack", "Value":11}])
-										<br />The seed, returned with the match creation response, is a random number that is generated upon creation of every match can be used to
-										<br />initialize a pseudorandom number generator inside the game, and allows to ensure that every player will thus have the same sequence of values.</p>
-									</td>
-								</tr>
-							</table>
-							<span id="body-match-create"></span>
-						</fieldset>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<fieldset>
-							<legend>Step 2 - List matches and get matchs data</legend>
-							<p>Then, gamers should be able to list all existing indexed matches. Optionaly, you can use the indexed properties you have set at match creation to refine the search (e.g. show only matches of "Battle" type). For example, if you want to filter matches to show only those which are not full, you may add indexed properties like the current number of participating players (which should be updated by each player when joining the game) and the maximum allowed number of players in the match. Then, you may get more data (including the custom properties you have set at match creation) about a specific match by using the corresponding match ID.</p>
-							<table class="match_step">
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchIndexList(document.getElementById('matchIndexListProperties').value, document.getElementById('matchIndexListSort').value, document.getElementById('matchIndexListSkip').value, document.getElementById('matchIndexListLimit').value)">List Indexed Matches -></button>
-									</td>
-									<td>
-										<input type="text" id="matchIndexListProperties" name="matchIndexListProperties" value="[Indexed Properties] (optional)" />
-										<br />
-										<input type="text" id="matchIndexListSort" name="matchIndexListSort" value="[Matches Sort] (optional)" />
-									</td>
-									<td>
-										<input type="text" id="matchIndexListSkip" name="matchIndexListSkip" value="[Matches Skip Number] (optional)" />
-										<br />
-										<input type="text" id="matchIndexListLimit" name="matchIndexListLimit" value="[Matches Limit Number] (optional)" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<p class="match_note"><u>Note for List:</u> Index properties are under string format and can be used to refine matches list.
-										<br />(e.g. Type:Battle, CardsCount:5)
-										<br />Sorting field is under string format and can be used to sort matches list with "desc" ou "asc" options.
-										<br />(e.g. ["MaxEnergy:desc", "MaxLives:asc"])</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchGet(document.getElementById('matchGetID').value)">Get Match Data -></button>
-									</td>
-									<td>
-										<input type="text" id="matchGetID" name="matchGetID" value="[Match ID]" />
-									</td>
-									<td>
-										
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchIndexGet(document.getElementById('matchIndexGetID').value)">Get Match Index Data -></button>
-									</td>
-									<td>
-										<input type="text" id="matchIndexGetID" name="matchIndexGetID" value="[Match ID]" />
-									</td>
-									<td>
-										
-									</td>
-								</tr>
-							</table>
-							<span id="body-match-list"></span>
-						</fieldset>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<fieldset>
-							<legend>Step 3 - Join or leave a match</legend>
-							<p>Once a match is created and running, any gamer can join or leave it by using its match ID. Notifications can be sent for each of these events to inform other participating players who would have closed the game.</p>
-							<table class="match_step">
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchJoin(document.getElementById('matchJoinID').value, document.getElementById('matchJoinNotification').value)">Join Match -></button>
-									</td>
-									<td>
-										<input type="text" id="matchJoinID" name="matchJoinID" value="[Match ID]" />
-									</td>
-									<td>
-										<input type="text" id="matchJoinNotification" name="matchJoinNotification" value="[Join Notification] (optional)" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<p class="match_note"><u>Note for Join & Leave:</u> Notification is under Json object format and contain messages you may want
-										<br />to pass to other participating players in the joined or leaved match if they closed the game.
-										<br />(e.g. {"en":"A new player just joined the match!"})
-										<br />When a player joins a match, he gets the whole match events history and its global state to allow the game
-										<br />to recover its exact current state, including when a player got disconnected then rejoins the match.</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchLeave(document.getElementById('matchLeaveID').value, document.getElementById('matchLeaveNotification').value)">Leave Match -></button>
-									</td>
-									<td>
-										<input type="text" id="matchLeaveID" name="matchLeaveID" value="[Match ID]" />
-									</td>
-									<td>
-										<input type="text" id="matchLeaveNotification" name="matchLeaveNotification" value="[Leave Notification] (optional)" />
-									</td>
-								</tr>
-							</table>
-							<span id="body-match-join"></span>
-						</fieldset>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<fieldset>
-							<legend>Step 4 - Invite a friend to join a match, dismiss invitations</legend>
-							<p>It is possible to a player to invite a friend of his by using the match's and friend's IDs. The friend player will receive an event with the match ID to use to join the match, or a notification if he closed the game. This friend may dismiss a match invitation to do not receive this match in the "invited matches" list anymore.</p>
-							<table class="match_step">
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchInvite(document.getElementById('matchInviteID').value, document.getElementById('matchInviteFriendID').value, document.getElementById('matchInviteNotification').value)">Invite Friend -></button>
-									</td>
-									<td>
-										<input type="text" id="matchInviteID" name="matchInviteID" value="[Match ID]" />
-										<br />
-										<input type="text" id="matchInviteFriendID" name="matchInviteFriendID" value="[Friend ID]" />
-									</td>
-									<td>
-										<input type="text" id="matchInviteNotification" name="matchInviteNotification" value="[Invite Notification] (optional)" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<p class="match_note"><u>Note for Invite:</u> Notification is under Json object format and contain messages
-										<br />you may want to pass to the invited friend if he closed the game.
-										<br />(e.g. {"en":"A friend invited you to join his match!"})</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchDismiss(document.getElementById('matchDismissID').value)">Dismiss Invitation -></button>
-									</td>
-									<td>
-										<input type="text" id="matchDismissID" name="matchDismissID" value="[Match ID]" />
-									</td>
-									<td>
-										
-									</td>
-								</tr>
-							</table>
-							<span id="body-match-invite"></span>
-						</fieldset>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<fieldset>
-							<legend>Step 5 - Make moves or draw from the shoe</legend>
-							<p>This is the core of the game; Here, players can make what we call "moves" (actions) to play the game. To ensure a player did not miss a move, you need to provide not only the match ID but the match's last event ID to validate the move. This way, we avoid 2 different players to make a move on the same game state without taking the other player's move into account. Players may also draw from the shoe to get items stored in it by the match creator.</p>
-							<table class="match_step">
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchMove(document.getElementById('matchMoveID').value, document.getElementById('matchMoveEventID').value, document.getElementById('matchMoveMove').value, document.getElementById('matchMoveNotification').value)">Make A Move -></button>
-									</td>
-									<td>
-										<input type="text" id="matchMoveID" name="matchMoveID" value="[Match ID]" />
-										<br />
-										<input type="text" id="matchMoveEventID" name="matchMoveEventID" value="[Last Event ID]" />
-									</td>
-									<td>
-										<input type="text" id="matchMoveMove" name="matchMoveMove" value="[Move]" />
-										<br />
-										<input type="text" id="matchMoveNotification" name="matchMoveNotification" value="[Move Notification] (optional)" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<p class="match_note"><u>Note for Move:</u> A move is under Json object format and contain any data you may want
-										<br />to handle in your game. This object must contain a "move" property containing another Json object.
-										<br />(e.g. {"move":{"Type":"Attack", "Power":5}})
-										<br />Notification is under Json object format and contain messages you may
-										<br />want to pass to other participating players if they closed the game.
-										<br />(e.g. {"en":"Someone made a move, quickly react!"})</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchDraw(document.getElementById('matchDrawID').value, document.getElementById('matchDrawEventID').value, document.getElementById('matchDrawCount').value, document.getElementById('matchDrawNotification').value)">Draw From The Shoe -></button>
-									</td>
-									<td>
-										<input type="text" id="matchDrawID" name="matchDrawID" value="[Match ID]" />
-										<br />
-										<input type="text" id="matchDrawEventID" name="matchDrawEventID" value="[Last Event ID]" />
-									</td>
-									<td>
-										<input type="text" id="matchDrawCount" name="matchDrawCount" value="[Draw(s) Count]" />
-										<br />
-										<input type="text" id="matchDrawNotification" name="matchDrawNotification" value="[Draw Notification] (optional)" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<p class="match_note"><u>Note for Draw:</u> Notification is under Json object format and contain messages you may
-										<br />want to pass to other participating players if they closed the game.
-										<br />(e.g. {"en":"Someone just drew from the shoe, check this!"})</p>
-									</td>
-								</tr>
-							</table>
-							<span id="body-match-move"></span>
-						</fieldset>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<fieldset>
-							<legend>Step 6 - Finish and delete a match</legend>
-							<p>The match creator (and only him) can decide to delete a match, but any player can set it to the "finish" state. This will prevent any further move or other actions for this match. The creator may also delete the match once it's finished, but that's not mandatory. You may also remove a match from the indexed searches (e.g. to hide a finished match from matches listing).</p>
-							<table class="match_step">
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchFinish(document.getElementById('matchFinishID').value, document.getElementById('matchFinishEventID').value, document.getElementById('matchFinishNotification').value)">Match Finish -></button>
-									</td>
-									<td>
-										<input type="text" id="matchFinishID" name="matchFinishID" value="[Match ID]" />
-										<br />
-										<input type="text" id="matchFinishEventID" name="matchFinishEventID" value="[Last Event ID]" />
-									</td>
-									<td>
-										<input type="text" id="matchFinishNotification" name="matchFinishNotification" value="[Finish Notification] (optional)" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<p class="match_note"><u>Note for Finish:</u> Notification is under Json object format and contain messages you may
-										<br />want to pass to other participating players if they closed the game.
-										<br />(e.g. {"en":"Your match is finished!"})</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchDelete(document.getElementById('matchDeleteID').value)">Delete Match -></button>
-									</td>
-									<td>
-										<input type="text" id="matchDeleteID" name="matchDeleteID" value="[Match ID]" />
-									</td>
-									<td>
-										
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<p class="match_note"><u>Note for Delete:</u> Only the match creator can delete a match.</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button type="button" onclick="sample.MatchIndexDelete(document.getElementById('matchIndexDeleteID').value)">Remove Match From Index -></button>
-									</td>
-									<td>
-										<input type="text" id="matchIndexDeleteID" name="matchIndexDeleteID" value="[Match ID]" />
-									</td>
-									<td>
-										
-									</td>
-								</tr>
-							</table>
-							<span id="body-match-finish"></span>
-						</fieldset>
-					</td>
-				</tr>
-			</table>
-			<div class="console-container">
-				<h1>Sample Console</h1>
-				<p id="console"></p>
-			</div>
-		</div>
-		<div class="footer">
-			<table>
-				<tr>
-					<td class="footer-xtralife_logo">
-						<a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
-					</td>
-					<td class="footer-text">
-						<p><a href="http://xtralife.cloud" target="_blank">XtraLife.cloud</a></p>
-					</td>
-					<td class="footer-social_logos">
-						<a href="https://www.facebook.com/xtralifecloud" target="_blank"><img src="img/logo-facebook.png" alt="[Logo Facebook]" /></a>
-						<a href="https://twitter.com/xtralifecloud" target="_blank"><img src="img/logo-twitter.png" alt="[Logo Twitter]" /></a>
-						<a href="https://www.linkedin.com/company/xtra-life" target="_blank"><img src="img/logo-linkedin.png" alt="[Logo LinkedIn]" /></a>
-					</td>
-				</tr>
-			</table>
-		</div>
-		
-		<script type="text/javascript">
-		  //<!--
-			CheckCredentials();
-			
-			var storageManager = new StorageManager();
-			var sample = new Sample(storageManager);
-			
-			sample.LoggedInCheck();
-			sample.EventReceiveRegister(sample.EventReceived);
-		  //-->
-		</script>
-	</body>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title>Match features</title>
+
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
+
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/header.css" rel="stylesheet" type="text/css" />
+    <link href="css/login.css" rel="stylesheet" type="text/css" />
+    <link href="css/console.css" rel="stylesheet" type="text/css" />
+    <link href="css/footer.css" rel="stylesheet" type="text/css" />
+    <script src="js/bundle.min.js" type="text/javascript"></script>
+    <script src="js/sample.js" type="text/javascript"></script>
+    <script src="js/sample-login.js" type="text/javascript"></script>
+    <script src="js/sample-match.js" type="text/javascript"></script>
+    <script src="js/storagemanager.js" type="text/javascript"></script>
+    <script src="js/console.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <div class="header">
+        <table>
+            <tr>
+                <td class="header-xtralife_logo">
+                    <a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
+                </td>
+                <td class="header-navigation_menu">
+                    <ul class="navigation_links">
+                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./login.html">Login</a></li>
+                        <li><a href="./convert.html">Convert</a></li>
+                        <li><a href="./vfs.html">VFS</a></li>
+                        <li><a href="./leaderboard.html">Leaderboard</a></li>
+                        <li class="currentPage">Match</li>
+                        
+                    </ul>
+                </td>
+                <td class="header-title">
+                    <h1>JS XtraLife SDK Sample</h1>
+                    <p id="header-login"></p>
+                </td>
+            </tr>
+        </table>
+        <p id="header-credentials"></p>
+    </div>
+    <div class="xtralife-box xtralife-extend-width" id="xtralife-login">
+        <div class="xtralife-theme xtralife-text-center xtralife-box-header">
+            <h2>Match</h2>
+        </div>
+        <div class="xtralife-theme xtralife-box-body">
+            <div id="xtralife-login-section-methods">
+                <p style="font-size: 13px; text-align: center;"><a href="http://doc.xtralife.cloud/backend/#match" style="text-decoration: underline;">Read the documentation about Login here.</a></p>
+                <div class="xtralife-text-center" style="text-align: center;">
+                    <input class="xtralife-button xtralife-button-anonymous" type="button" value="New Anonymous Login" onclick="sample.LoginAnonymously(null, sample.LoginDone)">
+                    <input class="xtralife-button xtralife-button-status" type="button" value="Check XtraLife login status" onclick="sample.LoggedInCheck();">
+                    <input class="xtralife-button xtralife-button-logout" type="button" value="Logout" onclick="sample.Logout();">
+                </div>
+                <hr>
+                <h4>Select a step</h4>
+                <select name="network" id="network" class="xtralife-select xtralife-text-center xtralife-extend-width" onchange="handleNetworkChange()">
+                        <option value="1">Step 1 - Create a match</option>
+                        <option value="2">Step 2 - Get matchs data</option>
+                        <option value="3">Step 3 - Join or leave a match</option>
+                        <option value="4">Step 4 - Invite a friend to join a match, dismiss invitations</option>
+                        <option value="5">Step 5 - Make moves or draw from the shoe</option>
+                        <option value="6">Step 6 - Finish and delete a match</option>
+                    </select>
+                <hr>
+
+                <!-- ----------------- -->
+                    <!-- STEP 1 -->
+                <!-- ----------------- -->
+
+                <div id="step1">
+                    <div id="xtralife-login-method-email-signin">
+                        <p><span id="body-match-create"></span></p>
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match Description</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchCreateDescription" class="xtralife-text xtralife-extend-width" id="matchCreateDescription">
+                                </td>
+                            </tr>
+                            <tr id="gamerSecret" style="display:table-row">
+                                <td>
+                                    <b><p id="gamerSecretText">Max Players Number</p></b>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchCreatePlayers" class="xtralife-text xtralife-extend-width" id="matchCreatePlayers">
+                                </td>
+                            </tr>
+                            <td>
+                                <div>
+                                    <p><i>Custom Properties (optional)</i></p>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" placeholder='e.g: {"CardsCount":3}' name="matchCreateCustomProperties" class="xtralife-text xtralife-extend-width" id="matchCreateCustomProperties">
+                            </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <p><i>Indexed Properties (optional)</i></p>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder='e.g: {"Type":"Battle", "PrivateMatch":true, "MaxEnergy":42}' name="matchCreateIndexedProperties" class="xtralife-text xtralife-extend-width" id="matchCreateIndexedProperties">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <p><i>Index Payload (optional)</i></p>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder='e.g: {"ActivePlayers":2}' name="matchCreateIndexPayload" class="xtralife-text xtralife-extend-width" id="matchCreateIndexPayload">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <p><i>Shoe Items (optional)</i></p>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder='e.g: {"Name":"King", "Value":13}, {"Name":"Queen", "Value":12}, {"Name":"Jack", "Value":11}' name="matchCreateShoe" class="xtralife-text xtralife-extend-width" id="matchCreateShoe">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Create and Index Match" onclick="sample.MatchCreate(document.getElementById('matchCreateCustomProperties').value, document.getElementById('matchCreateIndexedProperties').value, document.getElementById('matchCreateIndexPayload').value, document.getElementById('matchCreateDescription').value, document.getElementById('matchCreatePlayers').value, document.getElementById('matchCreateShoe').value)">
+                                    </div>
+                                </td>
+                                
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ----------------- -->
+                    <!-- STEP 2 -->
+                <!-- ----------------- -->
+
+                <div id="step2" style="display:none">
+                    <div id="xtralife-login-method-email-signin">
+                        <span id="body-match-list"></span>
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchGetID" class="xtralife-text xtralife-extend-width" id="matchGetID">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Get Match Data" onclick="sample.MatchGet(document.getElementById('matchGetID').value);">
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ----------------- -->
+                    <!-- STEP 3 -->
+                <!-- ----------------- -->
+
+                <div id="step3" style="display:none">
+                    <div id="xtralife-login-method-email-signin">
+                        <span id="body-match-join"></span>
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchJoinLeaveID" class="xtralife-text xtralife-extend-width" id="matchJoinLeaveID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <p><i>Notification (optional)</i></p>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchJoinLeaveNotification" class="xtralife-text xtralife-extend-width" id="matchJoinLeaveNotification">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Join Match" onclick="sample.MatchJoin(document.getElementById('matchJoinLeaveID').value, document.getElementById('matchJoinLeaveNotification').value)">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Leave Match" onclick="sample.MatchLeave(document.getElementById('matchJoinLeaveID').value, document.getElementById('matchJoinLeaveNotification').value)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!-- ----------------- -->
+                    <!-- STEP 4 -->
+                <!-- ----------------- -->
+
+                
+                <div id="step4" style="display:none">
+                    <span id="body-match-invite"></span>
+                    <div id="xtralife-login-method-email-signin">
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchInviteID" class="xtralife-text xtralife-extend-width" id="matchInviteID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Friend ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchInviteFriendID" class="xtralife-text xtralife-extend-width" id="matchInviteFriendID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <p><i>Invite Notification (optional)</i></p>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchInviteNotification" class="xtralife-text xtralife-extend-width" id="matchInviteNotification">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Invite Friend" onclick="sample.MatchInvite(document.getElementById('matchInviteID').value, document.getElementById('matchInviteFriendID').value, document.getElementById('matchInviteNotification').value)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                    <div id="xtralife-login-method-email-signin">
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchDismissID" class="xtralife-text xtralife-extend-width" id="matchDismissID">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Dismiss Invitation" onclick="sample.MatchDismiss(document.getElementById('matchDismissID').value)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ----------------- -->
+                    <!-- STEP 5 -->
+                <!-- ----------------- -->
+
+                
+                <div id="step5" style="display:none">
+                    <div id="xtralife-login-method-email-signin">
+                        <span id="body-match-move"></span>
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchMoveID" class="xtralife-text xtralife-extend-width" id="matchMoveID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Move</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchMoveMove" class="xtralife-text xtralife-extend-width" id="matchMoveMove">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Last Event ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchMoveEventID" class="xtralife-text xtralife-extend-width" id="matchMoveEventID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <p><i>Move Notification (optional)</i></p>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchMoveNotification" class="xtralife-text xtralife-extend-width" id="matchMoveNotification">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Mave a Move" onclick="sample.MatchMove(document.getElementById('matchMoveID').value, document.getElementById('matchMoveEventID').value, document.getElementById('matchMoveMove').value, document.getElementById('matchMoveNotification').value)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                    <div id="xtralife-login-method-email-signin">
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchDrawID" class="xtralife-text xtralife-extend-width" id="matchDrawID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Draw(s) Count</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchDrawCount" class="xtralife-text xtralife-extend-width" id="matchDrawCount">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Last Event ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchDrawEventID" class="xtralife-text xtralife-extend-width" id="matchDrawEventID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <p><i>Draw Notification (optional)</i></p>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchDrawNotification" class="xtralife-text xtralife-extend-width" id="matchDrawNotification">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Draw From The Shoe" onclick="sample.MatchDraw(document.getElementById('matchDrawID').value, document.getElementById('matchDrawEventID').value, document.getElementById('matchDrawCount').value, document.getElementById('matchDrawNotification').value)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!-- ----------------- -->
+                    <!-- STEP 6 -->
+                <!-- ----------------- -->
+
+                
+                <div id="step6" style="display:none">
+                    <div id="xtralife-login-method-email-signin">
+                        <span id="body-match-finish"></span>
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchFinishID" class="xtralife-text xtralife-extend-width" id="matchFinishID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Last Event ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchFinishEventID" class="xtralife-text xtralife-extend-width" id="matchFinishEventID">
+                                </td>
+                            </tr>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <p><i>Finish Notification (optional)</i></p>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchFinishNotification" class="xtralife-text xtralife-extend-width" id="matchFinishNotification">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Match Finish" onclick="sample.MatchFinish(document.getElementById('matchFinishID').value, document.getElementById('matchFinishEventID').value, document.getElementById('matchFinishNotification').value)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                    <div id="xtralife-login-method-email-signin">
+                        <table>
+                            <tr id="gamerId" style="display:table-row">
+                                <td>
+                                    <div>
+                                        <b><p id="gamerIdText">Match ID</p></b>
+                                    </div>
+                                </td>
+                                <td class="xtralife-extend-width">
+                                    <input type="text" value="" placeholder="" name="matchDeleteID" class="xtralife-text xtralife-extend-width" id="matchDeleteID">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="xtralife-text-center" style="text-align: center;">
+                                        <input style="margin: auto;" class="xtralife-button" type="button" value="Delete Match" onclick="sample.MatchDelete(document.getElementById('matchDeleteID').value)">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+                <hr>
+                <tr>
+                    <td>
+                        <b><p id="body-login"></p></b>
+                    </td>
+                </tr>
+            </div>
+
+            <div class="console-container">
+                <h1>Sample Console</h1>
+                <p id="console"></p>
+            </div>
+        </div>
+        <div class="footer">
+            <table>
+                <tr>
+                    <td class="footer-xtralife_logo">
+                        <a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
+                    </td>
+                    <td class="footer-text">
+                        <p><a href="http://xtralife.cloud" target="_blank">XtraLife.cloud</a></p>
+                    </td>
+                    <td class="footer-social_logos">
+                        <a href="https://www.facebook.com/xtralifecloud" target="_blank"><img src="img/logo-facebook.png" alt="[Logo Facebook]" /></a>
+                        <a href="https://twitter.com/xtralifecloud" target="_blank"><img src="img/logo-twitter.png" alt="[Logo Twitter]" /></a>
+                        <a href="https://www.linkedin.com/company/xtra-life" target="_blank"><img src="img/logo-linkedin.png" alt="[Logo LinkedIn]" /></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script type="text/javascript">
+            //<!--
+            CheckCredentials();
+
+            var storageManager = new StorageManager();
+            var sample = new Sample(storageManager);
+
+            sample.LoggedInCheck();
+            //-->
+        </script>
+        <script>
+            function handleNetworkChange() {
+                var step = document.getElementById("network").value;
+                console.log(step);
+                for (i = 1; i < 7; i++){
+                    if (i == step && i != 6)
+                    i++;
+                    document.getElementById("step"+i).style.display = "none";
+                }
+                document.getElementById("step"+step).style.display = "block";
+            }
+        </script>
+</body>
+
 </html>

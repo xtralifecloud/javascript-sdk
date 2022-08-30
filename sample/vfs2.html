@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-    <title>VFS features</title>
+    <title>Login features</title>
 
     <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
 
@@ -17,7 +17,6 @@
     <script src="js/bundle.min.js" type="text/javascript"></script>
     <script src="js/sample.js" type="text/javascript"></script>
     <script src="js/sample-login.js" type="text/javascript"></script>
-    <script src="js/sample-vfs.js" type="text/javascript"></script>
     <script src="js/storagemanager.js" type="text/javascript"></script>
     <script src="js/console.js" type="text/javascript"></script>
 
@@ -33,9 +32,9 @@
                 <td class="header-navigation_menu">
                     <ul class="navigation_links">
                         <li><a href="./index.html">Home</a></li>
-                        <li><a href="./login.html">Login</a></li>
+                        <li class="currentPage">Login</li>
                         <li><a href="./convert.html">Convert</a></li>
-                        <li class="currentPage">VFS</li>
+                        <li><a href="./vfs.html">VFS</a></li>
                         <li><a href="./leaderboard.html">Leaderboard</a></li>
                         <li><a href="./match.html">Match</a></li>
                     </ul>
@@ -57,49 +56,40 @@
             <!-- Login Box Section: Methods -->
             <!-- -------------------------- -->
             <div id="xtralife-login-section-methods">
-                <p style="font-size: 13px; text-align: center;"><a href="http://doc.xtralife.cloud/backend/#users-vfs-virtual-file-system" style="text-decoration: underline;">Read the documentation about VFS here.</a></p>
+                <p style="font-size: 13px; text-align: center;"><a href="http://doc.xtralife.cloud/backend/#login" style="text-decoration: underline;">Read the documentation about login here.</a></p>
                 <div class="xtralife-text-center" style="text-align: center;">
                     <input class="xtralife-button xtralife-button-anonymous" type="button" value="New Anonymous Login" onclick="sample.LoginAnonymously(null, sample.LoginDone)">
                     <input class="xtralife-button xtralife-button-status" type="button" value="Check XtraLife login status" onclick="sample.LoggedInCheck();">
                     <input class="xtralife-button xtralife-button-logout" type="button" value="Logout" onclick="sample.Logout();">
                 </div>
                 <hr>
-
-
                 <h4>Gamer's private VFS Key / Values (needs to be logged in)</h4>
-                <p style="font-size: 12px;">Each gamer is allowed to create/set, get and delete his own key/value pairs. Those pairs are perfect to store all kind of data you want to associate to your gamers (e.g. gamer's profile, last login date, preferences, number of lives...).
-                    On the "private" domain, a key value is relative to the current gamer and in the current game, then for a given gamer the same key will have different values in different games.</p>
-
-                <!-- ----------------- -->
-                <!-- VFS Section : Set -->
-                <!-- ----------------- -->
-
                 <div id="xtralife-login-method-email-signin">
-                    <span id="body-gamer-vfs-set"></span>
+                    <p style="font-size: 12px;">Each gamer is allowed to create/set, get and delete his own key/value pairs. Those pairs are perfect to store all kind of data you want to associate to your gamers (e.g. gamer's profile, last login date, preferences, number of lives...). On the "private" domain, a key value is relative to the current gamer and in the current game, then for a given gamer the same key will have different values in different games.</p>
                     <br>
                     <table>
-                        <tr id="vfsKeySet" style="display:table-row">
+                        <tr id="gamerId" style="display:table-row">
                             <td>
                                 <div>
-                                    <b><p id="vfsKeySetText">VFS Key</p></b>
+                                    <b><p id="gamerIdText">VFS Key</p></b>
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" placeholder="e.g: Profile" name="gamerVfsSetKey" class="xtralife-text xtralife-extend-width" id="gamerVfsSetKey">
+                                <input type="text" value="" placeholder="6304b8328172c017c63d223b" name="gamerIdVal" class="xtralife-text xtralife-extend-width" id="gamerIdVal">
                             </td>
                         </tr>
-                        <tr id="vfsValue" style="display:table-row">
+                        <tr id="gamerSecret" style="display:table-row">
                             <td>
                                 <b><p id="gamerSecretText">VFS Value</p></b>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" placeholder='e.g: {"Name":"John", "Surname":"Doe", "Age":21}' name="gamerVfsSetValue" class="xtralife-text xtralife-extend-width" id="gamerVfsSetValue">
+                                <input type="text" value="" placeholder="41a52a9dcedc1825554d94ca358c279aa9c14a4b" name="gamerSecretVal" class="xtralife-text xtralife-extend-width" id="gamerSecretVal">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <div class="xtralife-text-center" style="text-align: center;">
-                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Create / Set Key Value" onclick="sample.GamerVfsSet(document.getElementById('gamerVfsSetKey').value, document.getElementById('gamerVfsSetValue').value)">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Create / Set Key Value" onclick="sample.Login(sample.LoginDone);">
                                 </div>
                             </td>
                         </tr>
@@ -107,76 +97,70 @@
                     </table>
                     <br>
                     <p style="font-size: 12px;">
-                        <b>Note for Create / Set : </b>The value field may be of any standard type or under Json object format. Only string format will be handled here because we get the input value which is always a string. (e.g. Key: Profile / Value:
-                        {"Name":"John", "Surname":"Doe", "Age":21}) (e.g. Key: LastSearch / Value: Cookies)</p>
+                        <b>Note for Create / Set:</b>The value field may be of any standard type or under Json object format.
+                        Only string format will be handled here because we get the input value which is always a string.
+                        (e.g. Key: Profile / Value: {"Name":"John", "Surname":"Doe", "Age":21})
+                        (e.g. Key: LastSearch / Value: Cookies)</p>
                 </div>
                 <hr>
-
-                <!-- ----------------- -->
-                <!-- VFS Section : Get -->
-                <!-- ----------------- -->
-
                 <div id="xtralife-login-method-email-signin">
-                    <span id="body-gamer-vfs-get"></span>
                     <br>
                     <table>
                         <tr id="gamerId" style="display:table-row">
                             <td>
-
+                                
                                 <div>
                                     <b><p id="gamerIdText">VFS Key</p></b>
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" placeholder="e.g: Profile" name="gamerVfsGetKey" class="xtralife-text xtralife-extend-width" id="gamerVfsGetKey">
+                                <input type="text" value="" placeholder="6304b8328172c017c63d223b" name="gamerIdVal" class="xtralife-text xtralife-extend-width" id="gamerIdVal">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <div class="xtralife-text-center" style="text-align: center;">
-                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Get Key(s) Value(s)" onclick="sample.GamerVfsGet(document.getElementById('gamerVfsGetKey').value);">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Get Key(s) Value(s)" onclick="sample.Login(sample.LoginDone);">
                                 </div>
                             </td>
                         </tr>
 
                     </table>
                     <br>
-                    <Note style="font-size: 12px;"><b>Note for Get :</b> Gamers are not allowed to set or delete game keys for obvious security reasons, so you need to do it on your Front Office.</p>
+                    <Note style="font-size: 12px;"><b>Note for Get:</b> Gamers are not allowed to set or delete game keys
+                        for obvious security reasons, so you need to do it on your Front Office.</p>
                 </div>
                 <hr>
                 <div id="xtralife-login-method-email-signin">
-                    <span id="body-gamer-vfs-del"></span>
                     <br>
                     <table>
                         <tr id="gamerId" style="display:table-row">
                             <td>
-
+                                
                                 <div>
                                     <b><p id="gamerIdText">VFS Key</p></b>
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" placeholder="eg: Profile" name="gamerVfsDeleteKey" class="xtralife-text xtralife-extend-width" id="gamerVfsDeleteKey">
+                                <input type="text" value="" placeholder="6304b8328172c017c63d223b" name="gamerIdVal" class="xtralife-text xtralife-extend-width" id="gamerIdVal">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <div class="xtralife-text-center" style="text-align: center;">
-                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Delete Key(s)" onclick="sample.GamerVfsDelete(document.getElementById('gamerVfsDeleteKey').value)">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Delete Key(s)" onclick="sample.Login(sample.LoginDone);">
                                 </div>
                             </td>
                         </tr>
 
                     </table>
                     <br>
-                    <p style="font-size: 12px;"><b>Note for Delete :</b> An empty key field will delete all existing keys instead of a specified one, <b>so double check this!</b></p>
+                    <p style="font-size: 12px;"><b>Note for Delete:</b> An empty key field will delete all existing keys instead of a specified one, <b>so double check this!</b></p>
                 </div>
                 <hr>
-                <h4>Gamer's private VFS Key / Values (doesn't need to be logged in)</h4>
-                <p style="font-size: 12px;">Each game allows to get its own key/value pairs. Those pairs are perfect to store all kind of data you want to associate to your games (e.g. game parameters, connection rewards, maximum allowed number of lives...). On the "private" domain,
-                    a key value is relative to the current game.</p>
+                <h4>Gamer's private VFS Key / Values (needs to be logged in)</h4>
                 <div id="xtralife-login-method-email-signin">
-                    <span id="body-game-vfs-get"></span>
+                    <p style="font-size: 12px;">Each game allows to get its own key/value pairs. Those pairs are perfect to store all kind of data you want to associate to your games (e.g. game parameters, connection rewards, maximum allowed number of lives...). On the "private" domain, a key value is relative to the current game.</p>
                     <br>
                     <table>
                         <tr id="gamerId" style="display:table-row">
@@ -186,13 +170,13 @@
                                 </div>
                             </td>
                             <td class="xtralife-extend-width">
-                                <input type="text" value="" placeholder="e.g: Profile" name="gameVfsGetKey" class="xtralife-text xtralife-extend-width" id="gameVfsGetKey">
+                                <input type="text" value="" placeholder="6304b8328172c017c63d223b" name="gamerIdVal" class="xtralife-text xtralife-extend-width" id="gamerIdVal">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <div class="xtralife-text-center" style="text-align: center;">
-                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Get Key Value" onclick="sample.GameVfsGet(document.getElementById('gameVfsGetKey').value)">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Get Key Value" onclick="sample.Login(sample.LoginDone);">
                                 </div>
                             </td>
                         </tr>
@@ -200,14 +184,9 @@
                     </table>
                     <br>
                     <p style="font-size: 12px;">
-                        <b>Note for Get:</b> Gamers are not allowed to set or delete game keys for obvious security reasons, so you need to do it on your Front Office.</p>
-                    <span id="body-gamer-vfs"></span>
+                        <b>Note for Get:</b> Gamers are not allowed to set or delete game keys
+                        for obvious security reasons, so you need to do it on your Front Office.</p>
                 </div>
-                <hr>
-                <h4>Gamer's and Game's shared VFS Key / Values</h4>
-                <p style="font-size: 12px;">Shared domains allow the sharing of the same key values across multiple games (all sharing the same domain), or to set a global game key value available between all those games. Shared domains need to be set on your Front Office. However,
-                    we won't show this feature here as we have only one sample webapp (but it works strictly the same way as for the private domain).</p>
-                <hr>
                 <tr>
                     <td>
                         <b><p id="body-login"></p></b>
@@ -247,6 +226,49 @@
 
             sample.LoggedInCheck();
             //-->
+        </script>
+        <script>
+            function handleNetworkChange() {
+                var network = document.getElementById("network").value;
+                if (network == "gamecenter") {
+                    document.getElementById("gamerId").style.display = "none";
+                    document.getElementById("gamerSecret").style.display = "none";
+                    document.getElementById("authToken").style.display = "none";
+                    document.getElementById("idGamecenter").style.display = "table-row";
+                    document.getElementById("pkGamecenter").style.display = "table-row";
+                    document.getElementById("signatureGamecenter").style.display = "table-row";
+                    document.getElementById("saltGamecenter").style.display = "table-row";
+                    document.getElementById("timestampGamecenter").style.display = "table-row";
+                    document.getElementById("bundleGamecenter").style.display = "table-row";
+                } else {
+                    document.getElementById("idGamecenter").style.display = "none";
+                    document.getElementById("pkGamecenter").style.display = "none";
+                    document.getElementById("signatureGamecenter").style.display = "none";
+                    document.getElementById("saltGamecenter").style.display = "none";
+                    document.getElementById("timestampGamecenter").style.display = "none";
+                    document.getElementById("bundleGamecenter").style.display = "none";
+                    if (network == "anonymous" || network == "email") {
+                        document.getElementById("gamerId").style.display = "table-row";
+                        document.getElementById("gamerSecret").style.display = "table-row";
+                        document.getElementById("authToken").style.display = "none";
+                        if (network == "anonymous") {
+                            document.getElementById("gamerIdText").innerHTML = "Gamer ID";
+                            document.getElementById("gamerSecretText").innerHTML = "Gamer Secret";
+                            document.getElementById("gamerIdVal").placeholder = "6304b8328172c017c63d223b";
+                            document.getElementById("gamerSecretVal").placeholder = "41a52a9dcedc1825554d94ca358c279aa9c14a4b";
+                        } else {
+                            document.getElementById("gamerIdText").innerHTML = "Mail";
+                            document.getElementById("gamerSecretText").innerHTML = "Password";
+                            document.getElementById("gamerIdVal").placeholder = "myEmail@gmail.com";
+                            document.getElementById("gamerSecretVal").placeholder = "myPassword";
+                        }
+                    } else {
+                        document.getElementById("gamerId").style.display = "none";
+                        document.getElementById("gamerSecret").style.display = "none";
+                        document.getElementById("authToken").style.display = "table-row";
+                    }
+                }
+            }
         </script>
 </body>
 </html>

@@ -1,9 +1,12 @@
 // A helper to display leaderboard results as a text
-Sample.prototype.LeaderboardTextDisplay = function(container, text)
+Sample.prototype.LeaderboardTextDisplay = function(container, text, success)
 {
 	if (container)
 	{
-		var finalText = "<p><b>" + text + "</b></p>";
+		var color = 'rgb(255, 55, 55)';
+		if (success == true)
+			color = 'rgb(92, 207, 89)';
+		var finalText = `<p style='color: ${color}; text-align: center'><b>` + text + "</b></p>";
 		container.innerHTML = finalText;
 	}
 }
@@ -13,7 +16,7 @@ Sample.prototype.LeaderboardTableDisplay = function(container, leaderboards)
 {
 	if (container)
 	{
-		var finalTable = "<table><tr><td class=\"col_a title\"><b>Board(s)</b></td><td class=\"col_b title\"><b>Score(s) Data</b></td></tr>";
+		var finalTable = "<table style='color:rgb(92, 207, 89); margin-left: auto; margin-right: auto;' class='leaderboard_features'><tr><td class=\"col_a title\"><b>Board(s)</b></td><td class=\"col_b title\"><b>Score(s) Data</b></td></tr>";
 		var foundKey = false;
 		
 		for (var board in leaderboards)
@@ -35,7 +38,7 @@ Sample.prototype.LeaderboardTablePagedDisplay = function(container, boardName, b
 {
 	if (container)
 	{
-		var finalTable = "<table><tr><td class=\"col_a title\"><b>Board:<br />" + boardName + "</b></td><td class=\"col_b title\"><b>Score(s) Data (Page " + boardScores.page + " / " + boardScores.maxpage + ", " + scoresAmount + " score(s) max per page)</b></td></tr>";
+		var finalTable = "<table style='color:rgb(92, 207, 89); margin-left: auto; margin-right: auto;'><tr><td class=\"col_a title\"><b>Board:<br />" + boardName + "</b></td><td class=\"col_b title\"><b>Score(s) Data (Page " + boardScores.page + " / " + boardScores.maxpage + ", " + scoresAmount + " score(s) max per page)</b></td></tr>";
 		var scoresNumber = 0;
 		
 		while (scoresNumber < boardScores.scores.length)
@@ -56,7 +59,7 @@ Sample.prototype.LeaderboardTablePagedDisplay = function(container, boardName, b
 Sample.prototype.LeaderboardSet = function(boardSortOrder, boardName, scoreValue, scoreInfo)
 {
 	var self = this;
-	var bodyLeaderboardStatus = document.getElementById("body-leaderboard");
+	var bodyLeaderboardStatus = document.getElementById("body-leaderboard-set");
 	
 	if (this.gamerData)
 	{
@@ -80,14 +83,14 @@ Sample.prototype.LeaderboardSet = function(boardSortOrder, boardName, scoreValue
 			{
 				var errorMessage = "Leaderboard Set error: " + error;
 				ConsoleLog(errorMessage);
-				self.LeaderboardTextDisplay(bodyLeaderboardStatus, errorMessage);
+				self.LeaderboardTextDisplay(bodyLeaderboardStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Leaderboard Set (Sort Order: " + boardSortOrder + ", Board Name: " + boardName + ", Score Object: " + JSON.stringify(scoreObject) + ") -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.LeaderboardTextDisplay(bodyLeaderboardStatus, resultMessage);
+				self.LeaderboardTextDisplay(bodyLeaderboardStatus, resultMessage, true);
 			}
 		});
 	}
@@ -96,7 +99,7 @@ Sample.prototype.LeaderboardSet = function(boardSortOrder, boardName, scoreValue
 	{
 		var errorMessage = "Leaderboard Set error: Can't use leaderboard features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.LeaderboardTextDisplay(bodyLeaderboardStatus, errorMessage);
+		this.LeaderboardTextDisplay(bodyLeaderboardStatus, errorMessage, false);
 	}
 }
 
@@ -120,14 +123,14 @@ Sample.prototype.LeaderboardGet = function()
 			{
 				var errorMessage = "Leaderboard Get error: " + error;
 				ConsoleLog(errorMessage);
-				self.LeaderboardTextDisplay(bodyLeaderboardStatus, errorMessage);
+				self.LeaderboardTextDisplay(bodyLeaderboardStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Leaderboard Get -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.LeaderboardTableDisplay(bodyLeaderboardStatus, result);
+				self.LeaderboardTableDisplay(bodyLeaderboardStatus, result, true);
 			}
 		});
 	}
@@ -136,7 +139,7 @@ Sample.prototype.LeaderboardGet = function()
 	{
 		var errorMessage = "Leaderboard Get error: Can't use leaderboard features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.LeaderboardTextDisplay(bodyLeaderboardStatus, errorMessage);
+		this.LeaderboardTextDisplay(bodyLeaderboardStatus, errorMessage, false);
 	}
 }
 
@@ -144,7 +147,7 @@ Sample.prototype.LeaderboardGet = function()
 Sample.prototype.LeaderboardGetPaged = function(boardName, pageNumber, scoresAmount)
 {
 	var self = this;
-	var bodyLeaderboardStatus = document.getElementById("body-leaderboard");
+	var bodyLeaderboardStatus = document.getElementById("body-leaderboard-getpaged");
 	
 	if (this.gamerData)
 	{

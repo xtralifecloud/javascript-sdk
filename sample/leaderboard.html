@@ -1,165 +1,246 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		
-		<title>Leaderboard features</title>
-		
-		<link href="img/favicon.ico" rel="icon" type="image/x-icon" />
-		
-		<link href="css/reset.css" rel="stylesheet" type="text/css" />
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
-		<link href="css/header.css" rel="stylesheet" type="text/css" />
-		<link href="css/leaderboard.css" rel="stylesheet" type="text/css" />
-		<link href="css/console.css" rel="stylesheet" type="text/css" />
-		<link href="css/footer.css" rel="stylesheet" type="text/css" />
-		
-		<script src="js/bundle.min.js" type="text/javascript"></script>
-		<script src="js/sample.js" type="text/javascript"></script>
-		<script src="js/sample-leaderboard.js" type="text/javascript"></script>
-		<script src="js/storagemanager.js" type="text/javascript"></script>
-		<script src="js/console.js" type="text/javascript"></script>
-	</head>
-	
-	<body>
-		<div class="header">
-			<table>
-				<tr>
-					<td class="header-xtralife_logo">
-						<a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
-					</td>
-					<td class="header-navigation_menu">
-						<ul class="navigation_links">
-							<li><a href="./index.html">Home</a></li>
-							<li><a href="./login.html">Login</a></li>
-							<li><a href="./convert.html">Convert</a></li>
-							<li><a href="./vfs.html">VFS</a></li>
-							<li class="currentPage">Leaderboard</li>
-							<li><a href="./match.html">Match</a></li>
-						</ul>
-					</td>
-					<td class="header-title">
-						<h1>JS XtraLife SDK Sample</h1>
-						<p id="header-login"></p>
-					</td>
-				</tr>
-			</table>
-			<p id="header-credentials"></p>
-		</div>
-		<div class="content">
-			<h1>Leaderboard features</h1>
-			<p>First of all, to use most of the SDK features you'll need to be <a href="./login.html">logged in</a> as a gamer... Don't forget to check the console for actions feedback!</p>
-			<table class="content_table leaderboard_features">
-				<tr>
-					<td>
-						<fieldset>
-							<legend>A - Private leaderboards</legend>
-							<p>Each gamer is allowed to post scores to a specific board. Those boards are automatically created if they don't exist yet when a gamer scores for the first time in them, and they can be sorted with the higher or the lower score as the best one. On the "private" domain, a leaderboard is relative to the current game, then a given leaderboard name would lead to different boards in different games.</p>
-							<table class="leaderboard_step">
-								<tr>
-									<td>
-										<button type="button" onclick="sample.LeaderboardSet(GetLeaderboardSetOrder(), document.getElementById('leaderboardSetBoard').value, document.getElementById('leaderboardSetScoreValue').value, document.getElementById('leaderboardSetScoreInfo').value)">Post New Score -></button>
-									</td>
-									<td class="radios">
-										<input type="radio" name="leaderboardSetOrder" value="lowtohigh" />LowToHigh
-										<br />
-										<input type="radio" name="leaderboardSetOrder" value="hightolow" checked="checked" />HighToLow
-									</td>
-									<td>
-										<input type="text" id="leaderboardSetBoard" name="leaderboardSetBoard" value="[Board Name]" />
-									</td>
-									<td>
-										<input type="text" id="leaderboardSetScoreValue" name="leaderboardSetScoreValue" value="[Score Value]" />
-										<br />
-										<input type="text" id="leaderboardSetScoreInfo" name="leaderboardSetScoreInfo" value="[Score Description]" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="4">
-										<p class="leaderboard_note"><u>Note for Post:</u> You may create monthly based boards by naming them after the post date for instance.
-										<br />(e.g. SurvivalBoard-2016-06, SurvivalBoard-2016-07, and so on...)
-										<br />The sort order (lowtohigh or hightolow) is used to establish if the posted score is better
-										<br />than the previous gamer's best one on this board and should always be the same for consistency logic.
-										<br />The score description is a short text or a Json object you may want to attach to the posted score.
-										<br />(e.g. {"Level":15, "UsedBoosters":0})</p>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="4" class="large_buttons">
-										<button type="button" onclick="sample.LeaderboardGet()">Get All Gamer's Best Scores</button>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="4">
-										<p class="leaderboard_note"><u>Note for Get:</u> The gamer's best score for each board in which he posted at least one score will be returned.</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button type="button" onclick="sample.LeaderboardGetPaged(document.getElementById('leaderboardGetPagedBoard').value, document.getElementById('leaderboardGetPagedPage').value, document.getElementById('leaderboardGetPagedCount').value)">Get Paged Scores -></button>
-									</td>
-									<td>
-										<input type="text" id="leaderboardGetPagedBoard" name="leaderboardGetPagedBoard" value="[Board Name]" />
-									</td>
-									<td>
-										<input type="text" id="leaderboardGetPagedPage" name="leaderboardGetPagedPage" value="[Page Number]" />
-									</td>
-									<td>
-										<input type="text" id="leaderboardGetPagedCount" name="leaderboardGetPagedCount" value="[Scores Amount]" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="4">
-										<p class="leaderboard_note"><u>Note for Get Paged:</u> The first page is number 1 (not 0).</p>
-									</td>
-								</tr>
-							</table>
-							<span id="body-leaderboard"></span>
-						</fieldset>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<fieldset>
-							<legend>B - Shared leaderboards</legend>
-							<p>Shared domains allow the sharing of the same leaderboards across multiple games (all sharing the same domain). Shared domains need to be set on your Front Office. However, we won't show this feature here as we have only one sample webapp (but it works strictly the same way as for the private domain).</p>
-						</fieldset>
-					</td>
-				</tr>
-			</table>
-			<div class="console-container">
-				<h1>Sample Console</h1>
-				<p id="console"></p>
-			</div>
-		</div>
-		<div class="footer">
-			<table>
-				<tr>
-					<td class="footer-xtralife_logo">
-						<a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
-					</td>
-					<td class="footer-text">
-						<p><a href="http://xtralife.cloud" target="_blank">XtraLife.cloud</a></p>
-					</td>
-					<td class="footer-social_logos">
-						<a href="https://www.facebook.com/xtralifecloud" target="_blank"><img src="img/logo-facebook.png" alt="[Logo Facebook]" /></a>
-						<a href="https://twitter.com/xtralifecloud" target="_blank"><img src="img/logo-twitter.png" alt="[Logo Twitter]" /></a>
-						<a href="https://www.linkedin.com/company/xtra-life" target="_blank"><img src="img/logo-linkedin.png" alt="[Logo LinkedIn]" /></a>
-					</td>
-				</tr>
-			</table>
-		</div>
-		
-		<script type="text/javascript">
-		  //<!--
-			CheckCredentials();
-			
-			var storageManager = new StorageManager();
-			var sample = new Sample(storageManager);
-			
-			sample.LoggedInCheck();
-			
-			function GetLeaderboardSetOrder()
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title>Leaderboard features</title>
+
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
+
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/header.css" rel="stylesheet" type="text/css" />
+    <link href="css/login.css" rel="stylesheet" type="text/css" />
+    <link href="css/console.css" rel="stylesheet" type="text/css" />
+    <link href="css/footer.css" rel="stylesheet" type="text/css" />
+    <script src="js/bundle.min.js" type="text/javascript"></script>
+    <script src="js/sample.js" type="text/javascript"></script>
+    <script src="js/sample-login.js" type="text/javascript"></script>
+    <script src="js/sample-leaderboard.js" type="text/javascript"></script>
+    <script src="js/storagemanager.js" type="text/javascript"></script>
+    <script src="js/console.js" type="text/javascript"></script>
+
+    <link href="css/leaderboard.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="header">
+        <table>
+            <tr>
+                <td class="header-xtralife_logo">
+                    <a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
+                </td>
+                <td class="header-navigation_menu">
+                    <ul class="navigation_links">
+                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./login.html">Login</a></li>
+                        <li><a href="./convert.html">Convert</a></li>
+                        <li><a href="./vfs.html">VFS</a></li>
+                        <li class="currentPage">Leaderboard</li>
+                        <li><a href="./match.html">Match</a></li>
+                    </ul>
+                </td>
+                <td class="header-title">
+                    <h1>JS XtraLife SDK Sample</h1>
+                    <p id="header-login"></p>
+                </td>
+            </tr>
+        </table>
+        <p id="header-credentials"></p>
+    </div>
+    <div class="xtralife-box xtralife-extend-width" id="xtralife-login">
+        <div class="xtralife-theme xtralife-text-center xtralife-box-header">
+            <h2>Leaderboard</h2>
+        </div>
+        <div class="xtralife-theme xtralife-box-body">
+            <!-- -------------------------- -->
+            <!-- Login Box Section: Methods -->
+            <!-- -------------------------- -->
+            <div id="xtralife-login-section-methods">
+                <p style="font-size: 13px; text-align: center;"><a href="http://doc.xtralife.cloud/backend/#leaderboards" style="text-decoration: underline;">Read the documentation about Leaderboards here.</a></p>
+                <div class="xtralife-text-center" style="text-align: center;">
+                    <input class="xtralife-button xtralife-button-anonymous" type="button" value="New Anonymous Login" onclick="sample.LoginAnonymously(null, sample.LoginDone)">
+                    <input class="xtralife-button xtralife-button-status" type="button" value="Check XtraLife login status" onclick="sample.LoggedInCheck();">
+                    <input class="xtralife-button xtralife-button-logout" type="button" value="Logout" onclick="sample.Logout();">
+                </div>
+                <hr>
+
+
+                <h4>Gamer's private VFS Key / Values (needs to be logged in)</h4>
+                <p style="font-size: 12px;">Each gamer is allowed to post scores to a specific board. Those boards are automatically created if they don't exist yet when a gamer scores for the first time in them, and they can be sorted with the higher or the lower score as the best one. On the "private" domain, a leaderboard is relative to the current game, then a given leaderboard name would lead to different boards in different games.</p>
+
+                <!-- ----------------- -->
+                <!-- VFS Section : Set -->
+                <!-- ----------------- -->
+
+                <div id="xtralife-login-method-email-signin">
+                    <span id="body-leaderboard-set"></span>
+                    <br>
+                    <table>
+                        <tr id="vfsKeySet">
+                            <fieldset style="text-align: center; border: none">
+                            <input style="display: inline-block; vertical-align: top;" type="radio" name="leaderboardSetOrder" value="lowtohigh" />Low To High
+                            <input style="display: inline-block; vertical-align: top;" type="radio" name="leaderboardSetOrder" value="hightolow" checked="checked" />High To Low
+                        </fieldset>
+                    </tr>
+                        <tr id="vfsKeySet" style="display:table-row">
+                            <td>
+                                <div>
+                                    <b><p id="vfsKeySetText">Board Name</p></b>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value=""  name="leaderboardSetBoard" class="xtralife-text xtralife-extend-width" id="leaderboardSetBoard">
+                            </td>
+                        </tr>
+                        <tr id="vfsValue" style="display:table-row">
+                            <td>
+                                <b><p id="gamerSecretText">Score Value</p></b>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" name="leaderboardSetScoreValue" class="xtralife-text xtralife-extend-width" id="leaderboardSetScoreValue">
+                            </td>
+                        </tr>
+                        <tr id="vfsValue" style="display:table-row">
+                            <td>
+                                <b><p id="gamerSecretText">Score Description</p></b>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" name="leaderboardSetScoreInfo" class="xtralife-text xtralife-extend-width" id="leaderboardSetScoreInfo">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="xtralife-text-center" style="text-align: center;">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Post New Score" onclick="sample.LeaderboardSet(GetLeaderboardSetOrder(), document.getElementById('leaderboardSetBoard').value, document.getElementById('leaderboardSetScoreValue').value, document.getElementById('leaderboardSetScoreInfo').value)">
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <br>
+                    <p style="font-size: 12px;">
+                        <b>Note for Post : </b>You may create monthly based boards by naming them after the post date for instance.
+                        (e.g. SurvivalBoard-2016-06, SurvivalBoard-2016-07, and so on...)
+                        The sort order (lowtohigh or hightolow) is used to establish if the posted score is better
+                        than the previous gamer's best one on this board and should always be the same for consistency logic.
+                        The score description is a short text or a Json object you may want to attach to the posted score.
+                        (e.g. {"Level":15, "UsedBoosters":0})</p>
+                </div>
+                <hr>
+
+                <!-- ----------------- -->
+                <!-- VFS Section : Get -->
+                <!-- ----------------- -->
+
+                <div id="xtralife-login-method-email-signin">
+                    <table class="leaderboard_features">
+                    <td><span id="body-leaderboard"></span></td>
+                    </table>
+                    <table style="margin-left: auto;
+                    margin-right: auto;">
+                        <tr style="text-align:center">
+                            <td colspan="2">
+                                <div class="xtralife-text-center" style="text-align: center;">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Get All Gamer's Best Score" onclick="sample.LeaderboardGet();">
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <br>
+                    <Note style="font-size: 12px;"><b>Note for Get :</b> The gamer's best score for each board in which he posted at least one score will be returned.</p>
+                </div>
+                <hr>
+                <div id="xtralife-login-method-email-signin">
+                    <table class="leaderboard_features">
+                        <td><span id="body-leaderboard-getpaged"></span></td>
+                        </table>
+                    <br>
+                    <table>
+                        <tr id="vfsKeySet" style="display:table-row">
+                            <td>
+                                <div>
+                                    <b><p id="vfsKeySetText">Board Name</p></b>
+                                </div>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" name="leaderboardGetPagedBoard" class="xtralife-text xtralife-extend-width" id="leaderboardGetPagedBoard">
+                            </td>
+                        </tr>
+                        <tr id="vfsValue" style="display:table-row">
+                            <td>
+                                <b><p id="gamerSecretText">Page Number</p></b>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" name="leaderboardGetPagedPage" class="xtralife-text xtralife-extend-width" id="leaderboardGetPagedPage">
+                            </td>
+                        </tr>
+                        <tr id="vfsValue" style="display:table-row">
+                            <td>
+                                <b><p id="gamerSecretText">Scores Amount</p></b>
+                            </td>
+                            <td class="xtralife-extend-width">
+                                <input type="text" value="" name="leaderboardGetPagedCount" class="xtralife-text xtralife-extend-width" id="leaderboardGetPagedCount">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="xtralife-text-center" style="text-align: center;">
+                                    <input style="margin: auto;" class="xtralife-button" type="button" value="Get Paged Scores" onclick="sample.LeaderboardGetPaged(document.getElementById('leaderboardGetPagedBoard').value, document.getElementById('leaderboardGetPagedPage').value, document.getElementById('leaderboardGetPagedCount').value)">
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <br>
+                    <p style="font-size: 12px;"><b>Note for Delete :</b> An empty key field will delete all existing keys instead of a specified one, <b>so double check this!</b></p>
+                </div>
+                <hr>
+                <h4>Shared leaderboards</h4>
+                <p style="font-size: 12px;">Shared domains allow the sharing of the same leaderboards across multiple games (all sharing the same domain). Shared domains need to be set on your Front Office. However, we won't show this feature here as we have only one sample webapp (but it works strictly the same way as for the private domain).</p>
+                <hr>
+                <tr>
+                    <td>
+                        <b><p id="body-login"></p></b>
+                    </td>
+                </tr>
+            </div>
+
+            <div class="console-container">
+                <h1>Sample Console</h1>
+                <p id="console"></p>
+            </div>
+        </div>
+        <div class="footer">
+            <table>
+                <tr>
+                    <td class="footer-xtralife_logo">
+                        <a href="http://xtralife.cloud" target="_blank"><img src="img/logo-xtralife.png" alt="[Logo XtraLife]" /></a>
+                    </td>
+                    <td class="footer-text">
+                        <p><a href="http://xtralife.cloud" target="_blank">XtraLife.cloud</a></p>
+                    </td>
+                    <td class="footer-social_logos">
+                        <a href="https://www.facebook.com/xtralifecloud" target="_blank"><img src="img/logo-facebook.png" alt="[Logo Facebook]" /></a>
+                        <a href="https://twitter.com/xtralifecloud" target="_blank"><img src="img/logo-twitter.png" alt="[Logo Twitter]" /></a>
+                        <a href="https://www.linkedin.com/company/xtra-life" target="_blank"><img src="img/logo-linkedin.png" alt="[Logo LinkedIn]" /></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script type="text/javascript">
+            //<!--
+            CheckCredentials();
+
+            var storageManager = new StorageManager();
+            var sample = new Sample(storageManager);
+
+            sample.LoggedInCheck();
+            //-->
+
+            function GetLeaderboardSetOrder()
 			{
 				var radios = document.getElementsByName("leaderboardSetOrder");
 				
@@ -167,7 +248,7 @@
 					if (radios[item].checked)
 						return radios[item].value;
 			}
-		  //-->
-		</script>
-	</body>
+        </script>
+</body>
+
 </html>

@@ -26,7 +26,7 @@ table.leaderboard_step input
 	width: 145px;
 }
 
-table.leaderboard_features span#body-leaderboard p
+table.leaderboard_features span p
 {
 	font-size: 15px;
 	text-align: center;
@@ -44,12 +44,12 @@ table.leaderboard_step td.large_buttons button
 	width: 250px;
 }
 
-table.leaderboard_features span#body-leaderboard table
+table.leaderboard_features span table
 {
 	margin: 10px auto;
 }
 
-table.leaderboard_features span#body-leaderboard td
+table.leaderboard_features span td
 {
 	border-color: #999999;
 	border-style: groove;
@@ -60,23 +60,61 @@ table.leaderboard_features span#body-leaderboard td
 	word-wrap: break-word;
 }
 
-table.leaderboard_features span#body-leaderboard td.col_a
+table.leaderboard_features span td.col_a
 {
 	width: 150px;
 }
 
-table.leaderboard_features span#body-leaderboard td.col_b
+table.leaderboard_features span td.col_b
 {
 	width: 480px;
 }
 
-table.leaderboard_features span#body-leaderboard td p
+table.leaderboard_features span td p
 {
 	text-align: center;
 	margin: 0px;
 }
 
-table.leaderboard_features span#body-leaderboard td.title
+table.leaderboard_features span td.title
+{
+	background-color: #111111;
+	color: #FCD504;
+}
+
+table.leaderboard_features span table
+{
+	margin: 10px auto;
+}
+
+table.leaderboard_features span td
+{
+	border-color: #999999;
+	border-style: groove;
+	border-width: 2px;
+	text-align: center;
+	padding: 5px;
+    word-break: break-all;
+	word-wrap: break-word;
+}
+
+table.leaderboard_features span td.col_a
+{
+	width: 150px;
+}
+
+table.leaderboard_features span td.col_b
+{
+	width: 480px;
+}
+
+table.leaderboard_features span td p
+{
+	text-align: center;
+	margin: 0px;
+}
+
+table.leaderboard_features span td.title
 {
 	background-color: #111111;
 	color: #FCD504;

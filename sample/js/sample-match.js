@@ -1,9 +1,12 @@
 // A helper to display match results as a text
-Sample.prototype.MatchTextDisplay = function(container, text)
+Sample.prototype.MatchTextDisplay = function(container, text,success)
 {
 	if (container)
 	{
-		var finalText = "<p><b>" + text + "</b></p>";
+		var color = 'rgb(255, 55, 55)';
+		if (success == true)
+			color = 'rgb(92, 207, 89)';
+		var finalText = `<p style='color: ${color}; text-align: center'><b>` + text + "</b></p>";
 		container.innerHTML = finalText;
 	}
 }
@@ -57,7 +60,7 @@ Sample.prototype.MatchCreate = function(customProperties, indexedProperties, ind
 			{
 				var errorMessage = "Match Create error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchCreateStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchCreateStatus, errorMessage,false);
 			}
 			// If the operation succeeded
 			else
@@ -65,7 +68,7 @@ Sample.prototype.MatchCreate = function(customProperties, indexedProperties, ind
 				var resultMessageLong = "Match Create -> " + JSON.stringify(result);
 				var resultMessageShort = "Match Create (Id: " + result.match._id + ", Seed: " + result.match.seed + ", Status: " + result.match.status + ") -> Success";
 				ConsoleLog(resultMessageLong);
-				self.MatchTextDisplay(bodyMatchCreateStatus, resultMessageShort);
+				self.MatchTextDisplay(bodyMatchCreateStatus, resultMessageShort,true);
 				
 				// Then, we index the match to make it available for indexed searching
 				var properties = indexedProperties ? JSON.parse(indexedProperties) : {};
@@ -78,7 +81,7 @@ Sample.prototype.MatchCreate = function(customProperties, indexedProperties, ind
 					{
 						var indexErrorMessage = "Match Index Create error: " + indexError;
 						ConsoleLog(indexErrorMessage);
-						self.MatchTextDisplay(bodyMatchCreateStatus, resultMessageShort + "<br />" + indexErrorMessage);
+						self.MatchTextDisplay(bodyMatchCreateStatus, resultMessageShort + "<br />" + indexErrorMessage, false);
 					}
 					// If the operation succeeded
 					else
@@ -86,7 +89,7 @@ Sample.prototype.MatchCreate = function(customProperties, indexedProperties, ind
 						var indexResultMessageLong = "Match Index Create -> " + JSON.stringify(indexResult);
 						var indexResultMessageShort = "Match Index Create (Created: " + indexResult.created + ") -> Success";
 						ConsoleLog(indexResultMessageLong);
-						self.MatchTextDisplay(bodyMatchCreateStatus, resultMessageShort + "<br />" + indexResultMessageShort);
+						self.MatchTextDisplay(bodyMatchCreateStatus, resultMessageShort + "<br />" + indexResultMessageShort, true);
 					}
 				});
 			}
@@ -127,7 +130,7 @@ Sample.prototype.MatchIndexList = function(properties, optionSort, optionSkip, o
 			{
 				var errorMessage = "Match List error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchListStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchListStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
@@ -143,7 +146,7 @@ Sample.prototype.MatchIndexList = function(properties, optionSort, optionSkip, o
 	{
 		var errorMessage = "Match List error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchListStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchListStatus, errorMessage, false);
 	}
 }
 
@@ -167,7 +170,7 @@ Sample.prototype.MatchGet = function(matchID)
 			{
 				var errorMessage = "Match Get error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchListStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchListStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
@@ -175,7 +178,7 @@ Sample.prototype.MatchGet = function(matchID)
 				var resultMessageLong = "Match Get -> " + JSON.stringify(result);
 				var resultMessageShort = "Match Get (ID: " + result.match._id + ", Status: " + result.match.status + ", Last Event ID: " + result.match.lastEventId + ", Custom Properties: " + JSON.stringify(result.match.customProperties) + ") -> Success";
 				ConsoleLog(resultMessageLong);
-				self.MatchTextDisplay(bodyMatchListStatus, resultMessageShort);
+				self.MatchTextDisplay(bodyMatchListStatus, resultMessageShort, true);
 			}
 		});
 	}
@@ -184,7 +187,7 @@ Sample.prototype.MatchGet = function(matchID)
 	{
 		var errorMessage = "Match Get error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchListStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchListStatus, errorMessage, false);
 	}
 }
 
@@ -206,7 +209,7 @@ Sample.prototype.MatchIndexGet = function(matchID)
 		{
 			var errorMessage = "Match Index Get error: " + error;
 			ConsoleLog(errorMessage);
-			self.MatchTextDisplay(bodyMatchListStatus, errorMessage);
+			self.MatchTextDisplay(bodyMatchListStatus, errorMessage, false);
 		}
 		// If the operation succeeded
 		else
@@ -214,7 +217,7 @@ Sample.prototype.MatchIndexGet = function(matchID)
 			var resultMessageLong = "Match Index Get -> " + JSON.stringify(result);
 			var resultMessageShort = "Match Index Get (Indexed Properties + Payload: " + JSON.stringify(result._source) + ") -> Success";
 			ConsoleLog(resultMessageLong);
-			self.MatchTextDisplay(bodyMatchListStatus, resultMessageShort);
+			self.MatchTextDisplay(bodyMatchListStatus, resultMessageShort, true);
 		}
 	});
 }
@@ -241,7 +244,7 @@ Sample.prototype.MatchJoin = function(matchID, notification)
 			{
 				var errorMessage = "Match Join error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchJoinStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchJoinStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
@@ -249,7 +252,7 @@ Sample.prototype.MatchJoin = function(matchID, notification)
 				var resultMessageLong = "Match Join -> " + JSON.stringify(result);
 				var resultMessageShort = "Match Join (ID: " + result.match._id + ", Status: " + result.match.status + ", " + result.match.events.length + " Event(s)) -> Success";
 				ConsoleLog(resultMessageLong);
-				self.MatchTextDisplay(bodyMatchJoinStatus, resultMessageShort);
+				self.MatchTextDisplay(bodyMatchJoinStatus, resultMessageShort, true);
 			}
 		});
 	}
@@ -258,7 +261,7 @@ Sample.prototype.MatchJoin = function(matchID, notification)
 	{
 		var errorMessage = "Match Join error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchJoinStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchJoinStatus, errorMessage, false);
 	}
 }
 
@@ -284,14 +287,14 @@ Sample.prototype.MatchLeave = function(matchID, notification)
 			{
 				var errorMessage = "Match Leave error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchJoinStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchJoinStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Match Leave -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.MatchTextDisplay(bodyMatchJoinStatus, resultMessage);
+				self.MatchTextDisplay(bodyMatchJoinStatus, resultMessage, true);
 			}
 		});
 	}
@@ -300,7 +303,7 @@ Sample.prototype.MatchLeave = function(matchID, notification)
 	{
 		var errorMessage = "Match Leave error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchJoinStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchJoinStatus, errorMessage, false);
 	}
 }
 
@@ -326,14 +329,14 @@ Sample.prototype.MatchInvite = function(matchID, friendID, notification)
 			{
 				var errorMessage = "Match Invite error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchInviteStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchInviteStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Match Invite -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.MatchTextDisplay(bodyMatchInviteStatus, resultMessage);
+				self.MatchTextDisplay(bodyMatchInviteStatus, resultMessage, true);
 			}
 		});
 	}
@@ -342,7 +345,7 @@ Sample.prototype.MatchInvite = function(matchID, friendID, notification)
 	{
 		var errorMessage = "Match Invite error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchInviteStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchInviteStatus, errorMessage, false);
 	}
 }
 
@@ -366,14 +369,14 @@ Sample.prototype.MatchDismiss = function(matchID)
 			{
 				var errorMessage = "Match Dismiss error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchInviteStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchInviteStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Match Dismiss -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.MatchTextDisplay(bodyMatchInviteStatus, resultMessage);
+				self.MatchTextDisplay(bodyMatchInviteStatus, resultMessage, true);
 			}
 		});
 	}
@@ -382,7 +385,7 @@ Sample.prototype.MatchDismiss = function(matchID)
 	{
 		var errorMessage = "Match Dismiss error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchInviteStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchInviteStatus, errorMessage, false);
 	}
 }
 
@@ -409,14 +412,14 @@ Sample.prototype.MatchMove = function(matchID, lastEventID, move, notification)
 			{
 				var errorMessage = "Match Move error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchMoveStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchMoveStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Match Move -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.MatchTextDisplay(bodyMatchMoveStatus, resultMessage);
+				self.MatchTextDisplay(bodyMatchMoveStatus, resultMessage, true);
 			}
 		});
 	}
@@ -425,7 +428,7 @@ Sample.prototype.MatchMove = function(matchID, lastEventID, move, notification)
 	{
 		var errorMessage = "Match Move error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchMoveStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchMoveStatus, errorMessage, false);
 	}
 }
 
@@ -451,14 +454,14 @@ Sample.prototype.MatchDraw = function(matchID, lastEventID, itemsCount, notifica
 			{
 				var errorMessage = "Match Draw error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchMoveStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchMoveStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Match Draw -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.MatchTextDisplay(bodyMatchMoveStatus, resultMessage);
+				self.MatchTextDisplay(bodyMatchMoveStatus, resultMessage, true);
 			}
 		});
 	}
@@ -467,7 +470,7 @@ Sample.prototype.MatchDraw = function(matchID, lastEventID, itemsCount, notifica
 	{
 		var errorMessage = "Match Draw error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchMoveStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchMoveStatus, errorMessage, false);
 	}
 }
 
@@ -493,14 +496,14 @@ Sample.prototype.MatchFinish = function(matchID, lastEventID, notification)
 			{
 				var errorMessage = "Match Finish error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchFinishStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchFinishStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Match Finish -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.MatchTextDisplay(bodyMatchFinishStatus, resultMessage);
+				self.MatchTextDisplay(bodyMatchFinishStatus, resultMessage, true);
 			}
 		});
 	}
@@ -509,7 +512,7 @@ Sample.prototype.MatchFinish = function(matchID, lastEventID, notification)
 	{
 		var errorMessage = "Match Finish error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchFinishStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchFinishStatus, errorMessage, false);
 	}
 }
 
@@ -533,14 +536,14 @@ Sample.prototype.MatchDelete = function(matchID)
 			{
 				var errorMessage = "Match Delete error: " + error;
 				ConsoleLog(errorMessage);
-				self.MatchTextDisplay(bodyMatchFinishStatus, errorMessage);
+				self.MatchTextDisplay(bodyMatchFinishStatus, errorMessage, false);
 			}
 			// If the operation succeeded
 			else
 			{
 				var resultMessage = "Match Delete -> " + JSON.stringify(result);
 				ConsoleLog(resultMessage);
-				self.MatchTextDisplay(bodyMatchFinishStatus, resultMessage);
+				self.MatchTextDisplay(bodyMatchFinishStatus, resultMessage, true);
 			}
 		});
 	}
@@ -549,7 +552,7 @@ Sample.prototype.MatchDelete = function(matchID)
 	{
 		var errorMessage = "Match Delete error: Can't use match features without logged in gamer data";
 		ConsoleLog(errorMessage);
-		this.MatchTextDisplay(bodyMatchFinishStatus, errorMessage);
+		this.MatchTextDisplay(bodyMatchFinishStatus, errorMessage, false);
 	}
 }
 
@@ -571,14 +574,14 @@ Sample.prototype.MatchIndexDelete = function(matchID)
 		{
 			var errorMessage = "Match Index Delete error: " + error;
 			ConsoleLog(errorMessage);
-			self.MatchTextDisplay(bodyMatchFinishStatus, errorMessage);
+			self.MatchTextDisplay(bodyMatchFinishStatus, errorMessage, false);
 		}
 		// If the operation succeeded
 		else
 		{
 			var resultMessage = "Match Index Delete -> " + JSON.stringify(result);
 			ConsoleLog(resultMessage);
-			self.MatchTextDisplay(bodyMatchFinishStatus, resultMessage);
+			self.MatchTextDisplay(bodyMatchFinishStatus, resultMessage, true);
 		}
 	});
 }
