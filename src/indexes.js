@@ -10,7 +10,6 @@ const ClanError = require('./ClanError.js');
 
 module.exports = (appCredentials, domain) => ({
     set(indexName, id, properties, payload, cb) {
-        payload = {"ActivePlayers":2};
         const index = {
             id,
             properties,
@@ -20,6 +19,7 @@ module.exports = (appCredentials, domain) => ({
             .post(`/v1/index/${domain}/${indexName}`)
             .use(prefixer)
             .set(appCredentials)
+            .type('json')
             .send(index)
             .end(function (err, res) {
                 if (err != null) {
