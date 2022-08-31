@@ -5,12 +5,8 @@ require('mocha')
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 const should = require('should');
-
-const Clan = require('../src/Clan.js')('testgame-key', 'testgame-secret', 'http://localhost:2000'); // app credentials // app credentials
-
 const dataset = require('./0-dataset.json');
-
-const gamerCred = null;
+const Clan = require('../src/Clan.js')('testgame-key', 'testgame-secret', dataset.endpoint); // app credentials
 
 describe('Gamer Leaderboards', function () {
 

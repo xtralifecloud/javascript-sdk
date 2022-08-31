@@ -22,7 +22,8 @@ const Endpoint = require('./endpoint.js');
 
 module.exports = function Clan(apikey, apisecret, endpoint) {
 
-    if (endpoint != null) { Endpoint.set(endpoint); }
+    if (endpoint != null) {
+        Endpoint.set(endpoint); }
 
     const appCredentials = { 'x-apikey': apikey, 'x-apisecret': apisecret };
 

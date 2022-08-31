@@ -7,27 +7,16 @@ require('mocha')
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 const should = require('should');
-
-const Clan = require('../src/Clan.js')('testgame-key', 'testgame-secret', 'http://localhost:2000'); // app credentials
-const Endpoint = require('../src/endpoint.js');
 const dataset = require('./0-dataset.json');
+const Endpoint = require('../src/endpoint.js');
+const Clan = require('../src/Clan.js')('testgame-key', 'testgame-secret', dataset.endpoint); // app credentials
 
-let gamerCred = null;
 let _gamer = null;
 
 describe('Clan JS client', function () {
 
-    before('setup', done => //require('../src/endpoints.js').set 'sandbox'
-        done());
-
-    
-        it("should get the endpoint and return http://localhost:2000", () => {
-            console.log(Endpoint.get());
-        })
-
-    it('should alloOOOOOOOOOw anonymous log in', done => {
-        
-            Clan.loginAnonymous(null, null, function (err, gamer) {console.log(Endpoint.get());
+    it('should allow anonymous log in', done => {
+            Clan.loginAnonymous(null, null, function (err, gamer) {
                 if (err != null) { done(err); }
                 gamer.should.have.property('gamer_id');
                 gamer.should.have.property('gamer_secret');

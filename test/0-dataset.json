@@ -2,5 +2,6 @@
 	"gamer_id": "",
 	"gamer_token": "",
 	"friend_id": "",
-	"friend_token": ""
+	"friend_token": "",
+	"endpoint": "http://localhost:2000"
 }
