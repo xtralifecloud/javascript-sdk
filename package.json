@@ -17,7 +17,7 @@
   },
   "author": "chris@xtralife.cloud",
   "dependencies": {
-    "superagent": "<3",
+    "superagent": "^8.0.3",
     "agentkeepalive": "*"
   },
   "engines": {
